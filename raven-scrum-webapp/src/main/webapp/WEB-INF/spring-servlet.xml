@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/security
+	    http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	    http://www.springframework.org/schema/data/jpa
+  		http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd">
+
+	<security:global-method-security
+		pre-post-annotations="enabled" jsr250-annotations="enabled"
+		proxy-target-class="true">
+	</security:global-method-security>
+	
+	<aop:aspectj-autoproxy proxy-target-class="false"/>
+	
+	<jpa:repositories base-package="net.raven.scrum.core.repository" />
+
+	<!-- Annotation dependency injection -->
+	<context:component-scan base-package="net.raven.scrum.ui" />
+	<context:component-scan base-package="net.raven.scrum.core" />
+	<mvc:annotation-driven />
+
+	<!-- Scripts and styles mapping -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<!-- freemarker config -->
+	<bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/views/" />
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="cache" value="false" />
+		<property name="prefix" value="" />
+		<property name="suffix" value=".ftl" />
+		<property name="contentType" value="text/html;charset=UTF-8"/>
+	</bean>
+
+</beans>
