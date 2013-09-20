@@ -10,7 +10,6 @@ import javax.ws.rs.core.MediaType;
 import net.raven.scrum.core.annotations.logger.Log;
 import net.raven.scrum.core.exception.AccountException;
 import net.raven.scrum.ui.service.account.AccountService;
-import net.raven.scrum.ui.service.account.AccountValidationService;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,6 @@ public class EditAccountData
 
 	@Autowired
 	private AccountService accountService;
-
-	@Autowired
-	private AccountValidationService accountValidationService;
 
 	@Log
 	private Logger log;
@@ -46,13 +42,14 @@ public class EditAccountData
 	{
 		try
 		{
-			if (accountValidationService.validateEmails(email, email2)
+			if ((email.equals(email2))
 					&& SecurityContextHolder.getContext().getAuthentication()
 							.isAuthenticated())
 			{
-				accountService.changeEmail(SecurityContextHolder.getContext()
-						.getAuthentication().getName(), email2);
-				return Collections.singletonMap("success", true);
+				boolean result = (accountService.changeEmail(
+						SecurityContextHolder.getContext().getAuthentication()
+								.getName(), email2) == null) ? false : true;
+				return Collections.singletonMap("success", result);
 			}
 			return Collections.singletonMap("success", false);
 		} catch (AccountException e)
@@ -70,15 +67,15 @@ public class EditAccountData
 	{
 		try
 		{
-			if (accountValidationService.validatePasswords(password,
-					passwordrepeat)
+			if ((password.equals(passwordrepeat))
 					&& SecurityContextHolder.getContext().getAuthentication()
 							.isAuthenticated())
 			{
-				accountService.changePassword(SecurityContextHolder
-						.getContext().getAuthentication().getName(),
-						passwordrepeat);
-				return Collections.singletonMap("success", true);
+				boolean result = (accountService.changePassword(
+						SecurityContextHolder.getContext().getAuthentication()
+								.getName(), passwordrepeat) == null) ? false
+						: true;
+				return Collections.singletonMap("success", result);
 			}
 			return Collections.singletonMap("success", false);
 		} catch (AccountException e)
