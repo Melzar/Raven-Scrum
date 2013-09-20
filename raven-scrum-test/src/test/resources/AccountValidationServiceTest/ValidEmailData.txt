@@ -1,0 +1,5 @@
+####### Valid data for email testing ########
+lol@wp.pl
+lol.lol@wp.pl
+lol@org.edu.pl
+1lol.1lol@wp.pl
