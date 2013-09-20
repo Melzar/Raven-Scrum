@@ -13,8 +13,12 @@ public class AccountValidationServiceImpl implements AccountValidationService
 	// @Log
 	// private Logger log;
 	private final Pattern LOGIN_PATTERN = Pattern.compile("^[\\w]+$");
-	private final Pattern EMAIL_PATTERN = Pattern.compile("^.+$");
+	private final Pattern EMAIL_PATTERN = Pattern
+			.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
 	private final Pattern PASSWORD_PATTERN = Pattern.compile("^.+$");
+
+	private final int MIN_LOGIN_LENGTH = 4;
+	private final int MIN_PASSWORD_LENGTH = 4;
 
 	public AccountValidationServiceImpl()
 	{
@@ -23,7 +27,8 @@ public class AccountValidationServiceImpl implements AccountValidationService
 
 	public boolean validateLogin(String login)
 	{
-		return login.matches(LOGIN_PATTERN.pattern());
+		return login.matches(LOGIN_PATTERN.pattern())
+				&& login.length() >= MIN_LOGIN_LENGTH;
 	}
 
 	public boolean validateEmail(String email)
@@ -31,19 +36,14 @@ public class AccountValidationServiceImpl implements AccountValidationService
 		return email.matches(EMAIL_PATTERN.pattern());
 	}
 
-	public boolean validateEmails(String email1, String email2)
+	public boolean validatePassword(String password)
 	{
-		return email1.matches(EMAIL_PATTERN.pattern()) && email1.equals(email2);
+		return password.matches(PASSWORD_PATTERN.pattern())
+				&& password.length() >= MIN_PASSWORD_LENGTH;
 	}
 
-	public boolean validatePasswords(String password1, String password2)
-	{
-		return password2.matches(PASSWORD_PATTERN.pattern())
-				&& password2.equals(password1);
-	}
-
-	public boolean validateCity(String city)
-	{
-		return city.matches(LOGIN_PATTERN.pattern());
-	}
+	// public boolean validateCity(String city)
+	// {
+	// return city.matches(LOGIN_PATTERN.pattern());
+	// }
 }

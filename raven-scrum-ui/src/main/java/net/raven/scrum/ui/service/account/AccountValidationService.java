@@ -6,11 +6,9 @@ public interface AccountValidationService
 
 	public boolean validateEmail(String email);
 
-	public boolean validateEmails(String email1, String email2);
+	public boolean validatePassword(String password);
 
-	public boolean validatePasswords(String password1, String password2);
-
-	public boolean validateCity(String city);
+	// public boolean validateCity(String city);
 
 	// TODO more specific validation for adress, city etc if needed
 }
