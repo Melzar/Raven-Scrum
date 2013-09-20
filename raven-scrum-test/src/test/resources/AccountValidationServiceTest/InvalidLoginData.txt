@@ -1,0 +1,17 @@
+####### invalid data for login testing ########
+aaa
+ aaa
+aaa 
+aa aa
+ aa 
+.aaa
+aaa.
+aa.aa
+.aa.
+.aaa 
+ .aa
+aa . aa
+ .aa 
+ .aa. 
+ . aa .  
+ 

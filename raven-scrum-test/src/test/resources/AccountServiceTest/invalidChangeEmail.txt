@@ -1,0 +1,3 @@
+#### data for invalid email change ####
+testowy:test@wp.pl
+test:test@test.edu.pl

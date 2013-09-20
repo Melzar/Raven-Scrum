@@ -1,0 +1,16 @@
+####### Invalid data for email testing ########
+ lol@wp.pl
+lol @wp.pl
+lol@ wp.pl
+lol@wp. pl
+.lol@wp.pl
+lol.@wp.pl
+l..ol@wp.pl
+lol..@wp.pl
+lol@wp..pl
+lol@.wp.pl
+lol@wp.
+lol@wp.pl.
+lol@@wp.pl
+#lol@wp.pl
+lol@w#p.pl
