@@ -1,18 +1,16 @@
 package net.raven.scrum.test.service.account;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Collection;
 
+import net.raven.scrum.test.TestDataProvider;
+import net.raven.scrum.test.TestDataProviderImpl;
 import net.raven.scrum.ui.service.account.AccountValidationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @ContextConfiguration(locations = { "classpath:applicationContext.xml",
@@ -23,67 +21,119 @@ public class AccountValidationServiceTest extends
 	@Autowired
 	private AccountValidationService accountValidationService;
 
-	private Collection<String> invalidlogindata;
+	private TestDataProvider testDataProvider = new TestDataProviderImpl();
 
-	private Collection<String> validlogindata;
-
-	@BeforeMethod
-	public void prepareData()
+	@DataProvider(name = "invalidLoginData")
+	public Object[][] provideInvalidLoginData()
 	{
-		invalidlogindata = new ArrayList<>();
-		validlogindata = new ArrayList<>();
-		try
-		{
-			String line;
-			BufferedReader bufferedreader = new BufferedReader(
-					new InputStreamReader(
-							getClass()
-									.getClassLoader()
-									.getResourceAsStream(
-											"AccountValidationServiceTest-LoginData.txt")));
-			while ((line = bufferedreader.readLine()) != null)
-			{
-				if (line.startsWith("#"))
-				{
-					continue;
-				}
-				if (line.equals("<newdata>"))
-				{
-					break;
-				}
-				invalidlogindata.add(line);
-			}
-			while ((line = bufferedreader.readLine()) != null)
-			{
-				if (line.startsWith("#"))
-				{
-					continue;
-				}
-				validlogindata.add(line);
-			}
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-			System.out.println("FALED TO READ DATA FROM FILE");
-		}
+		testDataProvider
+				.loadDataByLine("AccountValidationServiceTest/InvalidLoginData.txt");
+		return new Object[][] { { testDataProvider.getDataByLine() } };
 	}
 
-	@Test
-	public void testValidateLogin()
+	@DataProvider(name = "validLoginData")
+	public Object[][] provideValidLoginData()
 	{
-		System.out.println(invalidlogindata);
-		for (String testlogin : invalidlogindata)
+		testDataProvider
+				.loadDataByLine("AccountValidationServiceTest/ValidLoginData.txt");
+		return new Object[][] { { testDataProvider.getDataByLine() } };
+	}
+
+	@DataProvider(name = "validEmailData")
+	public Object[][] provideValidEmailData()
+	{
+		testDataProvider
+				.loadDataByLine("AccountValidationServiceTest/ValidEmailData.txt");
+		return new Object[][] { { testDataProvider.getDataByLine() } };
+	}
+
+	@DataProvider(name = "invalidEmailData")
+	public Object[][] provideInvalidEmailData()
+	{
+		testDataProvider
+				.loadDataByLine("AccountValidationServiceTest/InvalidEmailData.txt");
+		return new Object[][] { { testDataProvider.getDataByLine() } };
+	}
+
+	@DataProvider(name = "validPasswordData")
+	public Object[][] provideValidPasswordData()
+	{
+		testDataProvider
+				.loadDataByLine("AccountValidationServiceTest/ValidPasswordData.txt");
+		return new Object[][] { { testDataProvider.getDataByLine() } };
+	}
+
+	@DataProvider(name = "invalidPasswordData")
+	public Object[][] provideInvalidPasswordData()
+	{
+		testDataProvider
+				.loadDataByLine("AccountValidationServiceTest/InvalidPasswordData.txt");
+		return new Object[][] { { testDataProvider.getDataByLine() } };
+	}
+
+	@Test(dataProvider = "invalidLoginData")
+	public void testInvalidLogin(Collection<String> data)
+	{
+		for (String testlogin : data)
 		{
 			Assert.assertFalse(
 					accountValidationService.validateLogin(testlogin),
 					"Invalid login");
 		}
-		System.out.println(validlogindata);
-		for (String testlogin : validlogindata)
+	}
+
+	@Test(dataProvider = "validLoginData")
+	public void testValidLogin(Collection<String> data)
+	{
+		for (String testlogin : data)
 		{
 			Assert.assertTrue(
-					accountValidationService.validateLogin(testlogin), "Ok");
+					accountValidationService.validateLogin(testlogin),
+					"Valid login");
 		}
-		System.out.println("Test completed");
+	}
+
+	@Test(dataProvider = "invalidEmailData")
+	public void testInvalidEmail(Collection<String> data)
+	{
+		for (String testemail : data)
+		{
+			Assert.assertFalse(
+					accountValidationService.validateEmail(testemail),
+					"Invalid email");
+		}
+	}
+
+	@Test(dataProvider = "validEmailData")
+	public void testValidEmail(Collection<String> data)
+	{
+		for (String testemail : data)
+		{
+			Assert.assertTrue(
+					accountValidationService.validateEmail(testemail),
+					"Valid email");
+		}
+	}
+
+	@Test(dataProvider = "validPasswordData")
+	public void testValidPassword(Collection<String> data)
+	{
+		for (String testpassword : data)
+		{
+			Assert.assertTrue(
+					accountValidationService.validatePassword(testpassword),
+					"Valid password");
+		}
+	}
+
+	@Test(dataProvider = "invalidPasswordData")
+	public void testInvalidPassword(Collection<String> data)
+	{
+		for (String testpassword : data)
+		{
+			Assert.assertFalse(
+					accountValidationService.validatePassword(testpassword),
+					"Invalid password");
+		}
 	}
 }
