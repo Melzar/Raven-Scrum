@@ -55,8 +55,8 @@ public class RegisterAccount
 		{
 			if (accountValidationService.validateLogin(login)
 					&& accountValidationService.validateEmail(email)
-					&& accountValidationService.validatePasswords(password,
-							passwordrepeat))
+					&& (accountValidationService.validatePassword(password) && password
+							.equals(passwordrepeat)))
 			{
 				ScrumUser scrumUser = new ScrumUser();
 				scrumUser.setLogin(login);
