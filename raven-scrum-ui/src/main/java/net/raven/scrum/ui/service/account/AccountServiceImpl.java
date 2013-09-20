@@ -18,6 +18,9 @@ public class AccountServiceImpl implements AccountService
 	@Autowired
 	private Md5PasswordEncoder passwordEncoder;
 
+	@Autowired
+	private AccountValidationService accountValidationService;
+
 	public AccountServiceImpl()
 	{
 
@@ -26,19 +29,35 @@ public class AccountServiceImpl implements AccountService
 	public ScrumUser changeEmail(String login, String newemail)
 			throws AccountException
 	{
-		ScrumUser user = scrumUserRepository.getUserByLogin(login);
-		user.setEmail(newemail);
-		scrumUserRepository.save(user);
-		return user;
+		if (accountValidationService.validateEmail(newemail)
+				&& scrumUserRepository.getUserByEmail(newemail) == null)
+		{
+			ScrumUser user = scrumUserRepository.getUserByLogin(login);
+			if (user != null)
+			{
+				user.setEmail(newemail);
+				scrumUserRepository.save(user);
+			}
+			return user;
+		} else
+		{
+			return null;
+		}
 	}
 
 	public ScrumUser changePassword(String login, String newpassword)
 			throws AccountException
 	{
 		ScrumUser user = scrumUserRepository.getUserByLogin(login);
-		user.setPassword(passwordEncoder.encodePassword(newpassword, null));
-		scrumUserRepository.save(user);
-		return user;
+		if (accountValidationService.validatePassword(newpassword)
+				&& user != null && !user.getLogin().equals(newpassword))
+		{
+			user.setPassword(passwordEncoder.encodePassword(newpassword, null));
+			scrumUserRepository.save(user);
+			return user;
+		} else
+		{
+			return null;
+		}
 	}
-
 }
