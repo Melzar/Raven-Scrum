@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class RegisterAccount
@@ -48,15 +47,17 @@ public class RegisterAccount
 	Map<String, ? extends Object> registerAccount(
 			@FormParam("login") String login, @FormParam("email") String email,
 			@FormParam("password") String password,
-			@FormParam("passwordRepeat") String passwordrepeat,
-			RedirectAttributes redirectAttributes)
+			@FormParam("passwordRepeat") String passwordrepeat)
 	{
 		try
 		{
-			if (accountValidationService.validateLogin(login)
-					&& accountValidationService.validateEmail(email)
-					&& (accountValidationService.validatePassword(password) && password
-							.equals(passwordrepeat)))
+			if ((accountValidationService.validateLogin(login) && userRepository
+					.isLoginUnique(login))
+					&& (accountValidationService.validateEmail(email) && userRepository
+							.isEmailUnique(email))
+					&& (accountValidationService.validatePassword(password)
+							&& password.equals(passwordrepeat) && !password
+								.equals(login)))
 			{
 				ScrumUser scrumUser = new ScrumUser();
 				scrumUser.setLogin(login);
