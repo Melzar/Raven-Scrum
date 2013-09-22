@@ -14,7 +14,9 @@ public interface ScrumUserRepository extends CrudRepository<ScrumUser, Long>
 	@Query("from ScrumUser u where u.email = :email")
 	public ScrumUser getUserByEmail(@Param("email") String email);
 
-	@Query("from ScrumUser u where u.login = :login and u.password = :password")
-	public boolean checkCredentials(@Param("login") String login,
-			@Param("password") String password);
+	@Query("select case when (count(u) > 0)  then false else true end from ScrumUser u where u.email = :email")
+	public boolean isEmailUnique(@Param("email") String email);
+
+	@Query("select case when (count(u) > 0) then false else true end from ScrumUser u where u.login = :login")
+	public boolean isLoginUnique(@Param("login") String login);
 }
