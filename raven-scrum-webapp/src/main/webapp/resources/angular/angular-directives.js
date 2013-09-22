@@ -27,12 +27,13 @@ scdirectives.directive('ngValidatePassword', function(){
     {
         var passworddto = JSON.parse(attrs.ngValidatePassword);
         var password = angular.element('#' + passworddto.passwordid);
+        var login = angular.element('#'+passworddto.loginid)
         element.bind('blur', function(evt)
         {
             $scope.$apply(function()
             {
                 $ctrl.$setValidity("minlength", emptyValidation(element.val()) && minLengthValidation(element.val()));
-                $ctrl.$setValidity("equalslogin", !(element.val() == passworddto.login));
+                $ctrl.$setValidity("equalslogin", !(element.val() == login.val()));
                 $ctrl.$setValidity("notmatch", !(element.val() != password.val()));
             });
         });
