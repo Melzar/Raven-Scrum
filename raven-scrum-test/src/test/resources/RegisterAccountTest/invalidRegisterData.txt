@@ -1,0 +1,6 @@
+##### invalid data for account registration ####
+test:test@test.pl:password:password1
+test:test@test.pl:test:test
+test:test@testt.pl:password:password
+test:test@test.pl:password:password
+ : : : 

@@ -1,0 +1,6 @@
+##### view data tests : 'url:viewnameexpected'   #######
+/login:ScrumLogin
+/register:ScrumRegister
+/account/edit:ScrumEditAccount
+/account/dashboard:ScrumDashboard
+/scrumboard:ScrumBoard
