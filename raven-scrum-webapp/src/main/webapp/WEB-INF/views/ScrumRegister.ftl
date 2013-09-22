@@ -30,6 +30,7 @@
       $scope.validateLogin = function()
       {
             $scope.registration.login.$setValidity("minlength", emptyValidation($scope.registration.login.$viewValue) && minLengthValidation($scope.registration.login.$viewValue));
+            ($scope.registration.login.$viewValue == $scope.registration.passwordrepeat.$viewValue) ? $scope.registration.passwordrepeat.$setValidity("equalslogin", false) : $scope.registration.passwordrepeat.$setValidity("equalslogin", true); 
             if(!$scope.registration.login.$error.minlength)
             {
               $http.post("<@spring.url '/rest/validate/login'/>",JSON.stringify({'login' : $scope.registration.login.$viewValue})).success(function(data, status, headers, cfg){
@@ -77,8 +78,8 @@
                 <div class="col-lg-11">
           <div class="form-group" ng-class="{'has-error': registration.login.$invalid && !registration.login.$focused , 'has-success': registration.login.$valid && registration.login.$dirty && !registration.login.$focused }">
             <div class="col-lg-7 col-lg-offset-3">
-              <label class="control-label" for="inputLogin">Login</label>
-              <input type="text" name="login" id="inputLogin" class="form-control" ng-model="login" placeholder="Login" ng-pattern="/^[\w]+$/" ng-blur="validateLogin()" ng-focused>
+              <label class="control-label" for="login">Login</label>
+              <input type="text" name="login" id="login" class="form-control" ng-model="login" placeholder="Login" ng-pattern="/^[\w]+$/" ng-blur="validateLogin()" ng-focused>
               <span class="help-block" ng-show="registration.login.$error.unique">Podany login jest zajęty</span>
               <span class="help-block" ng-show="registration.login.$error.minlength && !registration.login.$focused">Login musi mieć minimum 4 znaki</span>
               <span class="help-block" ng-show="registration.login.$error.pattern  && !registration.login.$focused">
@@ -90,7 +91,7 @@
           </div>
           <div class="form-group" ng-class="{'has-error': registration.passwordrepeat.$invalid && !registration.passwordrepeat.$focused , 'has-success': registration.passwordrepeat.$valid && registration.passwordrepeat.$dirty && !registration.passwordrepeat.$focused}">
             <div class="col-lg-7 col-lg-offset-3">
-              <label class="control-label" for="inputPassword">Password</label>
+              <label class="control-label" for="password">Password</label>
               <input type="password" name="password" id="password" class="form-control" placeholder="Password" ng-model="password" ng-focused>
               <span class="help-block" ng-show="registration.passwordrepeat.$error.equalslogin && !registration.passwordrepeat.$focused">Hasło nie może być takie jak login</span>
               <span class="help-block" ng-show="registration.passwordrepeat.$error.notmatch && !registration.passwordrepeat.$focused">Hasła nie zgadzają się</span>
@@ -103,8 +104,8 @@
           </div>
           <div class="form-group" ng-class="{'has-error': registration.passwordrepeat.$invalid && !registration.passwordrepeat.$focused, 'has-success': registration.passwordrepeat.$valid && registration.passwordrepeat.$dirty && !registration.passwordrepeat.$focused }">
             <div class="col-lg-7 col-lg-offset-3">
-              <label class="control-label" for="inputPasswordRepeat">Password repeat</label>
-              <input type="password"  name="passwordrepeat" id="inputPasswordRepeat" ng-model="passwordrepeat" ng-validate-password='{"passwordid" : "password", "login" : "{{login}}"}' class="form-control" placeholder="Repeat password" ng-focused >
+              <label class="control-label" for="passwordRepeat">Password repeat</label>
+              <input type="password"  name="passwordrepeat" id="passwordRepeat" ng-model="passwordrepeat" ng-validate-password='{"passwordid" : "password", "loginid" : "login"}' class="form-control" placeholder="Repeat password" ng-focused >
               <span class="help-block" ng-show="registration.passwordrepeat.$error.equalslogin && !registration.passwordrepeat.$focused">Hasło nie może być takie jak login</span>
               <span class="help-block" ng-show="registration.passwordrepeat.$error.notmatch && !registration.passwordrepeat.$focused">Hasła nie zgadzają się</span>
               <span class="help-block" ng-show="registration.passwordrepeat.$error.minlength && !registration.passwordrepeat.$focused">Hasło musi mieć min. 4 znaki</span>
@@ -115,8 +116,8 @@
           </div>
           <div class="form-group" ng-class="{'has-error': registration.email.$invalid && !registration.email.$focused, 'has-success': registration.email.$valid && registration.email.$dirty && !registration.email.$focused}">
             <div class="col-lg-7 col-lg-offset-3">
-              <label class="control-label" for="inputEmail">Email</label>
-              <input type="text" name="email" id="inputEmail" class="form-control" ng-model="email" ng-validate-email='{"emailid" : "", "emailurl" : "<@spring.url "/rest/validate/email"/>"}' placeholder="Email" ng-pattern="/^[\w]+$/" ng-focused>
+              <label class="control-label" for="email">Email</label>
+              <input type="text" name="email" id="email" class="form-control" ng-model="email" ng-validate-email='{"emailid" : "", "emailurl" : "<@spring.url "/rest/validate/email"/>"}' placeholder="Email" ng-pattern="/^[\w]+$/" ng-focused>
               <span class="help-block" ng-show="registration.email.$error.pattern && !registration.email.$focused">Nieprawidłowy format email.</span>
               <span class="help-block" ng-show="registration.email.$error.unique && !registration.email.$focused">Podany email jest powiązany z kontem w systemie.</span>
               <span class="help-block" ng-show="registration.email.$valid && registration.email.$dirty && !registration.email.$focused">
@@ -126,9 +127,9 @@
           </div>
           <div class="form-group" ng-class="{'has-success': checkbox, 'has-error': !checkbox && registration.checkbox.$dirty}">
               <div class="col-lg-7 col-lg-offset-3">
-                  <label class="control-label" for="inputCheckbox">Akceptuje regulamin</label>
+                  <label class="control-label" for="checkbox">Akceptuje regulamin</label>
                   </br>
-                  <input type="checkbox" name="checkbox" id="inputCheckbox" ng-model="checkbox" required>
+                  <input type="checkbox" name="checkbox" id="checkbox" ng-model="checkbox" required>
                   <span class="help-block" ng-hide="checkbox">Akceptacja regulaminu jest obowiązkowa</span>
                   <span class="help-block" ng-show="checkbox"><i class="icon-ok"></i></span> 
               </div>
