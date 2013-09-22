@@ -116,7 +116,8 @@ app.controller("EmailController", function($scope, $element, $http){
 										<div class="form-group" ng-class="{'has-error': editpassword.passwordrepeat.$invalid && !editpassword.passwordrepeat.$focused, 'has-success': editpassword.passwordrepeat.$valid && editpassword.passwordrepeat.$dirty &&!editpassword.passwordrepeat.$focused}">
 												<div class="col-lg-5 col-lg-offset-4">
 														<label class="control-label">Password repeat</label>
-														<input type="password" ng-model="passwordrepeat" ng-validate-password='{"passwordid" : "password", "login" : "<@security.authentication property="name"/>" }' name="passwordrepeat" class="form-control" ng-focused />
+														<input type="password" ng-model="passwordrepeat" ng-validate-password='{"passwordid" : "password", "loginid" : "login"}' name="passwordrepeat" class="form-control" ng-focused />
+														<input type="hidden" id="login" ng-model="login" name="login" value='<@security.authentication property="name"/>'>
 														<span class="help-block" ng-show="editpassword.passwordrepeat.$error.minlength && !editpassword.passwordrepeat.$focused">Hasło musi miec minimum 4 znaki</span>
              											<span class="help-block" ng-show="editpassword.passwordrepeat.$error.equalslogin && !editpassword.passwordrepeat.$focused">Hasło nie moze być takie samo jak login</span>
              											<span class="help-block" ng-show="editpassword.passwordrepeat.$error.notmatch && !editpassword.passwordrepeat.$focused">Hasła się nie zgadzają</span>
