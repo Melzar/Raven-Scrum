@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="All Tests" parallel="classes"  thread-count="8">
+    <test name="Account Tests" preserve-order="false">
+        <packages>            
+            <package name="net.raven.scrum.test.controller.account" />
+            <package name="net.raven.scrum.test.service.account" />
+        </packages>
+    </test>
+    <test name="View Tests" preserve-order="false">
+        <packages>            
+            <package name="net.raven.scrum.test.controller.view" />
+        </packages>
+    </test>
+<!--     <test name="Test Two" preserve-order="false">
+        <packages>           
+            <package name="com.something.bar" />
+        </packages>
+    </test> -->
+</suite>
