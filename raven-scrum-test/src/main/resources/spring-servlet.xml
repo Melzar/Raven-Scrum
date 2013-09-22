@@ -30,6 +30,7 @@
 	<!-- Annotation dependency injection -->
 	<context:component-scan base-package="net.raven.scrum.ui" />
 	<context:component-scan base-package="net.raven.scrum.core" />
+	<context:component-scan base-package="net.raven.scrum.test" />
 	<mvc:annotation-driven />
 
 	<!-- Scripts and styles mapping -->
