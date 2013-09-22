@@ -1,5 +1,7 @@
 package net.raven.scrum.test.service.account;
 
+import java.util.Collection;
+
 import net.raven.scrum.core.entity.ScrumUser;
 import net.raven.scrum.core.exception.AccountException;
 import net.raven.scrum.test.TestDataProvider;
@@ -9,13 +11,20 @@ import net.raven.scrum.ui.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @ContextConfiguration(locations = { "classpath:applicationContext.xml",
 		"classpath:applicationContext-test.xml" })
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+@TestExecutionListeners({ TransactionalTestExecutionListener.class })
+@Transactional
 public class AccountServiceTest extends AbstractTestNGSpringContextTests
 {
 
@@ -37,7 +46,7 @@ public class AccountServiceTest extends AbstractTestNGSpringContextTests
 	{
 		testDataProvider
 				.loadDataByLine("AccountServiceTest/validChangePassword.txt");
-		return new Object[][] { {} };
+		return new Object[][] { { testDataProvider.getDataByLine() } };
 	}
 
 	@DataProvider(name = "invalidChangePasswordProvider")
@@ -45,7 +54,7 @@ public class AccountServiceTest extends AbstractTestNGSpringContextTests
 	{
 		testDataProvider
 				.loadDataByLine("AccountServiceTest/invalidChangePassword.txt");
-		return new Object[][] { {} };
+		return new Object[][] { { testDataProvider.getDataByLine() } };
 	}
 
 	@DataProvider(name = "validChangeEmailProvider")
@@ -53,7 +62,7 @@ public class AccountServiceTest extends AbstractTestNGSpringContextTests
 	{
 		testDataProvider
 				.loadDataByLine("AccountServiceTest/validChangeEmail.txt");
-		return new Object[][] { {} };
+		return new Object[][] { { testDataProvider.getDataByLine() } };
 	}
 
 	@DataProvider(name = "invalidChangeEmailProvider")
@@ -61,16 +70,16 @@ public class AccountServiceTest extends AbstractTestNGSpringContextTests
 	{
 		testDataProvider
 				.loadDataByLine("AccountServiceTest/invalidChangeEmail.txt");
-		return new Object[][] { {} };
+		return new Object[][] { { testDataProvider.getDataByLine() } };
 	}
 
 	@Test(dataProvider = "validChangePasswordProvider")
-	public void testValidChangePassword()
+	public void testValidChangePassword(Collection<String> data)
 	{
 		String[] values;
 		try
 		{
-			for (String line : testDataProvider.getDataByLine())
+			for (String line : data)
 			{
 				values = line.split(":");
 				ScrumUser testuser = accountService.changePassword(values[0],
@@ -86,14 +95,13 @@ public class AccountServiceTest extends AbstractTestNGSpringContextTests
 	}
 
 	@Test(dataProvider = "invalidChangePasswordProvider")
-	public void testInValidChangePassword()
+	public void testInValidChangePassword(Collection<String> data)
 	{
 		try
 		{
 			String[] values;
-			for (String line : testDataProvider.getDataByLine())
+			for (String line : data)
 			{
-				System.out.println(line);
 				values = line.split(":");
 				Assert.assertNull(
 						accountService.changePassword(values[0], values[1]),
@@ -107,14 +115,14 @@ public class AccountServiceTest extends AbstractTestNGSpringContextTests
 	}
 
 	@Test(dataProvider = "validChangeEmailProvider")
-	public void testValidChangeEmail()
+	public void testValidChangeEmail(Collection<String> data)
 	{
 		try
 		{
 			String[] values;
-			for (String data : testDataProvider.getDataByLine())
+			for (String line : data)
 			{
-				values = data.split(":");
+				values = line.split(":");
 				ScrumUser testuser = accountService.changeEmail(values[0],
 						values[1]);
 				Assert.assertSame(values[1], testuser.getEmail(),
@@ -127,14 +135,15 @@ public class AccountServiceTest extends AbstractTestNGSpringContextTests
 	}
 
 	@Test(dataProvider = "invalidChangeEmailProvider")
-	public void testInvalidChangeEmail()
+	public void testInvalidChangeEmail(Collection<String> data)
 	{
 		try
 		{
 			String[] values;
-			for (String data : testDataProvider.getDataByLine())
+			for (String line : data)
 			{
-				values = data.split(":");
+				System.out.println(line);
+				values = line.split(":");
 				ScrumUser testuser = accountService.changeEmail(values[0],
 						values[1]);
 				Assert.assertNull(testuser, "Invalid data");
