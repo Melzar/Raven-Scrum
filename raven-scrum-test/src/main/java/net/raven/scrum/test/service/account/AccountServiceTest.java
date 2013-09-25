@@ -142,7 +142,6 @@ public class AccountServiceTest extends AbstractTestNGSpringContextTests
 			String[] values;
 			for (String line : data)
 			{
-				System.out.println(line);
 				values = line.split(":");
 				ScrumUser testuser = accountService.changeEmail(values[0],
 						values[1]);
@@ -153,4 +152,6 @@ public class AccountServiceTest extends AbstractTestNGSpringContextTests
 			Assert.fail("No exception expected here");
 		}
 	}
+
+	// TODO Block account test
 }
