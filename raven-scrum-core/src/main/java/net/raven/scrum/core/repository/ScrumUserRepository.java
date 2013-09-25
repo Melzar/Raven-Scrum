@@ -19,4 +19,8 @@ public interface ScrumUserRepository extends CrudRepository<ScrumUser, Long>
 
 	@Query("select case when (count(u) > 0) then false else true end from ScrumUser u where u.login = :login")
 	public boolean isLoginUnique(@Param("login") String login);
+
+	// @Query("update ScrumUser u set u.shadowFlag = :shadowFlag where u.login = :login")
+	// public void setUserShadowflag(@Param("login") String login,
+	// @Param("shadowFlag") ShadowFlag flag);
 }

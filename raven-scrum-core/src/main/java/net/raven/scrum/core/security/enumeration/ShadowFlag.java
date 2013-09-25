@@ -6,5 +6,8 @@ public enum ShadowFlag {
 	},
 
 	UNCONFIRMED {
+	},
+
+	DELETED_BY_USER {
 	}
 }
