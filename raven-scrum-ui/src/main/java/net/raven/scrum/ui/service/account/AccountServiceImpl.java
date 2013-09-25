@@ -1,8 +1,12 @@
 package net.raven.scrum.ui.service.account;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import net.raven.scrum.core.entity.ScrumUser;
 import net.raven.scrum.core.exception.AccountException;
 import net.raven.scrum.core.repository.ScrumUserRepository;
+import net.raven.scrum.core.security.enumeration.ShadowFlag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -59,5 +63,17 @@ public class AccountServiceImpl implements AccountService
 		{
 			return null;
 		}
+	}
+
+	public ScrumUser blockUserAccount(String login, ShadowFlag reason)
+			throws AccountException
+	{
+		ScrumUser user = scrumUserRepository.getUserByLogin(login);
+		SecureRandom random = new SecureRandom();
+		user.setPassword(passwordEncoder.encodePassword(new BigInteger(130,
+				random).toString(32), null));
+		user.setShadowFlag(reason);
+		scrumUserRepository.save(user);
+		return user;
 	}
 }

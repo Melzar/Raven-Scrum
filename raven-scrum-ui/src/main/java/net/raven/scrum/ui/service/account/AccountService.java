@@ -2,6 +2,7 @@ package net.raven.scrum.ui.service.account;
 
 import net.raven.scrum.core.entity.ScrumUser;
 import net.raven.scrum.core.exception.AccountException;
+import net.raven.scrum.core.security.enumeration.ShadowFlag;
 
 public interface AccountService
 {
@@ -9,5 +10,8 @@ public interface AccountService
 			throws AccountException;
 
 	public ScrumUser changePassword(String login, String newpassword)
+			throws AccountException;
+
+	public ScrumUser blockUserAccount(String login, ShadowFlag reason)
 			throws AccountException;
 }
