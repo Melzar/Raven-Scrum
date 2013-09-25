@@ -1,3 +1,4 @@
+/.gitignore
 /catalina.properties
 /context.xml
 /logging.properties
