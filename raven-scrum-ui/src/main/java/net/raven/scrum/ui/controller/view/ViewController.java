@@ -15,11 +15,10 @@ public class ViewController
 		return "ScrumLogin";
 	}
 
-	@RequestMapping("/account/edit")
-	@PreAuthorize("isAuthenticated()")
-	public String prepareEditAccount(Model model)
+	@RequestMapping("/register")
+	public String prepareRegister(Model model)
 	{
-		return "ScrumEditAccount";
+		return "ScrumRegister";
 	}
 
 	@RequestMapping("/account/dashboard")
@@ -29,10 +28,17 @@ public class ViewController
 		return "ScrumDashboard";
 	}
 
-	@RequestMapping("/register")
-	public String prepareRegister(Model model)
+	@RequestMapping("/account/delete")
+	public String prepareDeleteAccount(Model model)
 	{
-		return "ScrumRegister";
+		return "ScrumDeleteAccount";
+	}
+
+	@RequestMapping("/account/edit")
+	@PreAuthorize("isAuthenticated()")
+	public String prepareEditAccount(Model model)
+	{
+		return "ScrumEditAccount";
 	}
 
 	@RequestMapping("/scrumboard")
