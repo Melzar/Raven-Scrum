@@ -38,17 +38,18 @@ public class EditAccountData
 	@Consumes(MediaType.APPLICATION_JSON)
 	public @ResponseBody
 	Map<String, ? extends Object> editEmail(@FormParam("email") String email,
-			@FormParam("emailrepeat") String email2)
+			@FormParam("emailrepeat") String emailrepeat)
 	{
 		try
 		{
-			if ((email.equals(email2))
+			if ((email.equals(emailrepeat))
 					&& SecurityContextHolder.getContext().getAuthentication()
 							.isAuthenticated())
 			{
 				boolean result = (accountService.changeEmail(
 						SecurityContextHolder.getContext().getAuthentication()
-								.getName(), email2) == null) ? false : true;
+								.getName(), emailrepeat) == null) ? false
+						: true;
 				return Collections.singletonMap("success", result);
 			}
 			return Collections.singletonMap("success", false);
