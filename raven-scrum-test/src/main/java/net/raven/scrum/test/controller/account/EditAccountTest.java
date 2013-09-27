@@ -148,7 +148,6 @@ public class EditAccountTest extends AbstractTestNGSpringContextTests
 							grantedAuthorities));
 			try
 			{
-				System.out.println(values[1]);
 				mockMvc.perform(
 						post("/account/edit/email")
 								.contentType(
