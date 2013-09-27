@@ -1,0 +1,5 @@
+##### invalid email data for test #####
+test@test.pl:test@test.pl:test
+test@test.pl:testowy@test.pl:test
+test@t..pl:test@test.pl:testing
+test@t..pl:test@t..pl:test

@@ -68,6 +68,13 @@ public class EditAccountTest extends AbstractTestNGSpringContextTests
 		return new Object[][] { { dataProvider.getDataByLine() } };
 	}
 
+	@DataProvider
+	public Object[][] invalidEditAccountDataEmail()
+	{
+		dataProvider.loadDataByLine("EditAccountTest/invalidEditDataEmail.txt");
+		return new Object[][] { { dataProvider.getDataByLine() } };
+	}
+
 	@AfterMethod
 	public void logoutTestUser()
 	{
@@ -79,14 +86,15 @@ public class EditAccountTest extends AbstractTestNGSpringContextTests
 	{
 		String[] values;
 		List<GrantedAuthority> grantedAuthorities = Collections.emptyList();
-		try
+
+		for (String line : data)
 		{
-			for (String line : data)
+			values = line.split(":");
+			SecurityContextHolder.getContext().setAuthentication(
+					new UsernamePasswordAuthenticationToken(values[2], null,
+							grantedAuthorities));
+			try
 			{
-				values = line.split(":");
-				SecurityContextHolder.getContext().setAuthentication(
-						new UsernamePasswordAuthenticationToken(values[2],
-								null, grantedAuthorities));
 				mockMvc.perform(
 						post("/account/edit/password")
 								.contentType(
@@ -95,11 +103,11 @@ public class EditAccountTest extends AbstractTestNGSpringContextTests
 								.param("passwordrepeat", values[1]))
 						.andExpect(status().isOk())
 						.andExpect(jsonPath("$.success").value(false));
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+				Assert.fail("No exception expected here");
 			}
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-			Assert.fail("No exception expected here");
 		}
 	}
 
@@ -127,5 +135,56 @@ public class EditAccountTest extends AbstractTestNGSpringContextTests
 		}
 	}
 
-	// TODO test email edit
+	@Test(dataProvider = "invalidEditAccountDataEmail")
+	public void testInvalidEditAccountEmail(Collection<String> data)
+	{
+		String[] values;
+		List<GrantedAuthority> grantedAuthorities = Collections.emptyList();
+		for (String line : data)
+		{
+			values = line.split(":");
+			SecurityContextHolder.getContext().setAuthentication(
+					new UsernamePasswordAuthenticationToken(values[2], null,
+							grantedAuthorities));
+			try
+			{
+				System.out.println(values[1]);
+				mockMvc.perform(
+						post("/account/edit/email")
+								.contentType(
+										MediaType.APPLICATION_FORM_URLENCODED)
+								.param("email", values[0])
+								.param("emailrepeat", values[1]))
+						.andExpect(status().isOk())
+						.andExpect(jsonPath("$.success").value(false));
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+				Assert.fail("No error expected here");
+			}
+		}
+	}
+
+	@Test
+	public void testValidEditAccountEmail()
+	{
+		List<GrantedAuthority> grantedAuthorities = Collections.emptyList();
+		SecurityContextHolder.getContext().setAuthentication(
+				new UsernamePasswordAuthenticationToken("test", null,
+						grantedAuthorities));
+		try
+		{
+			mockMvc.perform(
+					post("/account/edit/email")
+							.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+							.param("email", "test@testowy.pl")
+							.param("emailrepeat", "test@testowy.pl"))
+					.andExpect(status().isOk())
+					.andExpect(jsonPath("$.success").value(true));
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			Assert.fail("Exception not expected here");
+		}
+	}
 }
