@@ -7,8 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Collections;
 import java.util.List;
 
+import net.raven.scrum.core.enumeration.security.ShadowFlag;
 import net.raven.scrum.core.repository.ScrumUserRepository;
-import net.raven.scrum.core.security.enumeration.ShadowFlag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
