@@ -23,14 +23,15 @@
 
 <script type="text/javascript">
 	
-var app = angular.module("ScrumBoardApp", ["ngAnimate", "ngDragDrop"])
+var app = angular.module("ScrumBoardApp", ["ngAnimate", "ngDragDrop", "scDirectives"])
 
 app.controller("ScrumBoardCtrl", function($scope){
 	$scope.todo = [{"title": "Item title", "description" : "Item description"}];
 	$scope.progress = [];
 	$scope.uat = [];
 	$scope.done = [];
-
+	$scope.where = 'd';
+	console.log(this)
 })
 
 </script>
@@ -107,10 +108,14 @@ app.controller("ScrumBoardCtrl", function($scope){
 			</div>
 		</div>
 	</div>
+	<div class="alert alert-info">
+		<h3>Debug</h3>
 		{{todo}}
-	{{progress}}
-	{{uat}}
-	{{done}}
+		{{progress}}
+		{{uat}}
+		{{done}}
+		[{{where}}]
+	</div>
 	<div class="row top-margin loadin">
 		<div class="col-lg-3">
 			<div class="scrum-columns columns-top">TODO</div>
@@ -125,6 +130,8 @@ app.controller("ScrumBoardCtrl", function($scope){
 			<div class="scrum-columns columns-top">Done</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-lg-12">
 	<div class="row loadin">
 		<div class="col-lg-12">
 			<div class="scrum-columns columns-header">
@@ -132,102 +139,28 @@ app.controller("ScrumBoardCtrl", function($scope){
 			</div>
 		</div>
 	</div>
-	<div class="row loadin" id="dupa">
+	<div class="row loadin" id="tasker">
 		<div class="col-lg-3">
 			<div class="scrum-columns columns-inside-padding" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([ng-model=todo])'}" jqyoui-droppable="{multiple:true}" ng-model="todo">
-				<div class="subtask" ng-model="todo" jqyoui-draggable="{index: {{$index}}, animate:true}" ng-repeat="task in todo" data-jqyoui-options="{revert: 'invalid', containment: '#dupa' }" data-drag="true" ng-hide="!task.title">
-					<div class="row">
-						<div class="col-lg-3">
-									<div class="subtask-type">
-										<i class="icon-gear icon-2x"></i>
-									</div>
-						</div>
-						<div class="col-lg-7">
-							<div class="row">
-									<a class="subtask-title subtask-text text-limit-1">{{task.title}}</a>
-							</div>
-							<div class="row">
-									<span class="subtask-description subtask-text text-limit-2">{{task.description}}</span>
-							</div>
-						</div>
-						<div class="col-lg-2">
-							<div class="subtask-avatar pull-right"></div>
-						</div>
-					</div>
-				</div>
+				<div class="subtask" ng-model="todo" jqyoui-draggable="{index: {{$index}}, animate:true}" ng-repeat="task in todo" data-jqyoui-options="{revert: 'invalid', containment: '#tasker' }" data-drag="true" ng-hide="!task.title" ng-scrum-task ></div>
 			</div>
 		</div>
 		<div class="col-lg-3">
 			<div class="scrum-columns columns-inside-padding" data-drop="true" ng-model="progress" data-jqyoui-options="{accept:'.subtask:not([ng-model=progress])'}" jqyoui-droppable="{multiple:true}">
-				<div class="subtask"  ng-repeat="task in progress" ng-show="task.title" data-drag="true" ng-model="progress" data-jqyoui-options="{revert: 'invalid', containment: '#dupa'}" jqyoui-draggable="{index: {{$index}}, animate:true}">
-					<div class="row">
-						<div class="col-lg-3">
-									<div class="subtask-type">
-										<i class="icon-gear icon-2x"></i>
-									</div>
-						</div>
-						<div class="col-lg-7">
-							<div class="row">
-									<a class="subtask-title subtask-text text-limit-1">TYTUL PODZADANIA</a>
-							</div>
-							<div class="row">
-									<span class="subtask-description subtask-text text-limit-2">Subtask description</span>
-							</div>
-						</div>
-						<div class="col-lg-2">
-							<div class="subtask-avatar pull-right"></div>
-						</div>
-					</div>
-				</div>
+				<div class="subtask" ng-model="progress" ng-repeat="task in progress" ng-show="task.title" data-drag="true"  data-jqyoui-options="{revert: 'invalid', containment: '#tasker'}" jqyoui-draggable="{index: {{$index}}, animate:true}" ng-scrum-task ></div>
 			</div>
 		</div>
 		<div class="col-lg-3">
 			<div class="scrum-columns columns-inside-padding" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([ng-model=uat])'}" jqyoui-droppable="{multiple:true}" ng-model="uat">
-				<div class="subtask" ng-model="uat" jqyoui-draggable="{index: {{$index}}, animate:true}" ng-repeat="task in uat" data-jqyoui-options="{revert: 'invalid', containment: '#dupa'}" data-drag="true" ng-hide="!task.title">
-					<div class="row">
-						<div class="col-lg-3">
-									<div class="subtask-type">
-										<i class="icon-gear icon-2x"></i>
-									</div>
-						</div>
-						<div class="col-lg-7">
-							<div class="row">
-									<a class="subtask-title subtask-text text-limit-1">TYTUL PODZADANIA</a>
-							</div>
-							<div class="row">
-									<span class="subtask-description subtask-text text-limit-2">Subtask description</span>
-							</div>
-						</div>
-						<div class="col-lg-2">
-							<div class="subtask-avatar pull-right"></div>
-						</div>
-					</div>
-				</div>
+				<div class="subtask" ng-model="uat" jqyoui-draggable="{index: {{$index}}, animate:true}" ng-repeat="task in uat" data-jqyoui-options="{revert: 'invalid', containment: '#tasker'}" data-drag="true" ng-hide="!task.title" ng-scrum-task ></div>
 			</div>
 		</div>
 		<div class="col-lg-3">
 			<div class="scrum-columns columns-inside-padding" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([ng-model=done])'}" jqyoui-droppable="{multiple:true}" ng-model="done">
-				<div class="subtask" ng-model="done" jqyoui-draggable="{index: {{$index}}, animate:true}" ng-repeat="task in done" data-jqyoui-options="{revert: 'invalid', containment: '#dupa'}" data-drag="true" ng-hide="!task.title">
-					<div class="row">
-						<div class="col-lg-3">
-									<div class="subtask-type">
-										<i class="icon-gear icon-2x"></i>
-									</div>
-						</div>
-						<div class="col-lg-7">
-							<div class="row">
-									<a class="subtask-title subtask-text text-limit-1">TYTUL PODZADANIA</a>
-							</div>
-							<div class="row">
-									<span class="subtask-description subtask-text text-limit-2">Subtask description</span>
-							</div>
-						</div>
-						<div class="col-lg-2">
-							<div class="subtask-avatar pull-right"></div>
-						</div>
-					</div>
-				</div>
+				<div class="subtask" ng-model="done" jqyoui-draggable="{index: {{$index}}, animate:true}" ng-repeat="task in done" data-jqyoui-options="{revert: 'invalid', containment: '#tasker'}" data-drag="true" ng-hide="!task.title" ng-scrum-task></div>
 			</div>
+		</div>
+	</div>
 		</div>
 	</div>
 	<div class="row loadin">
