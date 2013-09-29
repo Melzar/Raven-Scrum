@@ -9,8 +9,8 @@ import javax.ws.rs.core.MediaType;
 
 import net.raven.scrum.core.annotations.logger.Log;
 import net.raven.scrum.core.entity.ScrumUser;
+import net.raven.scrum.core.enumeration.security.ShadowFlag;
 import net.raven.scrum.core.repository.ScrumUserRepository;
-import net.raven.scrum.core.security.enumeration.ShadowFlag;
 import net.raven.scrum.ui.service.account.AccountValidationService;
 
 import org.slf4j.Logger;

@@ -4,9 +4,9 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 import net.raven.scrum.core.entity.ScrumUser;
+import net.raven.scrum.core.enumeration.security.ShadowFlag;
 import net.raven.scrum.core.exception.AccountException;
 import net.raven.scrum.core.repository.ScrumUserRepository;
-import net.raven.scrum.core.security.enumeration.ShadowFlag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;

@@ -1,8 +1,8 @@
 package net.raven.scrum.ui.service.account;
 
 import net.raven.scrum.core.entity.ScrumUser;
+import net.raven.scrum.core.enumeration.security.ShadowFlag;
 import net.raven.scrum.core.exception.AccountException;
-import net.raven.scrum.core.security.enumeration.ShadowFlag;
 
 public interface AccountService
 {
