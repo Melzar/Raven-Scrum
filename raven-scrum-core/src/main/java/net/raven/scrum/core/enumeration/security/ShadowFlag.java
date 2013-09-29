@@ -1,4 +1,4 @@
-package net.raven.scrum.core.security.enumeration;
+package net.raven.scrum.core.enumeration.security;
 
 public enum ShadowFlag {
 
