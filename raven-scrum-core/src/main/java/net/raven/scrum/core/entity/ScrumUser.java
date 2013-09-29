@@ -1,13 +1,18 @@
 package net.raven.scrum.core.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import net.raven.scrum.core.security.enumeration.ShadowFlag;
+import net.raven.scrum.core.enumeration.security.ShadowFlag;
 
 @Entity
 public class ScrumUser
@@ -33,9 +38,27 @@ public class ScrumUser
 
 	private long loginCount;
 
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_user")
+	private Set<ScrumTask> tasks;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_user")
+	private Set<ScrumProject> projects;
+
 	public ScrumUser()
 	{
 
+	}
+
+	public long getIdUser()
+	{
+		return idUser;
+	}
+
+	public void setIdUser(long idUser)
+	{
+		this.idUser = idUser;
 	}
 
 	public String getLogin()
@@ -116,7 +139,27 @@ public class ScrumUser
 	public void setLoginCount(long loginCount)
 	{
 		this.loginCount = loginCount;
-	};
+	}
+
+	public Set<ScrumTask> getTasks()
+	{
+		return tasks;
+	}
+
+	public void setTasks(Set<ScrumTask> tasks)
+	{
+		this.tasks = tasks;
+	}
+
+	public Set<ScrumProject> getProjects()
+	{
+		return projects;
+	}
+
+	public void setProjects(Set<ScrumProject> projects)
+	{
+		this.projects = projects;
+	}
 
 	@Transient
 	public boolean hasShadowFlag()
