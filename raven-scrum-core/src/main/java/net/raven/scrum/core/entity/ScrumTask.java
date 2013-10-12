@@ -13,9 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
-import net.raven.scrum.core.enumeration.scrum.ScrumTaskState;
-import net.raven.scrum.core.enumeration.scrum.ScrumTaskType;
+import net.raven.scrum.core.enumeration.scrum.TaskState;
+import net.raven.scrum.core.enumeration.scrum.TaskType;
 
 @Entity
 public class ScrumTask
@@ -33,9 +34,9 @@ public class ScrumTask
 	@JoinColumn(name = "id_user")
 	private ScrumUser assigned;
 
-	private ScrumTaskType type;
+	private TaskType type;
 
-	private ScrumTaskState state;
+	private TaskState state;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_parent", insertable = false, updatable = false)
@@ -93,22 +94,22 @@ public class ScrumTask
 		this.assigned = assigned;
 	}
 
-	public ScrumTaskType getType()
+	public TaskType getType()
 	{
 		return type;
 	}
 
-	public void setType(ScrumTaskType type)
+	public void setType(TaskType type)
 	{
 		this.type = type;
 	}
 
-	public ScrumTaskState getState()
+	public TaskState getState()
 	{
 		return state;
 	}
 
-	public void setState(ScrumTaskState state)
+	public void setState(TaskState state)
 	{
 		this.state = state;
 	}
@@ -141,6 +142,13 @@ public class ScrumTask
 	public void setSprints(Set<ScrumSprint> sprints)
 	{
 		this.sprints = sprints;
+	}
+
+	@Override
+	@Transient
+	public String toString()
+	{
+		return "";
 	}
 
 }

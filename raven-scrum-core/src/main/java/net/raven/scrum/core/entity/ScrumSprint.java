@@ -16,6 +16,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import net.raven.scrum.core.enumeration.scrum.SprintStatus;
 
 @Entity
 public class ScrumSprint
@@ -39,6 +42,8 @@ public class ScrumSprint
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "scrum_task_in_sprint", joinColumns = { @JoinColumn(name = "id_sprint", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_task", nullable = false, updatable = false) })
 	private Set<ScrumTask> tasks;
+
+	private SprintStatus status;
 
 	public ScrumSprint()
 	{
@@ -95,4 +100,20 @@ public class ScrumSprint
 		this.tasks = tasks;
 	}
 
+	public SprintStatus getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(SprintStatus status)
+	{
+		this.status = status;
+	}
+
+	@Override
+	@Transient
+	public String toString()
+	{
+		return "";
+	}
 }

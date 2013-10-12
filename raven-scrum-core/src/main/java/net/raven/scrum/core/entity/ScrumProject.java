@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class ScrumProject
@@ -24,7 +25,7 @@ public class ScrumProject
 
 	private String description;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_user")
 	private ScrumUser manager;
 
@@ -85,6 +86,13 @@ public class ScrumProject
 	public void setSprints(Set<ScrumSprint> sprints)
 	{
 		this.sprints = sprints;
+	}
+
+	@Override
+	@Transient
+	public String toString()
+	{
+		return "";
 	}
 
 }
