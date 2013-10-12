@@ -71,19 +71,43 @@ scdirectives.directive('ngValidateEmail', function($http){
   }
 });
 
-scdirectives.directive('ngScrumTask', function($http)
+scdirectives.directive('ngScrumTask', function()
+{
+  return{
+    restrict: 'A',
+    transclude: false,
+    template: ' <div class="row"><div class="col-lg-3"><div class="subtask-type"><i class="icon-gear icon-2x"></i></div></div><div class="col-lg-7">'+
+    '<div class="row"><a class="subtask-title subtask-text text-limit-1">{{subtask.title}}</a></div><div class="row">'+
+    '<span class="subtask-description subtask-text text-limit-2">{{subtask.description}}</span></div></div><div class="col-lg-2">'+
+    '<div class="subtask-avatar pull-right"></div></div></div>',
+  //  templateUrl : '/templates/components/ScrumTask.ftl',
+ }
+})
+
+scdirectives.directive('ngScrumboard', function()
+{
+  return{
+    restrict: 'A',
+    transclude: false,
+    templateUrl: 'ScrumTasks.html',
+    controller: 'ScrumBoardController',
+  }
+})
+
+scdirectives.directive('ngDropped', function($animate)
 {
   return{
     require : 'ngModel',
     restrict : 'A',
     transclude : false,
-    template: ' <div class="row"><div class="col-lg-3"><div class="subtask-type"><i class="icon-gear icon-2x"></i></div></div><div class="col-lg-7">'+
-    '<div class="row"><a class="subtask-title subtask-text text-limit-1">{{task.title}}</a></div><div class="row">'+
-    '<span class="subtask-description subtask-text text-limit-2">{{task.description}}</span></div></div><div class="col-lg-2">'+
-    '<div class="subtask-avatar pull-right"></div></div></div>',
-  //  templateUrl : '/templates/components/ScrumTask.ftl',
-    link : function(scope, element, attrs, ctrl) {
-        scope.$parent.where = attrs.ngModel
+    link : function (scope, element, attrs, ctrl)
+    {
+        element.bind('drop', function(evt)
+        {
+          $animate.removeClass(element,'loadin');
+          $animate.addClass(element,'loadin');
+        })
     }
- }
+  }
 })
+
