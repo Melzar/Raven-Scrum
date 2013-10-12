@@ -658,21 +658,30 @@ li.sub-active > a:hover
 {
 	background-color: #383a3c;
 	padding: 5 10 5 10;
-	margin-left: -5px;
-	margin-right: -5px;
 	min-height: 95px;
 }
 
 .columns-inside-padding
 {
-	padding: 10 0 10 0;
+	padding: 10 5 10 5;
 }
 
 .columns-top
 {
+	border-top-left-radius: 0px 0px;
+	border-top-right-radius: 0px 0px;
+}
+
+.columns-top:first-child
+{
 	border-top-left-radius: 10px 5px;
+	border-top-right-radius: 0px 0px;
+}
+
+.columns-top:last-child
+{
+	border-top-left-radius: 0px 0px;
 	border-top-right-radius: 10px 5px;
-	min-height: 0px;
 }
 
 .columns-header
@@ -697,5 +706,19 @@ li.sub-active > a:hover
 	z-index: 100;
 }
 
+.table
+{
+display: table;
+margin: 0;
+}
 
+.cell {
+display: table-cell;
+vertical-align: top;
+float:none;
+}
 
+.second
+{
+	background: #333536;
+}
