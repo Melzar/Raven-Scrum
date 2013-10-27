@@ -3,7 +3,6 @@ package net.raven.scrum.core.entity;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,9 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -39,8 +38,8 @@ public class ScrumSprint
 	@JoinColumn(name = "id_project")
 	private ScrumProject project;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "scrum_task_in_sprint", joinColumns = { @JoinColumn(name = "id_sprint", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_task", nullable = false, updatable = false) })
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "sprints")
+	@OrderBy("idTask")
 	private Set<ScrumTask> tasks;
 
 	private SprintStatus status;
