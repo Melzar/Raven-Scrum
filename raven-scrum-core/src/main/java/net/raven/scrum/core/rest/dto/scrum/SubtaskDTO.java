@@ -6,7 +6,9 @@ import net.raven.scrum.core.enumeration.scrum.TaskType;
 public class SubtaskDTO
 {
 
-	private long idTask;
+	private long id;
+
+	private long idParent;
 
 	private long idUser;
 
@@ -23,19 +25,29 @@ public class SubtaskDTO
 
 	}
 
-	public long getIdTask()
+	public long getId()
 	{
-		return idTask;
+		return id;
 	}
 
-	public void setIdTask(long idTask)
+	public void setId(long id)
 	{
-		this.idTask = idTask;
+		this.id = id;
 	}
 
 	public long getIdUser()
 	{
 		return idUser;
+	}
+
+	public long getIdParent()
+	{
+		return idParent;
+	}
+
+	public void setIdParent(long idParent)
+	{
+		this.idParent = idParent;
 	}
 
 	public void setIdUser(long idUser)

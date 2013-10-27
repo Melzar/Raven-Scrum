@@ -6,7 +6,7 @@ import java.util.Date;
 public class SprintDTO
 {
 
-	private long idSprint;
+	private long id;
 
 	private Date startDate;
 
@@ -19,14 +19,14 @@ public class SprintDTO
 
 	}
 
-	public long getIdSprint()
+	public long getId()
 	{
-		return idSprint;
+		return id;
 	}
 
-	public void setIdSprint(long idSprint)
+	public void setId(long id)
 	{
-		this.idSprint = idSprint;
+		this.id = id;
 	}
 
 	public Date getStartDate()
