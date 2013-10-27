@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -25,13 +26,16 @@ public class ScrumProject
 
 	private String description;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_user")
 	private ScrumUser manager;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_project")
 	private Set<ScrumSprint> sprints;
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "projects")
+	private Set<ScrumUser> projectUsers;
 
 	public ScrumProject()
 	{
@@ -93,6 +97,16 @@ public class ScrumProject
 	public String toString()
 	{
 		return "";
+	}
+
+	public Set<ScrumUser> getProjectUsers()
+	{
+		return projectUsers;
+	}
+
+	public void setProjectUsers(Set<ScrumUser> projectUsers)
+	{
+		this.projectUsers = projectUsers;
 	}
 
 }
