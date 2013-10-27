@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -42,8 +44,8 @@ public class ScrumUser
 	@JoinColumn(name = "id_user")
 	private Set<ScrumTask> tasks;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_user")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "scrum_users_in_project", joinColumns = { @JoinColumn(name = "id_user", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_project", nullable = false, updatable = false) })
 	private Set<ScrumProject> projects;
 
 	public ScrumUser()
