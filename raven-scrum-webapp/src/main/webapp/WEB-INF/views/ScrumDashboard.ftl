@@ -1,14 +1,11 @@
 <#include "./templates/ScrumHeader.ftl" >
 <#include "./templates/components/NavigationBar.ftl">
 <#assign links = [{"name": "Scrumboard", "url": "/scrumboard"},{"name": "Dashboard", "url": "/account/dashboard" , "type": "active"}]>
-<#assign navlinks = [{"name" : "Scrumboard", "url" : "/scrumboard", "icon" : "icon-gear"},{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "icon-dashboard", "type" : "active"},{"name" : "Powiadomienia", "url": "/account/notifications", "icon": "icon-envelope"},{"name" : "Statystyki konta", "url" : "/account/statistics", "icon" : "icon-bar-chart"},{"name" : "Ustawienia powiadomień", "url": "/account/norificationsettings", "icon" : "icon-gears"},{"name": "Edycja danych konta", "url": "/account/edit", "icon" : "icon-edit"},{"name": "Usunięcie konta", "url" : "/account/delete", "icon" : "icon-trash"}]>
-
+<#assign navlinks = [{"name" : "Scrumboard", "url" : "/scrumboard", "icon" : "fa fa-gear"},{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "fa fa-dashboard", "type" : "active"},{"name" : "Powiadomienia", "url": "/account/notifications", "icon": "fa fa-envelope"},{"name" : "Statystyki konta", "url" : "/account/statistics", "icon" : "fa fa-bar-chart-o"},{"name" : "Ustawienia powiadomień", "url": "/account/norificationsettings", "icon" : "fa fa-gears"},{"name": "Edycja danych konta", "url": "/account/edit", "icon" : "fa fa-edit"},{"name": "Usunięcie konta", "url" : "/account/delete", "icon" : "fa fa-trash-o"}]>
+<body ng-app="DashboardApp">
 <script>
- $(document).ready(function () {
-                $('[data-toggle="tooltip"]').tooltip({
-                  'placement': 'bottom'
-                 })
- });
+var app = angular.module("DashboardApp", ["ngAnimate", "ngDragDrop", "scDirectives", "scControllers", "ui.bootstrap","ui.select2"])
+
 </script>
 
 
@@ -26,8 +23,13 @@
 			<div class="col-lg-3">
 				<#include "./templates/components/NavigationBarLeft.ftl"></div>
 			<div class="col-lg-9 loadin">
-				<legend>Dashboard</legend>
-
+			<div class="well">
+							<div class="row">
+								<div class="col-lg-12">
+									<legend>Dashboard</legend>
+								</div>
+							</div>
+			</div>
 			</div>
 		</div>
 	</div>

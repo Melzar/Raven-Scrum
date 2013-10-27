@@ -1,11 +1,11 @@
 <#include "./templates/ScrumHeader.ftl" >
 <#include "./templates/components/NavigationBar.ftl">
 <#assign links = [{"name": "Dashboard", "url": "/account/dashboard"},{"name": "Edit Account Data", "url": "/account/edit" , "type": "active"}]>
-<#assign navlinks = [{"name" : "Scrumboard", "url" : "/scrumboard", "icon" : "icon-gear"},{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "icon-dashboard"},{"name" : "Powiadomienia", "url": "/account/notifications", "icon": "icon-envelope"},{"name" : "Statystyki konta", "url" : "/account/statistics", "icon" : "icon-bar-chart"},{"name" : "Ustawienia powiadomień", "url": "/account/norificationsettings", "icon" : "icon-gears"},{"name": "Edycja danych konta", "url": "/account/edit", "icon" : "icon-edit", "type" : "active"},{"name": "Usunięcie konta", "url" : "/account/delete", "icon" : "icon-trash"}]>
-
+<#assign navlinks = [{"name" : "Scrumboard", "url" : "/scrumboard", "icon" : "fa fa-gear"},{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "fa fa-dashboard"},{"name" : "Powiadomienia", "url": "/account/notifications", "icon": "fa fa-envelope"},{"name" : "Statystyki konta", "url" : "/account/statistics", "icon" : "fa fa-bar-chart-o"},{"name" : "Ustawienia powiadomień", "url": "/account/norificationsettings", "icon" : "fa fa-gears"},{"name": "Edycja danych konta", "url": "/account/edit", "icon" : "fa fa-edit", "type" : "active"},{"name": "Usunięcie konta", "url" : "/account/delete", "icon" : "fa fa-trash-o"}]>
+<body ng-app="editApp">
 <script type="text/javascript">
 	
-var app = angular.module("editApp", ["ngAnimate", "ui.directives", "scDirectives"]);
+var app = angular.module("editApp", ["ngAnimate", "ui.directives", "scDirectives","scControllers", "ui.bootstrap"]);
 
 app.controller("PasswordController", function($scope, $element, $http){
 		$scope.changePassword = function ()
@@ -53,7 +53,7 @@ app.controller("EmailController", function($scope, $element, $http){
 
 </script>
 
-<div class="wrapper" ng-app="editApp">
+<div class="wrapper">
 <div class="col-lg-12">
 	<div class="row">
 		<div class="col-lg-12">
@@ -67,6 +67,7 @@ app.controller("EmailController", function($scope, $element, $http){
 				<#include "./templates/components/NavigationBarLeft.ftl">
 			</div>
 			<div class="col-lg-9 loadin">
+			<div class="well">
 				<div class="row">
 					<div class="col-lg-12">
 						<legend>Edit account data</legend>
@@ -212,6 +213,7 @@ app.controller("EmailController", function($scope, $element, $http){
 						</div>
 					</div>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>

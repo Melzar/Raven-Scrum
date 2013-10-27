@@ -1,10 +1,10 @@
 <#include "./templates/ScrumHeader.ftl" >
 <#include "./templates/components/NavigationBar.ftl">
 <#assign links = [{"name": "Login", "url": "/login"},{"name": "Register", "url" : "/register", "type" : "active"}]/>
-
+<body ng-app="registrationApp">
 <script type="text/javascript">
 
-  var app = angular.module("registrationApp", ['ngAnimate', 'scDirectives', 'scControllers']);
+  var app = angular.module("registrationApp", ['ngAnimate', 'scDirectives', 'scControllers', 'ui.bootstrap']);
 
   app.controller("RegisterController", function($scope, $http, $element, MessageData){
 
@@ -54,7 +54,7 @@
   </div>
 </div>
 
-<div ng-app="registrationApp" class="row loadin">
+<div class="row loadin">
   <div class="col-lg-offset-3 col-lg-6" ng-controller="MessageController">
     <div class="alert" ng-class="{'alert alert-success': messagedata.submitsuccess, 'alert alert-danger': messagedata.submiterror}" ng-show="messagedata.submitsuccess || messagedata.submiterror">
       <div class="row">

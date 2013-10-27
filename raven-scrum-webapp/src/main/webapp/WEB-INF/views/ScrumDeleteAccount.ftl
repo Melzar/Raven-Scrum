@@ -1,11 +1,11 @@
 <#include "./templates/ScrumHeader.ftl">
 <#include "./templates/components/NavigationBar.ftl">
 <#assign links = [{"name": "Dashboard", "url": "/account/dashboard"},{"name": "Delete account", "url": "/account/delete" , "type": "active"}]>
-<#assign navlinks = [{"name" : "Scrumboard", "url" : "/scrumboard", "icon" : "icon-gear"},{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "icon-dashboard"},{"name" : "Powiadomienia", "url": "/account/notifications", "icon": "icon-envelope"},{"name" : "Statystyki konta", "url" : "/account/statistics", "icon" : "icon-bar-chart"},{"name" : "Ustawienia powiadomień", "url": "/account/norificationsettings", "icon" : "icon-gears"},{"name": "Edycja danych konta", "url": "/account/edit", "icon" : "icon-edit"},{"name": "Usunięcie konta", "url" : "/account/delete", "icon" : "icon-trash", "type" : "active"}]>
-
+<#assign navlinks = [{"name" : "Scrumboard", "url" : "/scrumboard", "icon" : "fa fa-gear"},{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "fa fa-dashboard"},{"name" : "Powiadomienia", "url": "/account/notifications", "icon": "fa fa-envelope-o"},{"name" : "Statystyki konta", "url" : "/account/statistics", "icon" : "fa fa-bar-chart-o"},{"name" : "Ustawienia powiadomień", "url": "/account/norificationsettings", "icon" : "fa fa-gears"},{"name": "Edycja danych konta", "url": "/account/edit", "icon" : "fa fa-edit"},{"name": "Usunięcie konta", "url" : "/account/delete", "icon" : "fa fa-trash-o", "type" : "active"}]>
+<body  ng-app="deleteApp">
 <script type="text/javascript">
 	
-	var app = angular.module("deleteApp", ["ui.directives","ngAnimate","scDirectives"])
+	var app = angular.module("deleteApp", ["ui.directives","ngAnimate","scDirectives","scControllers","ui.bootstrap"])
 
 	app.controller("DeleteController", function($scope, $http, $element, $animate)
 	{
@@ -27,7 +27,7 @@
 	})
 </script>
 
-<div class="wrapper" ng-app="deleteApp">
+<div class="wrapper">
 	<div class="col-lg-12">
 		<div class="row">
 			<div class="col-lg-12">
@@ -38,6 +38,7 @@
 				<#include "./templates/components/NavigationBarLeft.ftl">
 			</div>
 				<div class="col-lg-9 loadin">
+					<div class="well">
 					<div class="row">
 						<div class="col-lg-12">
 							<legend>Delete account</legend>
@@ -109,6 +110,7 @@
 								</div>
 							</div>
 						</div>
+					</div>
 					</div>
 				</div>
 			</div>

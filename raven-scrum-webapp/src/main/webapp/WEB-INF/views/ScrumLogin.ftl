@@ -1,9 +1,9 @@
 <#include "./templates/ScrumHeader.ftl" >
 <#include "./templates/components/NavigationBar.ftl">
-
+<body ng-app="authenticationApp">
 <script type="text/javascript">
 	
-var app = angular.module("authenticationApp", ['ngAnimate', 'ui.directives', 'scDirectives', 'scControllers']);
+var app = angular.module("authenticationApp", ['ngAnimate', 'ui.directives', 'scDirectives', 'scControllers', 'ui.bootstrap']);
 
 app.controller("authenticationController", function($scope, $http, $element, MessageData){
 	$scope.validate = function()
@@ -31,7 +31,7 @@ app.controller("authenticationController", function($scope, $http, $element, Mes
 </script>
 
 <div class="container loadin" >
-		<div class="row" ng-app="authenticationApp">
+		<div class="row">
 			<div class="col-lg-offset-2 col-lg-8">
 				<div class="row">
 					<div class="col-lg-12">
@@ -83,13 +83,6 @@ app.controller("authenticationController", function($scope, $http, $element, Mes
 							</div>
 						</form>
 					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-offset-10 col-lg-2">
-					<span class="span-concave"> <i class="icon-double-angle-up colorize"></i>
-						1.0 test
-					</span>
 				</div>
 			</div>
 		</div>
