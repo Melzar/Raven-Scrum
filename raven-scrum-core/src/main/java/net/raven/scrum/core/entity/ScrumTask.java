@@ -10,9 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 import net.raven.scrum.core.enumeration.scrum.TaskState;
@@ -44,9 +46,11 @@ public class ScrumTask
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_parent")
+	@OrderBy("idTask")
 	private Set<ScrumTask> subtasks;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "tasks")
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "scrum_task_in_sprint", joinColumns = { @JoinColumn(name = "id_task", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_sprint", nullable = false, updatable = false) })
 	private Set<ScrumSprint> sprints;
 
 	public ScrumTask()
