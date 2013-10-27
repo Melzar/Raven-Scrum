@@ -1,11 +1,14 @@
 package net.raven.scrum.core.rest.dto.scrum;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.raven.scrum.core.enumeration.scrum.TaskState;
 
 public class TaskDTO
 {
-	private long idTask;
+	private long id;
 
 	private long idUser;
 
@@ -13,30 +16,25 @@ public class TaskDTO
 
 	private String description;
 
-	private Collection<SubtaskDTO> todo;
-
-	private Collection<SubtaskDTO> doing;
-
-	private Collection<SubtaskDTO> uat;
-
-	private Collection<SubtaskDTO> done;
+	private Map<TaskState, ArrayList<SubtaskDTO>> progress;
 
 	public TaskDTO()
 	{
-		todo = new ArrayList<>();
-		doing = new ArrayList<>();
-		uat = new ArrayList<>();
-		done = new ArrayList<>();
+		progress = new HashMap<TaskState, ArrayList<SubtaskDTO>>();
+		progress.put(TaskState.TODO, new ArrayList<SubtaskDTO>());
+		progress.put(TaskState.DOING, new ArrayList<SubtaskDTO>());
+		progress.put(TaskState.UAT, new ArrayList<SubtaskDTO>());
+		progress.put(TaskState.DONE, new ArrayList<SubtaskDTO>());
 	}
 
-	public long getIdTask()
+	public long getId()
 	{
-		return idTask;
+		return id;
 	}
 
-	public void setIdTask(long idTask)
+	public void setId(long id)
 	{
-		this.idTask = idTask;
+		this.id = id;
 	}
 
 	public long getIdUser()
@@ -69,44 +67,14 @@ public class TaskDTO
 		this.description = description;
 	}
 
-	public Collection<SubtaskDTO> getTodo()
+	public Map<TaskState, ArrayList<SubtaskDTO>> getprogress()
 	{
-		return todo;
+		return progress;
 	}
 
-	public void setTodo(Collection<SubtaskDTO> todo)
+	public void setprogress(Map<TaskState, ArrayList<SubtaskDTO>> progress)
 	{
-		this.todo = todo;
-	}
-
-	public Collection<SubtaskDTO> getDoing()
-	{
-		return doing;
-	}
-
-	public void setDoing(Collection<SubtaskDTO> doing)
-	{
-		this.doing = doing;
-	}
-
-	public Collection<SubtaskDTO> getUat()
-	{
-		return uat;
-	}
-
-	public void setUat(Collection<SubtaskDTO> uat)
-	{
-		this.uat = uat;
-	}
-
-	public Collection<SubtaskDTO> getDone()
-	{
-		return done;
-	}
-
-	public void setDone(Collection<SubtaskDTO> done)
-	{
-		this.done = done;
+		this.progress = progress;
 	}
 
 }
