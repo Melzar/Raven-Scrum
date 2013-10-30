@@ -25,11 +25,7 @@
 <script type="text/javascript">
 	
 var app = angular.module("ScrumBoardApp", ["ngAnimate", "ngDragDrop", "scDirectives", "scControllers", "ui.bootstrap", "ui.select2"])
-app.factory('ScrumData', function()
-{
-	return {getlink: "<@spring.url '/rest/project/1/scrumboard/active'/>"};
-})
-app.factory('TemplateData', function(ScrumData)
+app.factory('TemplateData', function()
 {
 	var formatUser = function(user)
 	{

@@ -48,11 +48,7 @@
      <#include "./templates/components/Breadcrumb.ftl">
   </div>
 </div>
-<div class="row">
-  <div class="col-lg-offset-3 col-lg-6">
-    <legend>Rejestracja konta</legend>
-  </div>
-</div>
+
 
 <div class="row loadin">
   <div class="col-lg-offset-3 col-lg-6" ng-controller="MessageController">
@@ -70,6 +66,11 @@
       </div>
     </div>
     <div class="well" ng-hide="messagedata.submitsuccess || messagedata.submiterror">
+    <div class="row">
+	  <div class="col-lg-12">
+	    <legend>Rejestracja konta</legend>
+	  </div>
+	</div>
       <blockquote>
         Wypełnij pola aby zarejestrować konto, zwróć uwagę na to, aby pola były wypełnione poprawnie
       </blockquote>
