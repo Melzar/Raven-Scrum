@@ -21,10 +21,10 @@ sccontrollers.controller('MessageController',function($scope, $http, $element, M
 		}
 })
 
-sccontrollers.controller('ScrumBoardController', function($scope, $http, $element, ScrumData)
+sccontrollers.controller('ScrumBoardController', function($scope, $http, $element,$location, TemplateData)
 {
-	$scope.scrumdata = ScrumData;
-	$http.get(ScrumData.getlink).success(function(data,status,headers,cfg){
+	$scope.scrumdata = {};
+	$http.get(TemplateData.sourcelink + '/rest/project/'+$location.search().project+'/scrumboard/active').success(function(data,status,headers,cfg){
 		$scope.scrumdata.projectdata = data;
 		$scope.scrumtasks = data.sprint.tasks;
 		$scope.setwatchers();
@@ -44,7 +44,6 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $elemen
 	{
 		$scope.scrumcounter = {todo : 0, doing : 0, uat : 0, done : 0};
 		angular.forEach($scope.scrumtasks, function(value, key){
-			console.log(value)
 			$scope.scrumcounter.todo += value.progress.TODO.length;
 			$scope.scrumcounter.doing += value.progress.DOING.length;
 			$scope.scrumcounter.uat += value.progress.UAT.length;
@@ -124,6 +123,27 @@ sccontrollers.controller('ModalInstanceController', function($scope, $http, $mod
 				console.log("error")
 			})
 	}
+})
+
+sccontrollers.controller('DashboardController', function($scope, $http, TemplateData){
+
+	$scope.templatedata = TemplateData;
+	$http.get(TemplateData.sourcelink  + '/rest/project/list/user?login=' + TemplateData.user).success(function(data, status, headers, cfg)
+	{
+		$scope.projects = data;
+	}).error(function(data, status, headers, cfg){
+		//TODO error message
+	})
+})
+
+sccontrollers.controller('ProjectController', function($scope, $http, TemplateData){
+	$scope.templatedata = TemplateData;
+	$http.get(TemplateData.sourcelink  + '/rest/project/list').success(function(data, status, headers, cfg)
+	{
+		$scope.projects = data;
+	}).error(function(data, status, headers, cfg){
+		//TODO error message
+	})
 })
 
 sccontrollers.controller('NavigationController', function($scope, $http)

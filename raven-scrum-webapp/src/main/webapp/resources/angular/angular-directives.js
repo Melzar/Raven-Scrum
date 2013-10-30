@@ -84,6 +84,15 @@ scdirectives.directive('ngScrumTask', function()
  }
 })
 
+scdirectives.directive('ngProject', function(TemplateData)
+{
+  return{
+    restrict: 'A',
+    transclude: false,
+    templateUrl : TemplateData.sourcelink + '/template/scrum/project.ftl',
+  }
+})
+
 scdirectives.directive('ngScrumboard', function()
 {
   return{
