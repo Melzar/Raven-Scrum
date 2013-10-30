@@ -6,16 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.raven.scrum.core.entity.ScrumProject;
 import net.raven.scrum.core.entity.ScrumSprint;
 import net.raven.scrum.core.entity.ScrumTask;
 import net.raven.scrum.core.entity.ScrumUser;
 import net.raven.scrum.core.enumeration.scrum.SprintStatus;
 import net.raven.scrum.core.enumeration.scrum.TaskState;
 import net.raven.scrum.core.exception.ScrumException;
+import net.raven.scrum.core.repository.ScrumProjectRepository;
 import net.raven.scrum.core.repository.ScrumSprintRepository;
 import net.raven.scrum.core.repository.ScrumTaskRepository;
 import net.raven.scrum.core.repository.ScrumUserRepository;
-import net.raven.scrum.core.rest.dto.scrum.ScrumboardDTO;
+import net.raven.scrum.core.rest.dto.scrum.ProjectDTO;
 import net.raven.scrum.core.rest.dto.scrum.SprintDTO;
 import net.raven.scrum.core.rest.dto.scrum.SubtaskDTO;
 import net.raven.scrum.core.rest.dto.scrum.TaskDTO;
@@ -36,17 +38,20 @@ public class ScrumServiceImpl implements ScrumService
 	@Autowired
 	private ScrumUserRepository userRepository;
 
+	@Autowired
+	private ScrumProjectRepository projectRepository;
+
 	public ScrumServiceImpl()
 	{
 
 	}
 
-	public ScrumboardDTO prepareDataForScrumboard(Long idProject)
+	public ProjectDTO prepareDataForScrumboard(Long idProject)
 			throws ScrumException
 	{
 		ScrumSprint ss = sprintRepository.getSprintData(idProject,
 				SprintStatus.ACTIVE);
-		ScrumboardDTO boarddto = new ScrumboardDTO();
+		ProjectDTO boarddto = new ProjectDTO();
 		SprintDTO sprintdto = new SprintDTO();
 		boarddto.setIdProject(ss.getProject().getIdProject());
 		boarddto.setIdManager(ss.getProject().getManager().getIdUser());
@@ -119,6 +124,44 @@ public class ScrumServiceImpl implements ScrumService
 		subtaskDTO.setId(subtask.getIdTask());
 		subtaskDTO.setTitle(subtask.getTitle());
 		subtaskDTO.setState(subtask.getState());
+		return subtaskDTO;
+	}
+
+	@Override
+	public List<ProjectDTO> getProjectList() throws ScrumException
+	{
+		return createProjectListDTO(projectRepository.findAll());
+	}
+
+	@Override
+	public List<ProjectDTO> getProjectListForUser(String login)
+			throws ScrumException
+	{
+		return createProjectListDTO(projectRepository
+				.getProjectListForUser(login));
+	}
+
+	private List<ProjectDTO> createProjectListDTO(
+			Iterable<ScrumProject> iterable)
+	{
+		List<ProjectDTO> list = new ArrayList<ProjectDTO>();
+		for (ScrumProject sp : iterable)
+		{
+			ProjectDTO dto = new ProjectDTO();
+			dto.setIdProject(sp.getIdProject());
+			dto.setIdManager(sp.getManager().getIdUser());
+			dto.setTitle(sp.getTitle());
+			dto.setDescription(sp.getDescription());
+			list.add(dto);
+		}
+		return list;
+	}
+
+	@Override
+	public SubtaskDTO changeTaskState(SubtaskDTO subtaskDTO)
+			throws ScrumException
+	{
+		taskRepository.setTaskState(subtaskDTO.getState(), subtaskDTO.getId());
 		return subtaskDTO;
 	}
 }
