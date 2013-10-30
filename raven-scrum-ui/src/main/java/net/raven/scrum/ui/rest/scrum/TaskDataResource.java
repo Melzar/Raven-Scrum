@@ -57,6 +57,23 @@ public class TaskDataResource
 		}
 	}
 
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/changestate")
+	public Response changeTaskState(SubtaskDTO dto)
+	{
+		try
+		{
+			return Response.status(Status.OK)
+					.entity(scrumService.changeTaskState(dto)).build();
+		} catch (ScrumException e)
+		{
+			log.error("Failed to change task state " + dto.getId(), e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/type")
