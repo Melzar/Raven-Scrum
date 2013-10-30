@@ -36,6 +36,7 @@
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:resources mapping="/template/**" location="/resources/angular/template/"/>
 	<mvc:resources mapping="/account/template/**" location="/resources/angular/template/"/>
+	<mvc:resources mapping="/project/template/**" location="/resources/angular/template/"/>
 
 	<!-- freemarker config -->
 	<bean id="freemarkerConfig"
