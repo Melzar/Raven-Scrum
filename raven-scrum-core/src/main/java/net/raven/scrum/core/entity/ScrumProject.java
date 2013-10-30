@@ -26,7 +26,7 @@ public class ScrumProject
 
 	private String description;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_user")
 	private ScrumUser manager;
 
