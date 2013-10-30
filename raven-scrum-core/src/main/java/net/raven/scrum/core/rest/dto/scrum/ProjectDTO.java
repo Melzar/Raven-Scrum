@@ -1,6 +1,6 @@
 package net.raven.scrum.core.rest.dto.scrum;
 
-public class ScrumboardDTO
+public class ProjectDTO
 {
 	private long idProject;
 
@@ -12,7 +12,7 @@ public class ScrumboardDTO
 
 	private SprintDTO sprint;
 
-	public ScrumboardDTO()
+	public ProjectDTO()
 	{
 
 	}
