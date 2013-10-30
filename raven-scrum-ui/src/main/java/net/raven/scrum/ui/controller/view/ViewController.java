@@ -21,6 +21,25 @@ public class ViewController
 		return "ScrumRegister";
 	}
 
+	@RequestMapping("/project")
+	public String prepareScrumProject(Model model)
+	{
+		return "ScrumProject";
+	}
+
+	@RequestMapping("/project/dashboard")
+	public String prepareScrumProjectDashboard(Model model)
+	{
+		return "ScrumProjectDashboard";
+	}
+
+	@RequestMapping("/project/scrumboard")
+	// @PreAuthorize("isAuthenticated()")
+	public String prepareScrumBoard(Model model)
+	{
+		return "ScrumBoard";
+	}
+
 	@RequestMapping("/account/dashboard")
 	@PreAuthorize("isAuthenticated()")
 	public String prepareScrumDashboard(Model model)
@@ -39,12 +58,5 @@ public class ViewController
 	public String prepareEditAccount(Model model)
 	{
 		return "ScrumEditAccount";
-	}
-
-	@RequestMapping("/scrumboard")
-	// @PreAuthorize("isAuthenticated()")
-	public String prepareScrumBoard(Model model)
-	{
-		return "ScrumBoard";
 	}
 }
