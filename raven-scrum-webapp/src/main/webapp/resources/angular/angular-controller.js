@@ -24,6 +24,7 @@ sccontrollers.controller('MessageController',function($scope, $http, $element, M
 sccontrollers.controller('ScrumBoardController', function($scope, $http, $element,$location, TemplateData)
 {
 	$scope.scrumdata = {};
+	$scope.subtaskdata = {id: '', state: ''};
 	$http.get(TemplateData.sourcelink + '/rest/project/'+$location.search().project+'/scrumboard/active').success(function(data,status,headers,cfg){
 		$scope.scrumdata.projectdata = data;
 		$scope.scrumtasks = data.sprint.tasks;
@@ -49,6 +50,29 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $elemen
 			$scope.scrumcounter.uat += value.progress.UAT.length;
 			$scope.scrumcounter.done += value.progress.DONE.length;
 		})
+	}
+
+
+
+	$scope.getsubtask = function(evt, ui)
+	{
+		$scope.subtaskdata.id = evt.target.dataset.idsub;
+	}
+
+	$scope.changestate = function()
+	{
+			$http({
+				url: TemplateData.sourcelink + "/rest/task/changestate",
+				method: "POST",
+				data: $scope.subtaskdata ,
+				headers : {'Content-Type': 'application/json'}
+			}).success(function(datares, status, headers, cfg){
+				console.log("success")
+			}).error(function(datares, status, headers, cfg){
+				//todo messagebox
+				console.log("error")
+			})
+		console.log($scope.subtaskdata)
 	}
 })
 
