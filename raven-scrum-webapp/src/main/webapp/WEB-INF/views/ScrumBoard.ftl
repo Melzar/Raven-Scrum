@@ -63,17 +63,17 @@ app.factory('TemplateData', function()
 				</div>
 			</div>
 			<div class="row loadin table" id="{{task.id}}">
-					<div class="col-lg-3 cell scrum-columns columns-inside-padding" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true}" ng-model="task.progress.TODO" subtask="{{task.id}}" ng-dropped>
-						<div class="subtask" ng-model="task.progress.TODO" jqyoui-draggable="{index: {{$index}}, animate:false}" ng-repeat="subtask in task.progress.TODO" data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}' }" data-drag="true" ng-scrum-task></div>
+					<div class="col-lg-3 cell scrum-columns columns-inside-padding" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true, onDrop: 'changestate'}" ng-model="task.progress.TODO" subtask="{{task.id}}" ng-dropped state="TODO">
+						<div class="subtask" ng-model="task.progress.TODO" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getsubtask'}" ng-repeat="subtask in task.progress.TODO" data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}' }" data-idsub="{{subtask.id}}" data-drag="true" ng-scrum-task></div>
 					</div>
-					<div class="col-lg-3 cell scrum-columns columns-inside-padding second" data-drop="true" ng-model="task.progress.DOING" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true}" subtask="{{task.id}}" ng-dropped>
-						<div class="subtask" ng-model="task.progress.DOING" ng-repeat="subtask in task.progress.DOING" data-drag="true"  data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}'}" jqyoui-draggable="{index: {{$index}}, animate:false}" ng-scrum-task></div>
+					<div class="col-lg-3 cell scrum-columns columns-inside-padding second" data-drop="true" ng-model="task.progress.DOING" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true, onDrop: 'changestate'}" subtask="{{task.id}}" ng-dropped state="DOING">
+						<div class="subtask" ng-model="task.progress.DOING" ng-repeat="subtask in task.progress.DOING" data-drag="true"  data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}'}" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getsubtask'}" data-idsub="{{subtask.id}}" ng-scrum-task></div>
 					</div>
-					<div class="col-lg-3 cell scrum-columns columns-inside-padding" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true}" ng-model="task.progress.UAT" subtask="{{task.id}}" ng-dropped>
-						<div class="subtask" ng-model="task.progress.UAT" jqyoui-draggable="{index: {{$index}}, animate:false}" ng-repeat="subtask in task.progress.UAT" data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}'}" data-drag="true" ng-scrum-task></div>
+					<div class="col-lg-3 cell scrum-columns columns-inside-padding" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true, onDrop: 'changestate'}" ng-model="task.progress.UAT" subtask="{{task.id}}" ng-dropped state="UAT">
+						<div class="subtask" ng-model="task.progress.UAT" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getsubtask'}" ng-repeat="subtask in task.progress.UAT" data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}'}" data-idsub="{{subtask.id}}" data-drag="true" ng-scrum-task></div>
 					</div>
-					<div class="col-lg-3 cell scrum-columns columns-inside-padding second" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true}" ng-model="task.progress.DONE" subtask="{{task.id}}" ng-dropped>
-						<div class="subtask" ng-model="task.progress.DONE" jqyoui-draggable="{index: {{$index}}, animate:false}" ng-repeat="subtask in task.progress.DONE" data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}'}" data-drag="true" ng-scrum-task></div>
+					<div class="col-lg-3 cell scrum-columns columns-inside-padding second" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true, onDrop: 'changestate'}" ng-model="task.progress.DONE" subtask="{{task.id}}" ng-dropped state="DONE">
+						<div class="subtask" ng-model="task.progress.DONE" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getsubtask'}" ng-repeat="subtask in task.progress.DONE" data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}'}" data-idsub="{{subtask.id}}" data-drag="true" ng-scrum-task></div>
 					</div>
 			</div>
 			</div>
