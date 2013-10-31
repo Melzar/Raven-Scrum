@@ -103,16 +103,18 @@ scdirectives.directive('ngScrumboard', function()
   }
 })
 
-scdirectives.directive('ngDropped', function($animate)
+scdirectives.directive('ngDropped', function($animate, $parse)
 {
   return{
     require : 'ngModel',
     restrict : 'A',
     transclude : false,
+    controller: 'ScrumBoardController',
     link : function (scope, element, attrs, ctrl)
     {
         element.bind('drop', function(evt)
         {
+          scope.subtaskdata.state = attrs.state;
           $animate.removeClass(element,'loadin');
           $animate.addClass(element,'loadin');
         })
