@@ -140,6 +140,26 @@ a.list-group-item:hover
   opacity:1;
 }
 
+.col-lg-3.ng-hide-add, 
+.col-lg-3.ng-hide-remove  {
+  -webkit-transition:all linear 0.5s;
+  -moz-transition:all linear 0.5s;
+  -o-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+  display:block!important;
+}
+
+.col-lg-3.ng-hide-add.ng-hide-add-active,
+.col-lg-3.ng-hide-remove {
+  display:block!important;
+  opacity:0;
+}
+ 
+.col-lg-3.ng-hide-add,
+.col-lg-3.ng-hide-remove.ng-hide-remove-active {
+  opacity:1;
+}
+
 .add-task
 {
 	background: #2d2f31;
@@ -185,14 +205,15 @@ textarea,input[type="text"],input[type="password"],input[type="datetime"],input[
 	color: white !important;
 	background-color: #333537 !important;
 	border: 1px solid #276c4f;
+	width: 100%;
+	border-radius: 4px;
+	
 }
 
 .well-header
 {
 	background: #2b473d;
 	border-radius: 4px;
-	margin-left: -20px;
-	margin-right: -20px;
 	margin: -20 -20 10 -20;
 	padding: 10 10 10 10;
 }
@@ -666,13 +687,29 @@ li.sub-active > a:hover
 
 .subtask-type
 {
-	width: 50px;
-	height: 50px;
-	background: #272829;
-	padding: 11 0 0 13;
-	border-radius: 34px;
-	margin-top: 5px;
-	margin-left: 10px;
+	width: 5px;
+	height: 100%;
+	border-radius: 5px;
+}
+
+.subtask-type.DEVELOPMENT
+{
+	background: #0a9a9d;
+}
+
+.subtask-type.OPTIMALIZATION
+{
+	background: #0080ff;
+}
+
+.subtask-type.TEST
+{
+	background: #9b58b5;
+}
+
+.subtask-type.BUG
+{
+	background: #d9414e;
 }
 
 .subtask-type > i 
@@ -833,8 +870,8 @@ select
 
 .modal-textarea
 {
-	width: 100%;
 	height: 100px;
+	width: 100%;
 	border-radius: 4px;
 }
 
@@ -1006,3 +1043,35 @@ select
 {
 	position: relative;
 }
+
+.task-panel-left
+{
+	height: 100%;
+}
+
+.task-panel-sub-header
+{
+	border-bottom: 2px solid #23a86d;
+	margin-bottom: 10px;
+	margin-top: 5px;
+}
+
+.panel-left-header
+{
+	font-size: 18px;
+	margin: -20 -20 10 -20;
+	padding: 10 10 10 10;
+	background: #23a86d;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+
+.shown
+{
+	display: block !important;
+	   animation: fadein 0.6s;
+    -moz-animation: fadein 0.6s; /* Firefox */
+    -webkit-animation: fadein 0.6s; /* Safari and Chrome */
+    -o-animation: fadein 0.6s; /* Opera */
+}
+
