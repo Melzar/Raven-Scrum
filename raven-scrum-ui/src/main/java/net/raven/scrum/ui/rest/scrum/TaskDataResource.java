@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response.Status;
 import net.raven.scrum.core.annotations.logger.Log;
 import net.raven.scrum.core.enumeration.scrum.TaskType;
 import net.raven.scrum.core.exception.ScrumException;
-import net.raven.scrum.core.rest.dto.scrum.SubtaskDTO;
+import net.raven.scrum.core.rest.dto.scrum.TaskDTO;
 import net.raven.scrum.core.rest.dto.scrum.TaskTypeDTO;
 import net.raven.scrum.ui.service.scrum.ScrumService;
 
@@ -44,7 +44,7 @@ public class TaskDataResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/{idParent}/add")
-	public Response addTask(@PathParam("idParent") Long idParent, SubtaskDTO dto)
+	public Response addTask(@PathParam("idParent") Long idParent, TaskDTO dto)
 	{
 		try
 		{
@@ -61,7 +61,7 @@ public class TaskDataResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/changestate")
-	public Response changeTaskState(SubtaskDTO dto)
+	public Response changeTaskState(TaskDTO dto)
 	{
 		try
 		{
@@ -70,6 +70,23 @@ public class TaskDataResource
 		} catch (ScrumException e)
 		{
 			log.error("Failed to change task state " + dto.getId(), e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/delete")
+	public Response deleteTask(TaskDTO dto)
+	{
+		try
+		{
+			dto = scrumService.deleteTask(dto);
+			return Response.status(Status.OK).entity(dto).build();
+		} catch (ScrumException e)
+		{
+			log.error("Failed to delete task " + dto.getId(), e);
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
