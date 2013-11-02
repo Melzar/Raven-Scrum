@@ -19,7 +19,6 @@ import net.raven.scrum.core.repository.ScrumTaskRepository;
 import net.raven.scrum.core.repository.ScrumUserRepository;
 import net.raven.scrum.core.rest.dto.scrum.ProjectDTO;
 import net.raven.scrum.core.rest.dto.scrum.SprintDTO;
-import net.raven.scrum.core.rest.dto.scrum.SubtaskDTO;
 import net.raven.scrum.core.rest.dto.scrum.TaskDTO;
 import net.raven.scrum.core.rest.dto.user.ScrumUserDTO;
 
@@ -68,7 +67,7 @@ public class ScrumServiceImpl implements ScrumService
 			taskdto.setDescription(task.getDescription());
 			for (ScrumTask subtask : task.getSubtasks())
 			{
-				SubtaskDTO subdto = new SubtaskDTO();
+				TaskDTO subdto = new TaskDTO();
 				subdto.setId(subtask.getIdTask());
 				subdto.setIdParent(task.getIdTask());
 				subdto.setIdUser(subtask.getParent().getIdTask());
@@ -76,7 +75,7 @@ public class ScrumServiceImpl implements ScrumService
 				subdto.setDescription(subtask.getDescription());
 				subdto.setState(subtask.getState());
 				subdto.setType(subtask.getType());
-				taskdto.getprogress().get(subtask.getState()).add(subdto);
+				taskdto.getProgress().get(subtask.getState()).add(subdto);
 			}
 			tasks.add(taskdto);
 		}
@@ -105,7 +104,7 @@ public class ScrumServiceImpl implements ScrumService
 	}
 
 	@Override
-	public SubtaskDTO addSubtaskQuick(Long idParent, SubtaskDTO subtaskDTO)
+	public TaskDTO addSubtaskQuick(Long idParent, TaskDTO subtaskDTO)
 			throws ScrumException
 	{
 		ScrumTask subtask = new ScrumTask();
@@ -158,10 +157,16 @@ public class ScrumServiceImpl implements ScrumService
 	}
 
 	@Override
-	public SubtaskDTO changeTaskState(SubtaskDTO subtaskDTO)
-			throws ScrumException
+	public TaskDTO changeTaskState(TaskDTO subtaskDTO) throws ScrumException
 	{
 		taskRepository.setTaskState(subtaskDTO.getState(), subtaskDTO.getId());
+		return subtaskDTO;
+	}
+
+	@Override
+	public TaskDTO deleteTask(TaskDTO subtaskDTO) throws ScrumException
+	{
+		taskRepository.delete(subtaskDTO.getId());
 		return subtaskDTO;
 	}
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.raven.scrum.core.exception.ScrumException;
 import net.raven.scrum.core.rest.dto.scrum.ProjectDTO;
-import net.raven.scrum.core.rest.dto.scrum.SubtaskDTO;
+import net.raven.scrum.core.rest.dto.scrum.TaskDTO;
 import net.raven.scrum.core.rest.dto.user.ScrumUserDTO;
 
 public interface ScrumService
@@ -12,10 +12,12 @@ public interface ScrumService
 	public ProjectDTO prepareDataForScrumboard(Long idProject)
 			throws ScrumException;
 
-	public SubtaskDTO changeTaskState(SubtaskDTO subtaskDTO)
+	public TaskDTO changeTaskState(TaskDTO subtaskDTO)
 			throws ScrumException;
 
-	public SubtaskDTO addSubtaskQuick(Long idParent, SubtaskDTO subtaskDTO)
+	public TaskDTO deleteTask(TaskDTO subtaskDTO) throws ScrumException;
+
+	public TaskDTO addSubtaskQuick(Long idParent, TaskDTO subtaskDTO)
 			throws ScrumException;
 
 	public List<ProjectDTO> getProjectList() throws ScrumException;
