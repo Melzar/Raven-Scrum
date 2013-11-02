@@ -1,6 +1,6 @@
 <#include "./templates/ScrumHeader.ftl">
 <#include "./templates/components/NavigationBar.ftl">
-<body ng-app="ScrumBoardApp" ng-controller="ModalController">
+<body ng-app="ScrumBoardApp">
 <div class="subbar">
 	<div class="subbar-nav">
 		<ul class="nav navbar-nav pull-right">
@@ -46,38 +46,7 @@ app.factory('TemplateData', function()
 </script>
 
 <div class="wrapper">
-<div class="col-lg-12">
-<script type="text/ng-template" id="ScrumTasks.html">
-			<div ng-repeat="task in scrumtasks">
-			<div class="row loadin">
-				<div class="col-lg-12">
-					<div class="scrum-columns columns-header">
-						<a class="subtask-title">{{task.title}}</a>
-						<span class="pull-right">		
-									T: {{task.progress.TODO.length}}
-									D: {{task.progress.DOING.length}}
-									U: {{task.progress.UAT.length}}
-									DN: {{task.progress.DONE.length}}
-						</span>
-					</div>
-				</div>
-			</div>
-			<div class="row loadin table" id="{{task.id}}">
-					<div class="col-lg-3 cell scrum-columns columns-inside-padding" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true, onDrop: 'changestate'}" ng-model="task.progress.TODO" subtask="{{task.id}}" ng-dropped state="TODO">
-						<div class="subtask" ng-model="task.progress.TODO" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getsubtask'}" ng-repeat="subtask in task.progress.TODO" data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}' }" data-idsub="{{subtask.id}}" data-drag="true" ng-scrum-task></div>
-					</div>
-					<div class="col-lg-3 cell scrum-columns columns-inside-padding second" data-drop="true" ng-model="task.progress.DOING" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true, onDrop: 'changestate'}" subtask="{{task.id}}" ng-dropped state="DOING">
-						<div class="subtask" ng-model="task.progress.DOING" ng-repeat="subtask in task.progress.DOING" data-drag="true"  data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}'}" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getsubtask'}" data-idsub="{{subtask.id}}" ng-scrum-task></div>
-					</div>
-					<div class="col-lg-3 cell scrum-columns columns-inside-padding" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true, onDrop: 'changestate'}" ng-model="task.progress.UAT" subtask="{{task.id}}" ng-dropped state="UAT">
-						<div class="subtask" ng-model="task.progress.UAT" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getsubtask'}" ng-repeat="subtask in task.progress.UAT" data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}'}" data-idsub="{{subtask.id}}" data-drag="true" ng-scrum-task></div>
-					</div>
-					<div class="col-lg-3 cell scrum-columns columns-inside-padding second" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true, onDrop: 'changestate'}" ng-model="task.progress.DONE" subtask="{{task.id}}" ng-dropped state="DONE">
-						<div class="subtask" ng-model="task.progress.DONE" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getsubtask'}" ng-repeat="subtask in task.progress.DONE" data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}'}" data-idsub="{{subtask.id}}" data-drag="true" ng-scrum-task></div>
-					</div>
-			</div>
-			</div>
-</script>
+<div ng-class="{'col-lg-12': !leftpanel, 'col-lg-9': leftpanel}">
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="row">
@@ -90,7 +59,7 @@ app.factory('TemplateData', function()
 			<div class="row">
 				<div class="col-lg-6">
 				</div>
-				<div class="col-lg-6">
+				<div class="col-lg-6" ng-controller="ModalController">
 					<a class="btn btn-primary btn-lg pull-right" ng-click="addTask()"> <i class="fa fa-plus"></i>
 						Dodaj zadanie
 					</a>
@@ -149,17 +118,89 @@ app.factory('TemplateData', function()
 			</div>
 		</div>
 	</div>
-	<div class="row top-margin loadin table">
-
-			<div class="col-lg-3 cell scrum-columns columns-top">{{scrumcounter.todo}} TODO</div>
-			<div class="col-lg-3 cell scrum-columns columns-top second">{{scrumcounter.doing}} Doing...</div>
-			<div class="col-lg-3 cell scrum-columns columns-top">{{scrumcounter.uat}} UAT</div>
-			<div class="col-lg-3 cell scrum-columns columns-top second">{{scrumcounter.done}} Done</div>
-	</div>
 	<div class="row">
-		<div class="col-lg-12" ng-Scrumboard>
-			<!-- Content injected dynamically -->
+		<div class="col-lg-12">
+			<div class="row top-margin loadin table">
+				<div class="col-lg-3 cell scrum-columns columns-top">{{scrumcounter.todo}} TODO</div>
+				<div class="col-lg-3 cell scrum-columns columns-top second">{{scrumcounter.doing}} Doing...</div>
+				<div class="col-lg-3 cell scrum-columns columns-top">{{scrumcounter.uat}} UAT</div>
+				<div class="col-lg-3 cell scrum-columns columns-top second">{{scrumcounter.done}} Done</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12" ng-Scrumboard>
+					<!-- Content injected dynamically -->
+				</div>
+			</div>
 		</div>
+	</div>
+</div>
+
+<div class="col-lg-3 hide" ng-class="{'shown': leftpanel, 'hidden' : !leftpanel}">
+	<div class="well">
+		<div class="panel-left-header">
+		{{subtaskpanel.task.title}} - {{subtaskpanel.task.id}}
+		<div class="pull-right">
+				<button type="button" class="close" ng-click="leftpanel = !leftpanel">×</button>
+			</div>
+		</div>
+		<div class="task-panel-left">
+			<div class="col-lg-12">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="row">
+							<div class="task-panel-sub-header">
+								Task Actions
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-offset-1 col-lg-11">
+								<a class="btn btn-primary btn-sm" ng-click="">Move to backlog </a>
+								<a class="btn btn-primary btn-sm" ng-click="deleteTask()">Delete task </a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="row">
+							<div class="task-panel-sub-header">
+								Task details
+							</div>
+						</div>
+						<div class="row">
+							<label>Description</label>
+							<textarea readonly>{{subtaskpanel.task.description}}</textarea>
+						</div>
+						<div class="row">
+							<label>Type</label>
+							<select ui-select2 ng-model="panel.select2types" data-placeholder="Pick a number" style="width: 100%">
+	   							 <option ng-repeat="type in data.select2types.data.results" value="{{type.type}}">{{type.type}}</option>  	
+							</select>
+						</div>
+						<div class="row">
+							<label>Assigned</label>
+							<select ui-select2 ng-model="panel.select2users" data-placeholder="Pick a number" style="width: 100%">
+	   							 <option ng-repeat="user in data.select2users.data.results" value="{{user.id}}">{{user.name}} {{user.surname}}</option>  	
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="row">
+							<div class="task-panel-sub-header">
+								Task Comments
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-offset-1 col-lg-11">
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
 	</div>
 </div>
 </div>
