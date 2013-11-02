@@ -3,6 +3,7 @@ package net.raven.scrum.core.entity;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,7 +39,7 @@ public class ScrumSprint
 	@JoinColumn(name = "id_project")
 	private ScrumProject project;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "sprints")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "sprints", cascade = CascadeType.REMOVE)
 	@OrderBy("idTask")
 	private Set<ScrumTask> tasks;
 

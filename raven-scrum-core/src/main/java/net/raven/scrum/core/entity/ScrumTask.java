@@ -49,7 +49,7 @@ public class ScrumTask
 	@OrderBy("idTask")
 	private Set<ScrumTask> subtasks;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "scrum_task_in_sprint", joinColumns = { @JoinColumn(name = "id_task", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_sprint", nullable = false, updatable = false) })
 	private Set<ScrumSprint> sprints;
 
