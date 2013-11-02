@@ -5,10 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.raven.scrum.core.enumeration.scrum.TaskState;
+import net.raven.scrum.core.enumeration.scrum.TaskType;
 
 public class TaskDTO
 {
+
 	private long id;
+
+	private long idParent;
 
 	private long idUser;
 
@@ -16,15 +20,19 @@ public class TaskDTO
 
 	private String description;
 
-	private Map<TaskState, ArrayList<SubtaskDTO>> progress;
+	private TaskState state;
+
+	private TaskType type;
+
+	private Map<TaskState, ArrayList<TaskDTO>> progress;
 
 	public TaskDTO()
 	{
-		progress = new HashMap<TaskState, ArrayList<SubtaskDTO>>();
-		progress.put(TaskState.TODO, new ArrayList<SubtaskDTO>());
-		progress.put(TaskState.DOING, new ArrayList<SubtaskDTO>());
-		progress.put(TaskState.UAT, new ArrayList<SubtaskDTO>());
-		progress.put(TaskState.DONE, new ArrayList<SubtaskDTO>());
+		progress = new HashMap<TaskState, ArrayList<TaskDTO>>();
+		progress.put(TaskState.TODO, new ArrayList<TaskDTO>());
+		progress.put(TaskState.DOING, new ArrayList<TaskDTO>());
+		progress.put(TaskState.UAT, new ArrayList<TaskDTO>());
+		progress.put(TaskState.DONE, new ArrayList<TaskDTO>());
 	}
 
 	public long getId()
@@ -40,6 +48,16 @@ public class TaskDTO
 	public long getIdUser()
 	{
 		return idUser;
+	}
+
+	public long getIdParent()
+	{
+		return idParent;
+	}
+
+	public void setIdParent(long idParent)
+	{
+		this.idParent = idParent;
 	}
 
 	public void setIdUser(long idUser)
@@ -67,14 +85,36 @@ public class TaskDTO
 		this.description = description;
 	}
 
-	public Map<TaskState, ArrayList<SubtaskDTO>> getprogress()
+	public TaskState getState()
+	{
+		return state;
+	}
+
+	public void setState(TaskState state)
+	{
+		this.state = state;
+	}
+
+	public TaskType getType()
+	{
+		return type;
+	}
+
+	public void setType(TaskType type)
+	{
+		this.type = type;
+	}
+
+	public Map<TaskState, ArrayList<TaskDTO>> getProgress()
 	{
 		return progress;
 	}
 
-	public void setprogress(Map<TaskState, ArrayList<SubtaskDTO>> progress)
+	public void setProgress(Map<TaskState, ArrayList<TaskDTO>> progress)
 	{
 		this.progress = progress;
 	}
+	
+	
 
 }
