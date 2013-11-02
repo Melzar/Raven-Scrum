@@ -23,6 +23,8 @@ sccontrollers.controller('MessageController',function($scope, $http, $element, M
 
 sccontrollers.controller('ScrumBoardController', function($scope, $http, $element,$location, TemplateData)
 {
+	$scope.leftpanel = false;
+	$scope.data = TemplateData;
 	$scope.scrumdata = {};
 	$scope.subtaskdata = {id: '', state: ''};
 	$http.get(TemplateData.sourcelink + '/rest/project/'+$location.search().project+'/scrumboard/active').success(function(data,status,headers,cfg){
@@ -32,7 +34,6 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $elemen
 	}).error(function(data,status,headers,cfg){
 		//TODO MESSAGE OF ERROR
 	})
-
 
 	$scope.setwatchers = function ()
 	{
@@ -52,8 +53,6 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $elemen
 		})
 	}
 
-
-
 	$scope.getsubtask = function(evt, ui)
 	{
 		$scope.subtaskdata.id = evt.target.dataset.idsub;
@@ -72,8 +71,56 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $elemen
 				//todo messagebox
 				console.log("error")
 			})
-		console.log($scope.subtaskdata)
 	}
+
+	$scope.findAndRemove = function(sub, index, parent)
+	{
+		parent.progress[sub.state].splice(index, 1);
+
+	}
+
+	$scope.deleteTask = function()
+	{
+		$http({
+				url: TemplateData.sourcelink + "/rest/task/delete",
+				method: "POST",
+				data: {'id': $scope.subtaskpanel.task.id} ,
+				headers : {'Content-Type': 'application/json'}
+			}).success(function(datares, status, headers, cfg){
+				$scope.subtaskpanel.parent.progress[$scope.subtaskpanel.task.state].splice($scope.subtaskpanel.index, 1);
+				$scope.leftpanel = false;
+			}).error(function(datares, status, headers, cfg){
+				//todo messagebox
+				console.log("error")
+			})
+	}
+
+	$scope.showPanel = function(subtask, index , parent)
+	{
+		$scope.leftpanel = true;
+		$scope.subtaskpanel = {'task': subtask, 'index': index, 'parent': parent};
+		$scope.getTaskTypes();
+		$scope.getProjectUsers();
+	}
+
+	$scope.getTaskTypes = function()
+	{
+		$http.get(TemplateData.sourcelink + "/rest/task/type").success(function(data, status, headers, cfg){
+			TemplateData.select2types.data.results = data;
+		}).error(function(data,status,headers,cfg){
+		//TODO ERROR MESSAGE
+		})	
+	}
+
+	$scope.getProjectUsers = function()
+	{
+		$http.get(TemplateData.sourcelink + '/rest/project/1/users').success(function(data,status,headers,cfg){
+			TemplateData.select2users.data.results = data;
+		}).error(function(data,status,headers,cfg){
+		//TODO MESSAGE OF ERROR
+		})
+	}
+
 })
 
 sccontrollers.controller('ModalController', function($scope, $http, $modal, $log, TemplateData)
@@ -85,17 +132,8 @@ sccontrollers.controller('ModalController', function($scope, $http, $modal, $log
 		TemplateData.modalbody = TemplateData.sourcelink + '/template/modal/ScrumModalBody.ftl';
 		TemplateData.modaltitle = "Add Task";
 
-		$http.get(TemplateData.sourcelink + '/rest/project/1/users').success(function(data,status,headers,cfg){
-			TemplateData.select2users.data.results = data;
-		}).error(function(data,status,headers,cfg){
-		//TODO MESSAGE OF ERROR
-		})
-
-		$http.get(TemplateData.sourcelink + "/rest/task/type").success(function(data, status, headers, cfg){
-			TemplateData.select2types.data.results = data;
-		}).error(function(data,status,headers,cfg){
-		//TODO ERROR MESSAGE
-		})	
+		$scope.getTaskTypes();
+		$scope.getProjectUsers();
 
 		var modalInstance = $modal.open(
 		{

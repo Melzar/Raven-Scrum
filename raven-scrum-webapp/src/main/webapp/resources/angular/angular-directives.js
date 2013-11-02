@@ -71,16 +71,12 @@ scdirectives.directive('ngValidateEmail', function($http){
   }
 });
 
-scdirectives.directive('ngScrumTask', function()
+scdirectives.directive('ngScrumTask', function(TemplateData)
 {
   return{
     restrict: 'A',
     transclude: false,
-    template: ' <div class="row"><div class="col-lg-3"><div class="subtask-type"><i class="icon-gear icon-2x"></i></div></div><div class="col-lg-7">'+
-    '<div class="row"><a class="subtask-title subtask-text text-limit-1">{{subtask.title}} - {{subtask.id}}</a></div><div class="row">'+
-    '<span class="subtask-description subtask-text text-limit-2">{{subtask.description}}</span></div></div><div class="col-lg-2">'+
-    '<div class="subtask-avatar pull-right"></div></div></div>',
-  //  templateUrl : '/templates/components/ScrumTask.ftl',
+    templateUrl : TemplateData.sourcelink + '/template/scrum/subtask.ftl',
  }
 })
 
@@ -93,12 +89,12 @@ scdirectives.directive('ngProject', function(TemplateData)
   }
 })
 
-scdirectives.directive('ngScrumboard', function()
+scdirectives.directive('ngScrumboard', function(TemplateData)
 {
   return{
     restrict: 'A',
     transclude: false,
-    templateUrl: 'ScrumTasks.html',
+    templateUrl: TemplateData.sourcelink + '/template/scrum/scrumtasks.ftl',
     controller: 'ScrumBoardController',
   }
 })
@@ -109,7 +105,6 @@ scdirectives.directive('ngDropped', function($animate, $parse)
     require : 'ngModel',
     restrict : 'A',
     transclude : false,
-    controller: 'ScrumBoardController',
     link : function (scope, element, attrs, ctrl)
     {
         element.bind('drop', function(evt)
