@@ -6,7 +6,7 @@
 	</div>
 	<div class="col-lg-8">
 		<div class="row">
-			<a class="subtask-title subtask-text text-limit-1" ng-click="showPanel(subtask, {{$index}}, task)">{{subtask.title}} - {{subtask.id}}</a>
+			<a class="subtask-title {{subtask.state}} subtask-text text-limit-1" ng-click="showPanel(subtask, {{$index}}, task)">{{subtask.title}} - {{subtask.id}}</a>
 		</div>
 		<div class="row">
 		    <span class="subtask-description subtask-text text-limit-1">{{subtask.description}}</span>
