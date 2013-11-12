@@ -1,92 +1,62 @@
 <#include "./templates/ScrumHeader.ftl" >
 <#include "./templates/components/NavigationBar.ftl">
-<body ng-app="authenticationApp">
+<body ng-app="ScrumBoardApp">
+
 <script type="text/javascript">
 	
-var app = angular.module("authenticationApp", ['ngAnimate', 'ui.directives', 'scDirectives', 'scControllers', 'ui.bootstrap']);
+var app = angular.module("ScrumBoardApp", ['ngAnimate', 'ui.directives', 'scDirectives', 'scControllers', 'ui.bootstrap']);
 
-app.controller("authenticationController", function($scope, $http, $element, MessageData){
-	$scope.validate = function()
-	{
-		$scope.messagedata = MessageData;
-		$http({
-			url : "<@spring.url '/rest/authentication/credentials'/>",
-			method : "POST",
-			data : $element.serialize(),
-			headers : {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).success(function(data,status,headers,cfg){
-			if(status == 200)
-			{
-				$element.submit();
-			}
-			if(status == 401)
-			{	
-				(!data) ? $scope.messagedata.submiterror = true : $scope.messagedata.shadowflag = data.flag;
-			}
-		}).error(function(data,status,headers,cfg){
-			$scope.messagedata.submiterror = true;
-		})
-	}
+app.factory('TemplateData', function(){
+	return {sourcelink: '<@spring.url ""/>'}
 })
 </script>
 
-<div class="container loadin" >
-		<div class="row">
-			<div class="col-lg-offset-2 col-lg-8">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="alert alert-danger" ng-controller="MessageController" ng-show="messagedata.submiterror">
-							<button type="button" class="close" ng-click="hideMessage()">×</button>
-							<h4>Błąd logowania</h4>
-							<p ng-show="messagedata.submiterror">Nieprawidłowy login lub hasło</p>
-							<p ng-show="messagedata.shadowflag == 1">Konto nie zostało potwierdzone przez użytkownika</p>
-						</div> 
-						<div class="well">
-							<form  method="POST" class="form-horizontal" ng-controller="authenticationController" action="<@spring.url '/static/j_spring_security_check'/>" name="authentication" ui-keypress="{13:'validate()'}" novalidate>
-								<div class="row">
-									<div class="col-lg-12">
-										<legend>Login</legend>
-									</div>
-								</div>
-								<div class="row">
-								<div class="col-lg-11">
-									<div class="form-group">
-										<div class="col-lg-7 col-lg-offset-3">
-											<div class="input-box">
-												<label for="login">Login</label>
-												<input type="text" class="input-lg form-control" id="login" name="login" />
-												<label class="input-lg-icon icon-user colorize" for="login"></label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-lg-7 col-lg-offset-3">
-													<div class="input-box">
-														<label for="password">Password</label>
-														<input type="password" class="input-lg form-control" id="password" name="password" />
-														<label class="input-lg-icon icon-lock colorize" for="password"></label>
-													</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-lg-offset-3 col-lg-3">
-											<a href="#">Recover password</a>
-											<a href="<@spring.url '/register'/>
-											">Register account
-										</a>
-									</div>
-									<div class="col-lg-offset-2 col-lg-2">
-										<a class="btn btn-primary pull-right" ng-click="validate()">Submit</a>
-									</div>
-								</div>
-							</div>
-							</div>
-						</form>
+<div class="wrapper center">
+	<div class="box">
+		<div class="box-header">
+			<h1><i class="fa fa-lock"></i>Login</h1>
+		</div>
+		<div class="box-content-wrapper">
+			<div ng-controller="MessageController">
+				<div class="alert alert-danger"  ng-class="{'animated fadeIn' : messagedata.submiterror}"  ng-if="messagedata.submiterror">
+						<button type="button" class="close" ng-click="hideMessage()">×</button>
+						<h4>Błąd logowania</h4>
+						<p ng-if="messagedata.submiterror">Nieprawidłowy login lub hasło</p>
+						<p ng-if="messagedata.shadowflag == 1">Konto nie zostało potwierdzone przez użytkownika</p>
+				</div> 
+			</div>
+			<div class="box-small-wrapper">
+			<form  method="POST" class="form-horizontal box-small-content" ng-controller="AuthenticationController" action="<@spring.url '/static/j_spring_security_check'/>" name="authentication" ui-keypress="{13:'validate()'}" novalidate>
+				<div class="form-group">
+					<div class="col-lg-8 col-lg-offset-2">
+						<div class="input-box">
+							<label for="login">Login</label>
+							<input type="text" class="input-lg form-control" id="login" name="login" />
+							<label class="input-lg-icon fa fa-user colorize" for="login"></label>
+						</div>
 					</div>
 				</div>
-			</div>
+				<div class="form-group">
+					<div class="col-lg-8 col-lg-offset-2">
+						<div class="input-box">
+							<label for="password">Password</label>
+							<input type="password" class="input-lg form-control" id="password" name="password" />
+							<label class="input-lg-icon fa fa-key colorize" for="password"></label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-offset-2 col-lg-8">
+						<a class="btn btn-primary pull-right" ng-click="validate()">Submit</a>
+						<a href="<@spring.url '/register'/>">Register account</a><br/>
+						<a href="#">Recover password</a>	
+					</div>
+				</div>
+			</form>
 		</div>
-	</div>
+</div>
+</div>
+</div>
 </div>
 
 <#include "./templates/ScrumFooter.ftl" >
