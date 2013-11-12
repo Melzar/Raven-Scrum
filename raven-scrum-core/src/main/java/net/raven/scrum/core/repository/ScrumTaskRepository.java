@@ -28,6 +28,14 @@ public interface ScrumTaskRepository extends JpaRepository<ScrumTask, Long>
 	public int setTaskState(@Param("state") TaskState state,
 			@Param("idSubtask") Long idSubtask);
 
+	@Modifying
+	@Transactional
+	@Query("update ScrumTask t set t.parent.idTask = null, t.title = :title, t.description = :description, t.assigned.idUser = :idUser where t.idTask = :idSubtask")
+	public int makeSubtaskParentTask(@Param("idSubtask") Long idSubtask,
+			@Param("title") String title,
+			@Param("description") String description,
+			@Param("idUser") Long idUser);
+
 	@Query("Select distinct ss from ScrumSprint ss left join ss.tasks st left join fetch ss.project p where ss.status = 0 and st.idTask = :idTask")
 	public ScrumSprint getTaskActiveSprint(@Param("idTask") Long idTask);
 
