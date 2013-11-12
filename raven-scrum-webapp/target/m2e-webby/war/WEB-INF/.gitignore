@@ -1,4 +1,5 @@
 /security.tld
+/.gitignore
 /applicationContext.xml
 /spring-jersey-servlet.xml
 /spring-persistence.xml
