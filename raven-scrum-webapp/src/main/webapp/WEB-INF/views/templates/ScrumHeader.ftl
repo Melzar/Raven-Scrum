@@ -21,5 +21,6 @@
 <link rel="stylesheet" type="text/css" href="<@spring.url '/resources/bootstrap/css/bootstrap.css'/>"/>
 <link rel="stylesheet" type="text/css" href="<@spring.url '/resources/bootstrap/css/bootstrap-theme.css'/>"/>
 <link rel="stylesheet" type="text/css" href="<@spring.url '/resources/customCss/custom.css'/>"/>
+<link rel="stylesheet" type="text/css" href="<@spring.url '/resources/customCss/animate.css'/>"/>
 <link rel="stylesheet" type="text/css" href="<@spring.url '/resources/font-awesome/css/font-awesome.css'/>"/>
 </head>
