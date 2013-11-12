@@ -91,6 +91,24 @@ public class TaskDataResource
 		}
 	}
 
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/makeparent")
+	public Response makeSubtaskParent(TaskDTO dto)
+	{
+		try
+		{
+			dto = scrumService.makeSubtaskParentTask(dto);
+			return Response.status(Status.OK).entity(dto).build();
+		} catch (ScrumException e)
+		{
+			log.error("Failed to make subtask as parent task " + dto.getId(), e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/type")
