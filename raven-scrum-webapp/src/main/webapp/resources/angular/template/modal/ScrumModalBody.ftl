@@ -1,5 +1,5 @@
-<div class="well">
-<form class="form-horizontal">
+<div class="box-small-wrapper">
+<form class="form-horizontal box-small-content">
 	<fieldset>
 		<div class="row">
 			<div class="col-lg-12">
@@ -25,32 +25,18 @@
 					<div class="col-lg-10 col-lg-offset-1">
 						<label for="login">Task description</label>
 						<textarea class="modal-textarea" ng-model="data.taskdescription">
-							
+		
 						</textarea>		
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-lg-10 col-lg-offset-1">
-						<label for="login">Project</label>
-								
+						<label for="login">Priority</label>							
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-lg-10 col-lg-offset-1">
-						<label for="login">Priority</label>
-								
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-lg-10 col-lg-offset-1">
-						<label for="login">Estimate</label>
-								
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-lg-10 col-lg-offset-1">
-						<label for="login">Sprint</label>
-								
+						<label for="login">Estimate</label>				
 					</div>
 				</div>
 				<div class="form-group">
