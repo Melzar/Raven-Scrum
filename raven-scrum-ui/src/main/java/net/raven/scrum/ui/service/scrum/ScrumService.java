@@ -12,10 +12,12 @@ public interface ScrumService
 	public ProjectDTO prepareDataForScrumboard(Long idProject)
 			throws ScrumException;
 
-	public TaskDTO changeTaskState(TaskDTO subtaskDTO)
-			throws ScrumException;
+	public TaskDTO changeTaskState(TaskDTO subtaskDTO) throws ScrumException;
 
 	public TaskDTO deleteTask(TaskDTO subtaskDTO) throws ScrumException;
+
+	public TaskDTO makeSubtaskParentTask(TaskDTO subtaskDTO)
+			throws ScrumException;
 
 	public TaskDTO addSubtaskQuick(Long idParent, TaskDTO subtaskDTO)
 			throws ScrumException;

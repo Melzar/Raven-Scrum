@@ -70,7 +70,7 @@ public class ScrumServiceImpl implements ScrumService
 				TaskDTO subdto = new TaskDTO();
 				subdto.setId(subtask.getIdTask());
 				subdto.setIdParent(task.getIdTask());
-				subdto.setIdUser(subtask.getParent().getIdTask());
+				subdto.setIdUser(subtask.getAssigned().getIdUser());
 				subdto.setTitle(subtask.getTitle());
 				subdto.setDescription(subtask.getDescription());
 				subdto.setState(subtask.getState());
@@ -167,6 +167,17 @@ public class ScrumServiceImpl implements ScrumService
 	public TaskDTO deleteTask(TaskDTO subtaskDTO) throws ScrumException
 	{
 		taskRepository.delete(subtaskDTO.getId());
+		return subtaskDTO;
+	}
+
+	@Override
+	public TaskDTO makeSubtaskParentTask(TaskDTO subtaskDTO)
+			throws ScrumException
+	{
+		subtaskDTO.setTitle(subtaskDTO.getTitle() + " - " + subtaskDTO.getId());
+		taskRepository.makeSubtaskParentTask(subtaskDTO.getId(),
+				subtaskDTO.getTitle(), subtaskDTO.getDescription(),
+				subtaskDTO.getIdUser());
 		return subtaskDTO;
 	}
 }
