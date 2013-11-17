@@ -1,3 +1,4 @@
+/.gitignore
 /angular-animate.js
 /angular-controller.js
 /angular-directives.js
