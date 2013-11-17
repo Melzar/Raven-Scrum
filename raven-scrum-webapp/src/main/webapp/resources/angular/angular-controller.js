@@ -44,6 +44,42 @@ sccontrollers.controller('MessageController',function($scope, $http, MessageData
 		}
 })
 
+sccontrollers.controller("RegisterController", function($scope, $http, $element, MessageData, TemplateData){
+      $scope.submit = function()
+      {
+        $scope.messagedata = MessageData;
+        $scope.registration.submitted = true;
+        if($scope.registration.$valid && $scope.checkbox)
+        {
+          $http({
+            url: TemplateData.sourcelink + '/account/registration',
+            method: "POST",
+            data: $element.serialize(),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+          }).success(function(data, status, headers, cfg){
+            (data.success == true) ? $scope.messagedata.submitsuccess = true : $scope.messagedata.submiterror = true;
+          }).error(function(data,status,headers,cfg){
+            $scope.messagedata.submiterror = true;
+          })
+        }
+      }
+
+      $scope.validateLogin = function()
+      {
+      		console.log($scope)
+            $scope.registration.login.$setValidity("minlength", emptyValidation($scope.registration.login.$viewValue) && minLengthValidation($scope.registration.login.$viewValue));
+            ($scope.registration.login.$viewValue == $scope.registration.passwordrepeat.$viewValue) ? $scope.registration.passwordrepeat.$setValidity("equalslogin", false) : $scope.registration.passwordrepeat.$setValidity("equalslogin", true); 
+            if(!$scope.registration.login.$error.minlength)
+            {
+              $http.post(TemplateData.sourcelink + '/rest/validate/login',JSON.stringify({'login' : $scope.registration.login.$viewValue})).success(function(data, status, headers, cfg){
+                $scope.registration.login.$setValidity('unique', data.unique);
+              }).error(function(data,status,headers,cfg){
+                $scope.registration.login.$setValidity('unique', false);
+              })
+            }
+      }
+  });
+
 sccontrollers.controller('ScrumBoardController', function($scope, $http, $location, TemplateData)
 {
 	$scope.rightpanel = false;
