@@ -8,7 +8,7 @@ var app = angular.module("projectApp", ["ngAnimate","scDirectives", "scControlle
 
 app.factory('TemplateData', function(){
 	
-	return {sourcelink: "<@spring.url ''/>"}
+	return {sourcelink: "<@spring.url ''/>", projectresourcelink: "/rest/project/list"}
 })
 	
 </script>
