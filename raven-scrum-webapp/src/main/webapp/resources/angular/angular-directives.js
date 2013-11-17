@@ -42,7 +42,6 @@ scdirectives.directive('ngValidatePassword', function(){
 });
 
 scdirectives.directive('ngValidateEmail', function($http){
-        //TODO email regexp 
   return {
        require : 'ngModel',
        restrict : 'A',
@@ -52,14 +51,15 @@ scdirectives.directive('ngValidateEmail', function($http){
         var email = angular.element('#' + emaildto.emailid);
         element.bind('blur', function(evt){
             $scope.$apply(function(){
-                ctrl.$setValidity("pattern", emptyValidation(element.val()))
+                ctrl.$setValidity('unique', true);
+                ctrl.$setValidity("pattern", emptyValidation(element.val()) && element.val().trim().match("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"))
                 if(emaildto.emailid != "" || emaildto.emailid)
                 {
                   ctrl.$setValidity("notmatch", element.val() == email.val());
                 }
                 if(!ctrl.$error.pattern && !ctrl.$error.notmatch)
                 {
-                     $http.post(emaildto.emailurl, JSON.stringify({'email': element.val() })).success(function(data,status,headers,cfg){
+                     $http.post(emaildto.emailurl, JSON.stringify({'email': element.val().trim() })).success(function(data,status,headers,cfg){
                        ctrl.$setValidity('unique', data.unique);
                      }).error(function(data, status, headers, cfg){
                        ctrl.$setValidity('unique', false);
