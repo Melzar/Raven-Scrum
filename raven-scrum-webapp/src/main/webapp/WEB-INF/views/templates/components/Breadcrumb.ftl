@@ -1,4 +1,4 @@
-<ol class="breadcrumb">
+<ol class="breadcrumb box-header breadcrumb-body">
 	<#list links as link>
 	<li <#if link.type??> class="${link.type}" </#if>>
 		<#if link.type??>
