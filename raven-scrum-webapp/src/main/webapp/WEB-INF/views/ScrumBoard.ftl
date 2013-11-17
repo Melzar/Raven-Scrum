@@ -46,7 +46,6 @@ app.factory('TemplateData', function()
 </script>
 
 <div class="wrapper">
-<div class="col-lg-12">
 	<div class="box">
 		<div class="box-header">
 			<h1><i class="fa fa-cog"></i>Scrumboard</h1>
@@ -54,11 +53,11 @@ app.factory('TemplateData', function()
 		<div class="box-content-wrapper table-layout">
 			<div class="box-content table-cell-layout">
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-md-12">
 						<div class="box-small-wrapper">
 							<div class="box-small-content">
 								<div class="row">
-										<div class="col-lg-12">
+										<div class="col-md-12">
 											<div class="project-avatar pull-left">
 											</div>
 											<div class="sprint-details">
@@ -95,7 +94,7 @@ app.factory('TemplateData', function()
 												
 											</div>
 											<div class="row">
-												<div class="col-lg-12">
+												<div class="col-md-12">
 												
 													
 												</div>
@@ -107,7 +106,7 @@ app.factory('TemplateData', function()
 					</div>
 				</div>
 				<div class="row loadin">
-					<div class="col-lg-12">
+					<div class="col-md-12">
 						<div class="widget-box">
 							<div class="alert alert-warning alert-dismissable">
 				                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -117,7 +116,7 @@ app.factory('TemplateData', function()
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-md-12">
 						<div class="box-small-wrapper box-nobottom-radius">
 						<div class="box-small-content box-nopadding box-nobottom-radius box-noborder-bottom box-noshadow-dark">
 							<div class="subtask-table">
@@ -129,7 +128,7 @@ app.factory('TemplateData', function()
 						</div>
 						</div>
 						<div class="row">
-							<div class="col-lg-12" ng-Scrumboard>
+							<div class="col-md-12" ng-Scrumboard>
 								<!-- Content injected dynamically -->
 							</div>
 						</div>
@@ -137,16 +136,16 @@ app.factory('TemplateData', function()
 				</div>
 			</div>
 			<div ng-if="rightpanel" class="table-cell-layout box-content right-panel" ng-class="{'fadeIn animated': rightpanel}">
-				<div class="box-small-wrapper fixed-layout" id="affix">
+				<div class="box-small-wrapper fixed-layout right-panel-styles" id="affix">
 				<div class="box-small-content">
 				<div class="box-small-header">
 					<button type="button" class="close pull-right" ng-click="hidePanel()">×</button>
 					<p class="">{{subtaskpanel.task.title}} - {{subtaskpanel.task.id}}</p>
 				</div>
 				<div class="task-panel-right">
-				<div class="col-lg-12">
+				<div class="col-md-12">
 					<div class="row">
-						<div class="col-lg-12">
+						<div class="col-md-12">
 							<div class="row">
 								<div class="list-group">
 							        <a href="#" class="list-group-item" ng-click="">Move to backlog</a>
@@ -157,7 +156,7 @@ app.factory('TemplateData', function()
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-lg-12">
+						<div class="col-md-12">
 							<div class="row">
 								<label>Description</label>
 								<textarea readonly>{{subtaskpanel.task.description}}</textarea>
@@ -177,7 +176,7 @@ app.factory('TemplateData', function()
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-lg-12">
+						<div class="col-md-12">
 							<div class="row">
 									<label class="padding-top">Task Comments</label>
 									<div class="panel panel-default">
@@ -195,7 +194,6 @@ app.factory('TemplateData', function()
 		</div>
 	</div>
 </div>
-
 </div>
 <div class="sidebar-left transitionable" ng-controller="SidebarController" ng-class="{'left-hide': hidden}">
 	<div class="element transitionable">
