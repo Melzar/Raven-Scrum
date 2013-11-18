@@ -1,27 +1,6 @@
 <#include "./templates/ScrumHeader.ftl">
 <#include "./templates/components/NavigationBar.ftl">
 <body ng-app="ScrumBoardApp">
-<div class="subbar">
-	<div class="subbar-nav">
-		<ul class="nav navbar-nav pull-right">
-			<li class="sub-active">
-				<a>Scrumboard projektu</a>
-			</li>
-			<li>
-				<a>Dashboard projektu</a>
-			</li>
-			<li>
-				<a>
-					Akcje projektu <i class="fa fa-caret-down"></i>
-				</a>
-			</li>
-			<li>
-				<a>Backlog projektu</a>
-			</li>
-		</ul>
-	</div>
-</div>
-
 <script type="text/javascript">
 	
 var app = angular.module("ScrumBoardApp", ["ngAnimate", "ngDragDrop", "scDirectives", "scControllers", "ui.bootstrap", "ui.select2", "ui.directives"])
@@ -41,10 +20,21 @@ app.factory('TemplateData', function()
 	{
 		return type.type;
 	}
-	return {select2types: {'width': 'copy', 'data': {'results': [], 'text': 'tag'}, 'formatResult': formatType, 'formatSelection': formatType }, select2users: {'width': 'copy','data': {'results': [], 'text': 'tag'},'formatResult': formatUser, 'formatSelection': formatUser}, select2tasks: {'width' : 'copy', 'data': {'results': [], 'text': 'title'}, 'formatResult' : formatTask, 'formatSelection' : formatTask}, sourcelink: "<@spring.url ''/>", taskdescription: ""};
+	return {select2types: {'width': 'copy', 'data': {'results': [], 'text': 'tag'}, 'formatResult': formatType, 'formatSelection': formatType }, select2users: {'width': 'copy','data': {'results': [], 'text': 'tag'},'formatResult': formatUser, 'formatSelection': formatUser}, select2tasks: {'width' : 'copy', 'data': {'results': [], 'text': 'title'}, 'formatResult' : formatTask, 'formatSelection' : formatTask}, sourcelink: "<@spring.url ''/>", taskdescription: "", project: ${project}};
 })
 </script>
-
+<div class="subbar navbar-color">
+	<div class="subbar-nav">
+		<ul class="nav subbar-nav pull-right">
+			<li>
+				<a href="<@spring.url '/project/dashboard?project=${project}'/>">Project dashboard</a>
+			</li>
+			<li>
+				<a href="<@spring.url '/project/dashboard?backlog=${project}'/>">Project backlog</a>
+			</li>
+		</ul>
+	</div>
+</div>
 <div class="wrapper">
 	<div class="box">
 		<div class="box-header">
@@ -200,7 +190,6 @@ app.factory('TemplateData', function()
 		<a class="" ng-click="hidden = !hidden" ng-class="{'sidebar-left-show-btn' : hidden, 'sidebar-left-hide-btn': !hidden}"><i class="fa fa-angle-double-left"></i></a>
 		<ul class="list-unstyled element-list">
 			<li><a class="" tooltip-placement="right" tooltip="Add task"ng-click="addTask()"><i class="fa fa-plus"></i></a></li>
-			<li><a class="" tooltip-placement="right" tooltip="Project dashboard"><i class="fa fa-dashboard"></i></a></li>
 			<li><a class="" tooltip-placement="right" tooltip="Contact scrummaster"><i class="fa fa-envelope-o"></i></a></li>
 			<li><a class="" tooltip-placement="right" tooltip="Close sprint"><i class="fa fa-times-circle-o"></i></a></li>
 		</ul>
