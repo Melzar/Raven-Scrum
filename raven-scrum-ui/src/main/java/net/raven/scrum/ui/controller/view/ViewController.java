@@ -1,5 +1,7 @@
 package net.raven.scrum.ui.controller.view;
 
+import javax.ws.rs.QueryParam;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,8 +37,10 @@ public class ViewController
 
 	@RequestMapping("/project/scrumboard")
 	// @PreAuthorize("isAuthenticated()")
-	public String prepareScrumBoard(Model model)
+	public String prepareScrumBoard(@QueryParam("project") String project,
+			Model model)
 	{
+		model.addAttribute("project", project);
 		return "ScrumBoard";
 	}
 
