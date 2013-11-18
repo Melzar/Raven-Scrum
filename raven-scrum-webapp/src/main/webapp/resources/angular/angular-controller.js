@@ -66,7 +66,6 @@ sccontrollers.controller("RegisterController", function($scope, $http, $element,
 
       $scope.validateLogin = function()
       {
-      		console.log($scope)
             $scope.registration.login.$setValidity("minlength", emptyValidation($scope.registration.login.$viewValue) && minLengthValidation($scope.registration.login.$viewValue));
             ($scope.registration.login.$viewValue == $scope.registration.passwordrepeat.$viewValue) ? $scope.registration.passwordrepeat.$setValidity("equalslogin", false) : $scope.registration.passwordrepeat.$setValidity("equalslogin", true); 
             if(!$scope.registration.login.$error.minlength)
@@ -86,8 +85,7 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 	$scope.data = TemplateData;
 	$scope.scrumdata = {};
 	$scope.subtaskdata = {id: '', state: ''};
-
-	$http.get(TemplateData.sourcelink + '/rest/project/'+$location.search().project+'/scrumboard/active').success(function(data,status,headers,cfg){
+	$http.get(TemplateData.sourcelink + '/rest/project/'+TemplateData.project+'/scrumboard/active').success(function(data,status,headers,cfg){
 		$scope.scrumdata.projectdata = data;
 		$scope.scrumtasks = data.sprint.tasks;
 		$scope.$watch(function(){ return angular.toJson($scope.scrumtasks)}, function(){
@@ -153,7 +151,6 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 
 	$scope.deleteTask = function()
 	{
-		console.log($scope.subtaskpanel.task)
 		$http({
 				url: TemplateData.sourcelink + "/rest/task/delete",
 				method: "POST",
@@ -170,10 +167,8 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 
 	$scope.showPanel = function(subtask, index , parent)
 	{
-		console.log(subtask)
 		$scope.rightpanel = true;
 		$scope.subtaskpanel = {'task': subtask, 'index': index, 'parent': parent};
-		console.log($scope.subtaskpanel)
 		$scope.getTaskTypes();
 		$scope.getProjectUsers();
 	}
