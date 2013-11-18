@@ -138,7 +138,12 @@ body
 	border-radius: 4px;
 	-webkit-box-shadow: inset 0px -2px 2px 0px rgba(0,0,0,0.05),inset 1px 1px 2px 0px #fff;
 	box-shadow: inset 0px -2px 2px 0px rgba(0,0,0,0.05),inset 1px 1px 2px 0px #fff;
+}
 
+.box-small-content > h2
+{
+	font-size: 20px;
+	margin-top: 0px;
 }
 
 .box-small-header > p
