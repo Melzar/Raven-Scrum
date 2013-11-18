@@ -6,9 +6,9 @@
 				</a>
 			</div>			
 			<div class="project-item-menu">
-				<a href="{{templatedata.sourcelink}}/project/scrumboard#?project={{project.idProject}}" class="btn btn-default btn-xs"><i class="fa fa-gear icon-padding"></i>Scrumboard</a>
-				<a href="{{templatedata.sourcelink}}/project/dashboard#?project={{project.idProject}}" class="btn btn-default btn-xs"><i class="fa fa-dashboard icon-padding"></i>Dashboard</a>
-				<a href="{{templatedata.sourcelink}}/project/backlog#?project={{project.idProject}}" class="btn btn-default btn-xs"><i class="fa fa-list icon-padding"></i>Backlog</a>
+				<a href="{{templatedata.sourcelink}}/project/scrumboard?project={{project.idProject}}" class="btn btn-default btn-xs"><i class="fa fa-gear icon-padding"></i>Scrumboard</a>
+				<a href="{{templatedata.sourcelink}}/project/dashboard?project={{project.idProject}}" class="btn btn-default btn-xs"><i class="fa fa-dashboard icon-padding"></i>Dashboard</a>
+				<a href="{{templatedata.sourcelink}}/project/backlog?project={{project.idProject}}" class="btn btn-default btn-xs"><i class="fa fa-list icon-padding"></i>Backlog</a>
 			</div>
 			<div class="project-item-details">
 				<div class="project-item-title text-overflow text-limit-1">{{project.title}}</div>
