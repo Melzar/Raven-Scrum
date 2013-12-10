@@ -30,8 +30,10 @@ public class ViewController
 	}
 
 	@RequestMapping("/project/dashboard")
-	public String prepareScrumProjectDashboard(Model model)
+	public String prepareScrumProjectDashboard(
+			@QueryParam("project") String project, Model model)
 	{
+		model.addAttribute("project", project);
 		return "ScrumProjectDashboard";
 	}
 
