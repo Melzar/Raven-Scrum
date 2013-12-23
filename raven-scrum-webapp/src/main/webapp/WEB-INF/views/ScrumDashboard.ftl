@@ -34,7 +34,7 @@ app.factory('TemplateData', function(){
 									<div class="box-small-wrapper">
 										<div class="box-small-content">
 												<h2>My projects</h2>
-											<div ng-controller="ProjectController">
+											<div ng-controller="ProjectsController">
 												<div ng-repeat="project in projects" ng-project>
 												</div>
 											</div>
