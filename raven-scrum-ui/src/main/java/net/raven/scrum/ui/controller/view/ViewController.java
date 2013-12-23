@@ -24,9 +24,15 @@ public class ViewController
 	}
 
 	@RequestMapping("/project")
-	public String prepareScrumProject(Model model)
+	public String prepareScrumProjectsScreen(Model model)
 	{
-		return "ScrumProject";
+		return "ScrumProjectsScreen";
+	}
+
+	@RequestMapping("/project/add")
+	public String prepareProjectAdd(Model model)
+	{
+		return "ScrumProjectAdd";
 	}
 
 	@RequestMapping("/project/dashboard")
