@@ -16,6 +16,7 @@
 <script src="<@spring.url '/resources/angular/angular-directives.js'/>"/></script>
 <script src="<@spring.url '/resources/angular/angular-functions.js'/>"/></script>
 <script src="<@spring.url '/resources/angular/angular-controller.js'/>"/></script>
+<script src="<@spring.url '/resources/angular/angular-services.js'/>"/></script>
 <script src="<@spring.url '/resources/angular/angular-select2.js'/>"/></script>
 <link rel="stylesheet" type="text/css" href="<@spring.url '/resources/select2/select2.css'/>"/>
 <link rel="stylesheet" type="text/css" href="<@spring.url '/resources/bootstrap/css/bootstrap.css'/>"/>
