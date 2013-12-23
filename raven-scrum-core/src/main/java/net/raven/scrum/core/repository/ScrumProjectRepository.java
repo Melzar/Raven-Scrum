@@ -1,6 +1,6 @@
 package net.raven.scrum.core.repository;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 import net.raven.scrum.core.entity.ScrumProject;
 
@@ -12,6 +12,7 @@ public interface ScrumProjectRepository extends
 		CrudRepository<ScrumProject, Long>
 {
 	@Query("from ScrumProject p left join fetch p.projectUsers pu where pu.login = :login ")
-	public ArrayList<ScrumProject> getProjectListForUser(
+	public Collection<ScrumProject> getProjectListForUser(
 			@Param("login") String login);
+
 }
