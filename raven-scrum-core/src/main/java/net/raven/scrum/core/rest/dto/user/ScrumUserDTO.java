@@ -8,6 +8,8 @@ public class ScrumUserDTO
 
 	private String surname;
 
+	private String login;
+
 	private String tag;
 
 	public ScrumUserDTO()
@@ -53,6 +55,16 @@ public class ScrumUserDTO
 	public void setTag(String tag)
 	{
 		this.tag = tag;
+	}
+
+	public String getLogin()
+	{
+		return login;
+	}
+
+	public void setLogin(String login)
+	{
+		this.login = login;
 	}
 
 }
