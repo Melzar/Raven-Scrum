@@ -27,4 +27,5 @@ public class UserServiceImpl implements UserService
 		return passwordEncoder.isPasswordValid(hashedpassword,
 				providedpassword, null);
 	}
+
 }
