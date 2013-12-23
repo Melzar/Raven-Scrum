@@ -2,11 +2,14 @@ package net.raven.scrum.ui.service.account;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import net.raven.scrum.core.entity.ScrumUser;
 import net.raven.scrum.core.enumeration.security.ShadowFlag;
 import net.raven.scrum.core.exception.AccountException;
 import net.raven.scrum.core.repository.ScrumUserRepository;
+import net.raven.scrum.core.rest.dto.user.ScrumUserDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -75,5 +78,23 @@ public class AccountServiceImpl implements AccountService
 		user.setShadowFlag(reason);
 		scrumUserRepository.save(user);
 		return user;
+	}
+
+	@Override
+	public Collection<ScrumUserDTO> getActiveAccountList()
+			throws AccountException
+	{
+		Collection<ScrumUserDTO> users = new LinkedList<>();
+		for (ScrumUser u : scrumUserRepository.getActiveUsers())
+		{
+			ScrumUserDTO dto = new ScrumUserDTO();
+			dto.setId(u.getIdUser());
+			dto.setLogin(u.getLogin());
+			dto.setName(u.getName());
+			dto.setSurname(u.getSurname());
+			dto.setTag(u.getName() + u.getSurname());
+			users.add(dto);
+		}
+		return users;
 	}
 }
