@@ -1,6 +1,6 @@
 package net.raven.scrum.core.repository;
 
-import java.util.List;
+import java.util.Collection;
 
 import net.raven.scrum.core.entity.ScrumUser;
 
@@ -23,7 +23,10 @@ public interface ScrumUserRepository extends CrudRepository<ScrumUser, Long>
 	public boolean isLoginUnique(@Param("login") String login);
 
 	@Query("from ScrumUser u left join fetch u.projects p where p.id = :id and u.shadowFlag = 0")
-	public List<ScrumUser> getUsersFromProject(@Param("id") Long id);
+	public Collection<ScrumUser> getUsersFromProject(@Param("id") Long id);
+
+	@Query("from ScrumUser u where u.shadowFlag = 0")
+	public Collection<ScrumUser> getActiveUsers();
 
 	// @Query("update ScrumUser u set u.shadowFlag = :shadowFlag where u.login = :login")
 	// public void setUserShadowflag(@Param("login") String login,
