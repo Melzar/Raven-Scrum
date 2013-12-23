@@ -3,24 +3,10 @@
 <body ng-app="ScrumBoardApp">
 <script type="text/javascript">
 	
-var app = angular.module("ScrumBoardApp", ["ngAnimate", "ngDragDrop", "scDirectives", "scControllers", "ui.bootstrap", "ui.select2", "ui.directives"])
+var app = angular.module("ScrumBoardApp", ["ngAnimate", "ngDragDrop", "scDirectives", "scControllers","scServices", "ui.bootstrap", "ui.select2", "ui.directives"])
 app.factory('TemplateData', function()
 {
-	var formatUser = function(user)
-	{
-	        return user.name + ' ' + user.surname;
-	}
-
-	var formatTask = function(task)
-	{
-		return task.title
-	}
-
-	var formatType = function(type)
-	{
-		return type.type;
-	}
-	return {select2types: {'width': 'copy', 'data': {'results': [], 'text': 'tag'}, 'formatResult': formatType, 'formatSelection': formatType }, select2users: {'width': 'copy','data': {'results': [], 'text': 'tag'},'formatResult': formatUser, 'formatSelection': formatUser}, select2tasks: {'width' : 'copy', 'data': {'results': [], 'text': 'title'}, 'formatResult' : formatTask, 'formatSelection' : formatTask}, sourcelink: "<@spring.url ''/>", taskdescription: "", project: ${project}};
+	return {sourcelink: "<@spring.url ''/>", project: ${project}};
 })
 </script>
 <div class="subbar navbar-color">
@@ -153,15 +139,11 @@ app.factory('TemplateData', function()
 							</div>
 							<div class="row">
 								<label class="padding-top">Type</label>
-								<select ui-select2 ng-model="panel.select2types" data-placeholder="Pick a number" style="width: 100%">
-		   							 <option ng-repeat="type in data.select2types.data.results" value="{{type.type}}">{{type.type}}</option>  	
-								</select>
+								<input ui-select2="select2data.select2types" ng-model="panel.select2types" data-placeholder="Pick a number" style="width: 100%">
 							</div>
 							<div class="row">
 								<label class="padding-top">Assigned</label>
-								<select ui-select2 ng-model="panel.select2users" data-placeholder="Pick a number" style="width: 100%">
-		   							 <option ng-repeat="user in data.select2users.data.results" value="{{user.id}}">{{user.name}} {{user.surname}}</option>  	
-								</select>
+								<input ui-select2="select2data.select2users" ng-model="panel.select2users" data-placeholder="Pick a number" style="width: 100%"> 
 							</div>
 						</div>
 					</div>
@@ -189,7 +171,7 @@ app.factory('TemplateData', function()
 	<div class="element transitionable">
 		<a class="" ng-click="hidden = !hidden" ng-class="{'sidebar-left-show-btn' : hidden, 'sidebar-left-hide-btn': !hidden}"><i class="fa fa-angle-double-left"></i></a>
 		<ul class="list-unstyled element-list">
-			<li><a class="" tooltip-placement="right" tooltip="Add task"ng-click="addTask()"><i class="fa fa-plus"></i></a></li>
+			<li><a class="" tooltip-placement="right" tooltip="Add task" ng-click="addTask()"><i class="fa fa-plus"></i></a></li>
 			<li><a class="" tooltip-placement="right" tooltip="Contact scrummaster"><i class="fa fa-envelope-o"></i></a></li>
 			<li><a class="" tooltip-placement="right" tooltip="Close sprint"><i class="fa fa-times-circle-o"></i></a></li>
 		</ul>
