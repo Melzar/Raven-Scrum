@@ -1,5 +1,9 @@
 package net.raven.scrum.core.rest.dto.scrum;
 
+import java.util.Collection;
+
+import net.raven.scrum.core.rest.dto.user.ScrumUserDTO;
+
 public class ProjectDTO
 {
 	private long idProject;
@@ -11,6 +15,8 @@ public class ProjectDTO
 	private String description;
 
 	private SprintDTO sprint;
+
+	private Collection<ScrumUserDTO> projectUsers;
 
 	public ProjectDTO()
 	{
@@ -65,6 +71,16 @@ public class ProjectDTO
 	public void setSprint(SprintDTO sprint)
 	{
 		this.sprint = sprint;
+	}
+
+	public Collection<ScrumUserDTO> getProjectUsers()
+	{
+		return projectUsers;
+	}
+
+	public void setProjectUsers(Collection<ScrumUserDTO> projectUsers)
+	{
+		this.projectUsers = projectUsers;
 	}
 
 }
