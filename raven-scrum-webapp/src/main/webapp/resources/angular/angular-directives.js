@@ -71,6 +71,15 @@ scdirectives.directive('ngValidateEmail', function($http){
   }
 });
 
+scdirectives.directive('ngUser', function(TemplateData)
+{
+  return{
+    restrict: 'A',
+    transclude: false,
+    templateUrl: TemplateData.sourcelink + '/template/scrum/user.ftl',
+  }
+})
+
 scdirectives.directive('ngScrumTask', function(TemplateData)
 {
   return{
