@@ -79,13 +79,14 @@ sccontrollers.controller("RegisterController", function($scope, $http, $element,
       }
   });
 
-sccontrollers.controller('ScrumBoardController', function($scope, $http, $location, TemplateData)
+sccontrollers.controller('ScrumBoardController', function($scope, $http, $location, TemplateData, ProjectService, Select2Service, ScrumBoardService)
 {
 	$scope.rightpanel = false;
 	$scope.data = TemplateData;
+	$scope.select2data = Select2Service;
 	$scope.scrumdata = {};
 	$scope.subtaskdata = {id: '', state: ''};
-	$http.get(TemplateData.sourcelink + '/rest/project/'+TemplateData.project+'/scrumboard/active').success(function(data,status,headers,cfg){
+	$http.get(TemplateData.sourcelink + '/rest/scrumboard/active?project='+TemplateData.project).success(function(data,status,headers,cfg){
 		$scope.scrumdata.projectdata = data;
 		$scope.scrumtasks = data.sprint.tasks;
 		$scope.$watch(function(){ return angular.toJson($scope.scrumtasks)}, function(){
@@ -169,32 +170,28 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 	{
 		$scope.rightpanel = true;
 		$scope.subtaskpanel = {'task': subtask, 'index': index, 'parent': parent};
-		$scope.getTaskTypes();
-		$scope.getProjectUsers();
+		ProjectService.getProjectUsers(Select2Service.select2users.data);
+		ScrumBoardService.getTaskTypes(Select2Service.select2types.data);
 	}
 
 	$scope.hidePanel = function()
 	{
 		$scope.rightpanel = false;
+		console.log($scope)
 	}
 
 	$scope.getTaskTypes = function()
 	{
-		$http.get(TemplateData.sourcelink + "/rest/task/type").success(function(data, status, headers, cfg){
-			TemplateData.select2types.data.results = data;
-		}).error(function(data,status,headers,cfg){
-		//TODO ERROR MESSAGE
-		})	
+		ScrumBoardService.getTaskTypes(Select2Service.select2types.data);
 	}
 
-	$scope.getProjectUsers = function()
-	{
-		$http.get(TemplateData.sourcelink + '/rest/project/1/users').success(function(data,status,headers,cfg){
-			TemplateData.select2users.data.results = data;
-		}).error(function(data,status,headers,cfg){
-		//TODO MESSAGE OF ERROR
-		})
-	}
+	// {
+	// 	$http.get(TemplateData.sourcelink + '/rest/project/users?project=' + TemplateData.project).success(function(data,status,headers,cfg){
+	// 		TemplateData.select2users.data.results = data;
+	// 	}).error(function(data,status,headers,cfg){
+	// 	//TODO MESSAGE OF ERROR
+	// 	})
+	// }
 
 })
 
@@ -234,7 +231,9 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 
 sccontrollers.controller('ModalInstanceController', function($scope, $http, $modalInstance, data)
 {
-	$scope.data = data;
+	console.log(data);
+	$scope.data = data.templatedata;
+	$scope.select2data = data.select2data;
 	$scope.closeModal = function()
 	{
 		$modalInstance.dismiss();
@@ -256,14 +255,27 @@ sccontrollers.controller('ModalInstanceController', function($scope, $http, $mod
 				console.log("error")
 			})
 	}
+	console.log($scope)
 })
 
 sccontrollers.controller('DashboardController', function($scope, $http, TemplateData){
 
 })
 
-sccontrollers.controller('ProjectController', function($scope, $http, TemplateData){
+sccontrollers.controller('ProjectAddController', function($scope, $http, $element, Select2Service, AccountService){
+	$scope.select2data = Select2Service;
+	AccountService.getActiveAccounts(Select2Service.select2usersavatar.data);
+
+	$scope.changeUserRights = function(element)
+	{
+		console.log(element)
+		console.log($scope)
+	}
+})
+
+sccontrollers.controller('ProjectsController', function($scope, $http, TemplateData){
 	$scope.templatedata = TemplateData;
+	//TODO move to Project service
 	$http.get(TemplateData.sourcelink  + TemplateData.projectresourcelink).success(function(data, status, headers, cfg)
 	{
 		$scope.projects = data;
@@ -272,29 +284,32 @@ sccontrollers.controller('ProjectController', function($scope, $http, TemplateDa
 	})
 })
 
+sccontrollers.controller('ProjectController', function($scope, $http, TemplateData, ProjectService){
+	$scope.data = TemplateData;
+	ProjectService.getProjectUsers(TemplateData);
+})
+
 sccontrollers.controller('NavigationController', function($scope, $http)
 {
 
 })
 
-sccontrollers.controller('SidebarController', function($scope, $http, $modal, TemplateData)
+sccontrollers.controller('SidebarController', function($scope, $http, $modal, TemplateData, ProjectService, Select2Service,ScrumBoardService)
 {
 	$scope.addTask = function()
 	{
-		TemplateData.select2tasks.data.results = $scope.scrumtasks;
+		Select2Service.select2tasks.data.results = $scope.scrumtasks;
 		TemplateData.modalbody = TemplateData.sourcelink + '/template/modal/ScrumModalBody.ftl';
 		TemplateData.modaltitle = "Add Task";
-
-		$scope.getTaskTypes();
-		$scope.getProjectUsers();
-
+		ScrumBoardService.getTaskTypes(Select2Service.select2types.data);
+		ProjectService.getProjectUsers(Select2Service.select2users.data);
 		var modalInstance = $modal.open(
 		{
 			templateUrl: TemplateData.sourcelink + '/template/modal/ModalTemplate.ftl',
       		controller: 'ModalInstanceController',
       		resolve: {
         		data: function () {
-        		  return TemplateData;
+        		  return {"templatedata" : TemplateData , "select2data" : Select2Service};
         		}
       		}
 		})
