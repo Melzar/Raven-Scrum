@@ -377,6 +377,11 @@ body
 	display: table-row;
 }
 
+.element-middle
+{
+	vertical-align: middle;
+}
+
 .filter-box
 {
 	border-top: 1px solid #CECAC4;
@@ -393,6 +398,11 @@ body
 .help-block > .input-lg-icon
 {
 	color: inherit;
+}
+
+.inline
+{
+	display: inline-block;
 }
 
 .input-lg-icon { 
@@ -459,8 +469,6 @@ body
 	margin: 0px 0px 0px 0px;
 }
 
-
-
 .navbar
 {
 	margin-bottom: 0px;
@@ -471,6 +479,11 @@ body
 .padding-top
 {
 	padding-top: 10px;
+}
+
+.padding-left
+{
+	padding-left: 10px;
 }
 
 .project
