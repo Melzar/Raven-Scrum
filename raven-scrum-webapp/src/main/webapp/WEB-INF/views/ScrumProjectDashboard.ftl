@@ -3,15 +3,15 @@
 <#assign navlinks = [{"name": "Manage Project Users", "url": "/project/manage?project=${project}", "icon": "fa fa-cogs"},{"name": "Edit Project Data", "url" : "/project/edit?project=${project}", "icon": "fa fa-edit"},{"name": "Project Sprints", "url": "/project/sprints?project=${project}", "icon": "fa fa-list-ul"},{"name": "Project Statistics", "url": "/project/statistics", "icon": "fa fa-bar-chart-o"}]>
 <body ng-app="ScrumBoardApp">
 <script>
-	var app = angular.module("ScrumBoardApp", ["ngAnimate", "scControllers", "scDirectives", "ui.bootstrap", "ui.select2"]);
+	var app = angular.module("ScrumBoardApp", ["ngAnimate", "scControllers", "scDirectives", "scServices", "ui.bootstrap", "ui.select2"]);
 
 	app.factory("TemplateData", function()
 	{
-		return {sourcelink:"<@spring.url ''/>"}
+		return {sourcelink:"<@spring.url ''/>", project: ${project}}
 	})
 </script>
 
-<div class="wrapper">
+<div class="wrapper" ng-controller="ProjectController">
 	<div class="row">
 		<div class="col-md-2">
 			<#include "./templates/components/NavigationBarLeft.ftl">
@@ -44,6 +44,8 @@
 								<div class="box-small-wrapper">
 									<div class="box-small-content">
 										<h2>Project users</h2>
+										<div ng-repeat="user in data.results" ng-user>
+										</div> 
 									</div>
 								</div>
 							</div>
