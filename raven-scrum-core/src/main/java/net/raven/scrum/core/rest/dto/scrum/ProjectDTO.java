@@ -2,19 +2,20 @@ package net.raven.scrum.core.rest.dto.scrum;
 
 import java.util.Collection;
 
+import net.raven.scrum.core.enumeration.scrum.ProjectStatus;
 import net.raven.scrum.core.rest.dto.user.ScrumUserDTO;
 
 public class ProjectDTO
 {
 	private long idProject;
 
-	private long idManager;
-
 	private String title;
 
 	private String description;
 
 	private SprintDTO sprint;
+
+	private ProjectStatus status;
 
 	private Collection<ScrumUserDTO> projectUsers;
 
@@ -31,16 +32,6 @@ public class ProjectDTO
 	public void setIdProject(long idProject)
 	{
 		this.idProject = idProject;
-	}
-
-	public long getIdManager()
-	{
-		return idManager;
-	}
-
-	public void setIdManager(long idManager)
-	{
-		this.idManager = idManager;
 	}
 
 	public String getTitle()
@@ -81,6 +72,16 @@ public class ProjectDTO
 	public void setProjectUsers(Collection<ScrumUserDTO> projectUsers)
 	{
 		this.projectUsers = projectUsers;
+	}
+
+	public ProjectStatus getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(ProjectStatus status)
+	{
+		this.status = status;
 	}
 
 }
