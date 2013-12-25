@@ -2,12 +2,18 @@ package net.raven.scrum.ui.service.project;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.raven.scrum.core.entity.ScrumProject;
+import net.raven.scrum.core.entity.ScrumRole;
 import net.raven.scrum.core.entity.ScrumUser;
+import net.raven.scrum.core.entity.ScrumUserProjectRole;
+import net.raven.scrum.core.enumeration.scrum.ProjectRole;
 import net.raven.scrum.core.exception.ScrumException;
 import net.raven.scrum.core.repository.ScrumProjectRepository;
+import net.raven.scrum.core.repository.ScrumRoleRepository;
 import net.raven.scrum.core.repository.ScrumUserRepository;
 import net.raven.scrum.core.rest.dto.scrum.ProjectDTO;
 import net.raven.scrum.core.rest.dto.user.ScrumUserDTO;
@@ -24,6 +30,9 @@ public class ProjectServiceImpl implements ProjectService
 
 	@Autowired
 	private ScrumUserRepository userRepository;
+
+	@Autowired
+	private ScrumRoleRepository roleRepository;
 
 	public ProjectServiceImpl()
 	{
@@ -72,7 +81,6 @@ public class ProjectServiceImpl implements ProjectService
 		{
 			ProjectDTO dto = new ProjectDTO();
 			dto.setIdProject(sp.getIdProject());
-			dto.setIdManager(sp.getManager().getIdUser());
 			dto.setTitle(sp.getTitle());
 			dto.setDescription(sp.getDescription());
 			list.add(dto);
@@ -80,4 +88,31 @@ public class ProjectServiceImpl implements ProjectService
 		return list;
 	}
 
+	@Override
+	public ProjectDTO crateProject(ProjectDTO dto) throws ScrumException
+	{
+		ScrumProject project = new ScrumProject();
+		project.setTitle(dto.getTitle());
+		project.setDescription(dto.getDescription());
+		project.setStatus(dto.getStatus());
+		project = projectRepository.save(project);
+		Set<ScrumUserProjectRole> uprl = new HashSet<>();
+		for (ScrumUserDTO u : dto.getProjectUsers())
+		{
+			ScrumUserProjectRole upr = new ScrumUserProjectRole();
+			upr.getPk().setProject(project);
+			ScrumUser user = new ScrumUser();
+			user.setIdUser(u.getId());
+			ScrumRole role = (u.getRole() != null) ? roleRepository
+					.getRoleByName(ProjectRole.ADMIN.name()) : roleRepository
+					.getRoleByName(ProjectRole.DEVELOPER.name());
+			upr.getPk().setUser(user);
+			upr.getPk().setRole(role);
+			uprl.add(upr);
+		}
+		project.setUserProjectRole(uprl);
+		projectRepository.save(project);
+		dto.setIdProject(project.getIdProject());
+		return dto;
+	}
 }

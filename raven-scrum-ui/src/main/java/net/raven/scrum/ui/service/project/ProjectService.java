@@ -18,4 +18,6 @@ public interface ProjectService
 	public List<ProjectDTO> getProjectListForUser(String login)
 			throws ScrumException;
 
+	public ProjectDTO crateProject(ProjectDTO dto) throws ScrumException;
+
 }
