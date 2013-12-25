@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 public interface ScrumSprintRepository extends JpaRepository<ScrumSprint, Long>
 {
 
-	@Query("Select distinct ss from ScrumSprint ss left join fetch ss.tasks t left join fetch t.subtasks sub left join fetch ss.project p left join fetch p.manager m where p.idProject = :idProject and ss.status = :status and t.parent.idTask = null")
+	@Query("Select distinct ss from ScrumSprint ss left join fetch ss.tasks t left join fetch t.subtasks sub left join fetch sub.assigned a left join fetch ss.project p where p.idProject = :idProject and ss.status = :status and t.parent.idTask = null")
 	public ScrumSprint getSprintData(@Param("idProject") Long idProject,
 			@Param("status") SprintStatus status);
 
