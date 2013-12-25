@@ -1,5 +1,7 @@
 package net.raven.scrum.core.rest.dto.user;
 
+import net.raven.scrum.core.enumeration.scrum.ProjectRole;
+
 public class ScrumUserDTO
 {
 	private long id;
@@ -9,6 +11,8 @@ public class ScrumUserDTO
 	private String surname;
 
 	private String login;
+
+	private ProjectRole role;
 
 	private String tag;
 
@@ -65,6 +69,16 @@ public class ScrumUserDTO
 	public void setLogin(String login)
 	{
 		this.login = login;
+	}
+
+	public ProjectRole getRole()
+	{
+		return role;
+	}
+
+	public void setRole(ProjectRole role)
+	{
+		this.role = role;
 	}
 
 }
