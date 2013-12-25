@@ -24,7 +24,7 @@
 				<div class="form-group">
 					<div class="col-lg-10 col-lg-offset-1">
 						<label for="login">Task description</label>
-						<textarea class="modal-textarea" ng-model="select2data.taskdescription">
+						<textarea class="modal-textarea" maxlength="255" ng-model="select2data.taskdescription">
 		
 						</textarea>		
 					</div>
