@@ -2,6 +2,7 @@ package net.raven.scrum.core.entity;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,10 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+
+import net.raven.scrum.core.enumeration.scrum.ProjectStatus;
 
 @Entity
 public class ScrumProject
@@ -26,16 +27,17 @@ public class ScrumProject
 
 	private String description;
 
-	@ManyToOne
-	@JoinColumn(name = "id_user")
-	private ScrumUser manager;
+	private ProjectStatus status;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_project")
 	private Set<ScrumSprint> sprints;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "projects")
-	private Set<ScrumUser> projectUsers;
+	// @ManyToMany(fetch = FetchType.LAZY, mappedBy = "projects")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade = CascadeType.ALL)
+	private Set<ScrumUserProjectRole> userprojectrole;
+
+	// private Set<ScrumUser> projectUsers;
 
 	public ScrumProject()
 	{
@@ -72,14 +74,14 @@ public class ScrumProject
 		this.description = description;
 	}
 
-	public ScrumUser getManager()
+	public ProjectStatus getStatus()
 	{
-		return manager;
+		return status;
 	}
 
-	public void setManager(ScrumUser manager)
+	public void setStatus(ProjectStatus status)
 	{
-		this.manager = manager;
+		this.status = status;
 	}
 
 	public Set<ScrumSprint> getSprints()
@@ -99,14 +101,14 @@ public class ScrumProject
 		return "";
 	}
 
-	public Set<ScrumUser> getProjectUsers()
+	public Set<ScrumUserProjectRole> getUserProjectRole()
 	{
-		return projectUsers;
+		return userprojectrole;
 	}
 
-	public void setProjectUsers(Set<ScrumUser> projectUsers)
+	public void setUserProjectRole(Set<ScrumUserProjectRole> userprojectrole)
 	{
-		this.projectUsers = projectUsers;
+		this.userprojectrole = userprojectrole;
 	}
 
 }
