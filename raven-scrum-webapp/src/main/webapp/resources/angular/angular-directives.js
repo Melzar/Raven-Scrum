@@ -80,6 +80,15 @@ scdirectives.directive('ngUser', function(TemplateData)
   }
 })
 
+scdirectives.directive('ngUserProject', function(TemplateData)
+{
+  return{
+    restrict: 'A',
+    transclude: false,
+    templateUrl: TemplateData.sourcelink + '/template/scrum/user-project.ftl',
+  }
+})
+
 scdirectives.directive('ngScrumTask', function(TemplateData)
 {
   return{
