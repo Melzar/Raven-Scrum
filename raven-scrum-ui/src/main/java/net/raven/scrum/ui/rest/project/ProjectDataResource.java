@@ -1,6 +1,7 @@
 package net.raven.scrum.ui.rest.project;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -10,6 +11,7 @@ import javax.ws.rs.core.Response.Status;
 
 import net.raven.scrum.core.annotations.logger.Log;
 import net.raven.scrum.core.exception.ScrumException;
+import net.raven.scrum.core.rest.dto.scrum.ProjectDTO;
 import net.raven.scrum.ui.service.project.ProjectService;
 
 import org.slf4j.Logger;
@@ -29,6 +31,22 @@ public class ProjectDataResource
 	public ProjectDataResource()
 	{
 
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/add")
+	public Response createProject(ProjectDTO dto)
+	{
+		try
+		{
+			return Response.status(Status.OK)
+					.entity(projectService.crateProject(dto)).build();
+		} catch (ScrumException e)
+		{
+			// add logger
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 	@GET
