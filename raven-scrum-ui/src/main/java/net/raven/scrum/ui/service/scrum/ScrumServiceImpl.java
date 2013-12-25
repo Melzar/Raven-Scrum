@@ -50,7 +50,6 @@ public class ScrumServiceImpl implements ScrumService
 		ProjectDTO boarddto = new ProjectDTO();
 		SprintDTO sprintdto = new SprintDTO();
 		boarddto.setIdProject(ss.getProject().getIdProject());
-		boarddto.setIdManager(ss.getProject().getManager().getIdUser());
 		sprintdto.setId(ss.getIdSprint());
 		sprintdto.setStartDate(ss.getStartDate());
 		sprintdto.setEndDate(ss.getEndDate());
