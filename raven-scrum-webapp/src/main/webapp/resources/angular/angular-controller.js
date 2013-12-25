@@ -231,8 +231,8 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 
 sccontrollers.controller('ModalInstanceController', function($scope, $http, $modalInstance, data)
 {
-	console.log(data);
-	$scope.data = data.templatedata;
+	// console.log(data);
+	// $scope.data = data.templatedata;
 	$scope.select2data = data.select2data;
 	$scope.closeModal = function()
 	{
@@ -241,14 +241,14 @@ sccontrollers.controller('ModalInstanceController', function($scope, $http, $mod
 
 	$scope.save = function()
 	{
-			var postdata = {idUser: data.select2user.id, idParent: data.select2task.id, description: data.taskdescription, type: data.select2type.id};
+			var postdata = {idUser: data.select2data.select2user.id, idParent: data.select2data.select2task.id, description: data.select2data.taskdescription, type: data.select2data.select2type.id};
 			$http({
-				url: data.sourcelink + "/rest/task/" + data.select2task.id + "/add",
+				url: data.templatedata.sourcelink + "/rest/task/" + data.select2data.select2task.id + "/add",
 				method: "POST",
 				data: postdata ,
 				headers : {'Content-Type': 'application/json'}
 			}).success(function(datares, status, headers, cfg){
-				data.select2task.progress.TODO.push(datares);
+				data.select2data.select2task.progress.TODO.push(datares);
 				$modalInstance.close(datares);
 			}).error(function(datares, status, headers, cfg){
 				//todo messagebox
@@ -262,15 +262,30 @@ sccontrollers.controller('DashboardController', function($scope, $http, Template
 
 })
 
-sccontrollers.controller('ProjectAddController', function($scope, $http, $element, Select2Service, AccountService){
+sccontrollers.controller('ProjectAddController', function($scope, $http, $element, TemplateData, Select2Service, AccountService){
 	$scope.select2data = Select2Service;
 	AccountService.getActiveAccounts(Select2Service.select2usersavatar.data);
 
-	$scope.changeUserRights = function(element)
+	$scope.createProject = function()
 	{
-		console.log(element)
-		console.log($scope)
+		var postdata = {"title": $scope.projecttitle, "description": $scope.projectdescription, "projectUsers": $scope.select2data.select2usersavatar.data.results, "status" : $scope.projectstatus};
+		console.log("is")
+		$http({
+			url: TemplateData.sourcelink + "/rest/project/add",
+			method: "POST",
+			data: postdata ,
+			headers: {'Content-Type': 'application/json'}
+		}).success(function(data,status,headers,cfg){
+			console.log(data)
+		}).error(function(data,status,headers,cfg){
+			console.log("Error");
+		})
 	}
+
+	$scope.changePrivilege = function(user)
+	{
+		(!user.role) ? user.role = "ADMIN" : user.role = "";
+	} 
 })
 
 sccontrollers.controller('ProjectsController', function($scope, $http, TemplateData){
