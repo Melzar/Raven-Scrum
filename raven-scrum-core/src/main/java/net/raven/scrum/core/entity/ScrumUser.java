@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -44,9 +42,15 @@ public class ScrumUser
 	@JoinColumn(name = "id_user")
 	private Set<ScrumTask> tasks;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "scrum_users_in_project", joinColumns = { @JoinColumn(name = "id_user", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_project", nullable = false, updatable = false) })
-	private Set<ScrumProject> projects;
+	// @ManyToMany(fetch = FetchType.LAZY)
+	// @JoinTable(name = "scrum_users_in_project", joinColumns = {
+	// @JoinColumn(name = "id_user", nullable = false, updatable = false) },
+	// inverseJoinColumns = { @JoinColumn(name = "id_project", nullable = false,
+	// updatable = false) })
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.project")
+	private Set<ScrumUserProjectRole> userprojectrole;
+
+	// private Set<ScrumProject> projects;
 
 	public ScrumUser()
 	{
@@ -153,14 +157,14 @@ public class ScrumUser
 		this.tasks = tasks;
 	}
 
-	public Set<ScrumProject> getProjects()
+	public Set<ScrumUserProjectRole> getUserprojectrole()
 	{
-		return projects;
+		return userprojectrole;
 	}
 
-	public void setProjects(Set<ScrumProject> projects)
+	public void setUserprojectrole(Set<ScrumUserProjectRole> userprojectrole)
 	{
-		this.projects = projects;
+		this.userprojectrole = userprojectrole;
 	}
 
 	@Transient
