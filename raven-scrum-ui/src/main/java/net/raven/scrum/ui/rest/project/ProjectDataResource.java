@@ -40,8 +40,17 @@ public class ProjectDataResource
 	{
 		try
 		{
-			return Response.status(Status.OK)
-					.entity(projectService.crateProject(dto)).build();
+			if (dto.getStatus() != null && dto.getTitle() != null
+					&& !dto.getTitle().isEmpty())
+			{
+				return Response.status(Status.OK)
+						.entity(projectService.crateProject(dto)).build();
+			}
+			return Response
+					.status(Status.CONFLICT)
+					.header("X-Status-Reason",
+							"Request couldn't pass internal validation, check your data")
+					.build();
 		} catch (ScrumException e)
 		{
 			// add logger
