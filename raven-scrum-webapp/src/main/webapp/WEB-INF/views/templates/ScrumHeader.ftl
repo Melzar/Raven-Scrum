@@ -11,6 +11,7 @@
 <script src="<@spring.url '/resources/angular/angular.js'/>"/></script>
 <script src="<@spring.url '/resources/angular/angular-animate.js'/>"/></script>
 <script src="<@spring.url '/resources/angular/angular-dragdrop.js'/>"/></script>
+<script src="<@spring.url '/resources/angular/angular-ui-keypress.js'/>"/></script>
 <script src="<@spring.url '/resources/angular/angular-ui.js'/>"/></script>
 <script src="<@spring.url '/resources/angular/angular-ui-bootstrap.js'/>"/></script>
 <script src="<@spring.url '/resources/angular/angular-directives.js'/>"/></script>
