@@ -44,7 +44,7 @@
 								<div class="box-small-wrapper">
 									<div class="box-small-content">
 										<h2>Project users</h2>
-										<div ng-repeat="user in data.results" ng-user>
+										<div ng-user>
 										</div> 
 									</div>
 								</div>
