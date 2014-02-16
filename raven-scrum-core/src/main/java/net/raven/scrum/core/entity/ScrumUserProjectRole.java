@@ -30,4 +30,26 @@ public class ScrumUserProjectRole
 		this.pk = pk;
 	}
 
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		ScrumUserProjectRole that = (ScrumUserProjectRole) o;
+		if (pk != null ? !pk.equals(that.pk) : that.pk != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result;
+		result = (pk != null ? pk.hashCode() : 0);
+		return result;
+	}
+
 }
