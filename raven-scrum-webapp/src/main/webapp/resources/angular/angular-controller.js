@@ -88,10 +88,13 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 	$scope.subtaskdata = {id: '', state: ''};
 	$http.get(TemplateData.sourcelink + '/rest/scrumboard/active?project='+TemplateData.project).success(function(data,status,headers,cfg){
 		$scope.scrumdata.projectdata = data;
-		$scope.scrumtasks = data.sprint.tasks;
-		$scope.$watch(function(){ return angular.toJson($scope.scrumtasks)}, function(){
+		if(data.sprint)
+		{
+			$scope.scrumtasks = data.sprint.tasks;
+			$scope.$watch(function(){ return angular.toJson($scope.scrumtasks)}, function(){
 				$scope.updatecount()
-		})
+			})
+		}	
 	}).error(function(data,status,headers,cfg){
 		//TODO MESSAGE OF ERROR
 	})
@@ -185,15 +188,53 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 		ScrumBoardService.getTaskTypes(Select2Service.select2types.data);
 	}
 
-	// {
-	// 	$http.get(TemplateData.sourcelink + '/rest/project/users?project=' + TemplateData.project).success(function(data,status,headers,cfg){
-	// 		TemplateData.select2users.data.results = data;
-	// 	}).error(function(data,status,headers,cfg){
-	// 	//TODO MESSAGE OF ERROR
-	// 	})
-	// }
+	$scope.openAddSprintPopup = function ()
+	{
+		$scope.createSprint = true;
+		$scope.startDate = new Date();
+	}
+
+	$scope.openCloseSprintPopup = function ()
+	{
+		$scope.closeSprint = true;
+		$scope.closeStartDate = $scope.scrumdata.projectdata.sprint.startDate;
+	}
 
 })
+
+//TODO THIS CODE NEEDS DRYING
+
+sccontrollers.controller('SprintPopupController', function($scope, $http, $window, TemplateData)
+{
+	$scope.hideSprintPopup = function ()
+	{
+		$scope.$root.createSprint = false;
+		$scope.$root.closeSprint = false;
+	}
+
+	$scope.finalizeSprint = function ()
+	{
+		var dto = {'id': $scope.scrumdata.projectdata.sprint.id ,'startDate': $scope.closeStartDate, 'endDate': $scope.closeEndDate};
+		$http.post(TemplateData.sourcelink + '/rest/scrumboard/close', dto).success(function(data, status){
+			$scope.hideSprintPopup();
+			$window.location.reload(); 
+		}).error(function(data, status){
+			console.log(data)
+		})	
+	}
+
+	$scope.createNewSprint = function ()
+	{
+		var dto = {'idProject': $scope.scrumdata.projectdata.idProject ,'startDate': $scope.startDate , 'endDate': $scope.endDate};
+		$http.post(TemplateData.sourcelink + '/rest/scrumboard/create', dto).success(function(data, status){
+			$scope.hideSprintPopup();
+			$window.location.reload(); 
+		}).error(function(data, status){
+			console.log(data)
+		})	
+	}
+})
+
 
 // sccontrollers.controller('ModalController', function($scope, $http, $modal, $log, TemplateData)
 // {
@@ -268,23 +309,31 @@ sccontrollers.controller('ProjectAddController', function($scope, $http, $elemen
 
 	$scope.createProject = function()
 	{
-		var postdata = {"title": $scope.projecttitle, "description": $scope.projectdescription, "projectUsers": $scope.select2data.select2usersavatar.data.results, "status" : $scope.projectstatus};
-		console.log("is")
-		$http({
-			url: TemplateData.sourcelink + "/rest/project/add",
-			method: "POST",
-			data: postdata ,
-			headers: {'Content-Type': 'application/json'}
-		}).success(function(data,status,headers,cfg){
-			console.log(data)
-		}).error(function(data,status,headers,cfg){
-			console.log("Error");
-		})
+		$scope.projectadd.submitted = true;
+		if($scope.projectadd.$valid)
+		{
+		 $scope.projectadd.submitted = false;
+		 var postdata = {"title": $scope.projecttitle, "description": $scope.projectdescription, "projectUsers": $scope.select2users, "status" : $scope.projectstatus};
+		 $http({
+		 	url: TemplateData.sourcelink + "/rest/project/add",
+		 	method: "POST",
+		 	data: postdata ,
+		 	headers: {'Content-Type': 'application/json'}
+		 }).success(function(data,status,headers,cfg){
+			$scope.projectadd.submitsuccess = true;
+			$scope.projectadd.submiterror = false;
+		// 	console.log(data)
+		 }).error(function(data,status,headers,cfg){
+		// 	console.log("Error");
+			$scope.projectadd.submiterror = true;
+			$scope.projectadd.submitsuccess = false;
+		 })
+		}
 	}
 
 	$scope.changePrivilege = function(user)
 	{
-		(!user.role) ? user.role = "ADMIN" : user.role = "";
+		(user.role == "DEVELOPER") ? user.role = "ADMIN" : user.role = "DEVELOPER";
 	} 
 })
 
@@ -309,7 +358,7 @@ sccontrollers.controller('NavigationController', function($scope, $http)
 
 })
 
-sccontrollers.controller('SidebarController', function($scope, $http, $modal, TemplateData, ProjectService, Select2Service,ScrumBoardService)
+sccontrollers.controller('SidebarController', function($scope, $http, $modal, TemplateData, ProjectService, Select2Service, ScrumBoardService)
 {
 	$scope.addTask = function()
 	{
@@ -339,3 +388,40 @@ sccontrollers.controller('SidebarController', function($scope, $http, $modal, Te
   //   	});
 	}
 })
+
+sccontrollers.controller('EpicController', function($scope, $http, TemplateData )
+{
+	$scope.epiccolors = [{'color':{'background-color': '#F1A2C8'}, 'code':'#F1A2C8'},
+	 {'color':{'background-color': '#E1A2F1'}, 'code': '#E1A2F1'},
+	 {'color':{'background-color': '#C2A2F1'}, 'code': '#C2A2F1'},
+	 {'color':{'background-color': '#A2AFF1'}, 'code': '#A2AFF1'},
+	 {'color':{'background-color': '#A2CEF1'}, 'code': '#A2CEF1'},
+	 {'color':{'background-color': '#A2EEF1'}, 'code': '#A2EEF1'},
+	 {'color':{'background-color': '#A2F1D1'}, 'code': '#A2F1D1'},
+	 {'color':{'background-color': '#A2F1AF'}, 'code': '#A2F1AF'},
+	 {'color':{'background-color': '#D1F1A2'}, 'code': '#D1F1A2'},
+	 {'color':{'background-color': '#F1EBA2'}, 'code': '#F1EBA2'},
+	 {'color':{'background-color': '#F1DBA2'}, 'code': '#F1DBA2'},
+	 {'color':{'background-color': '#F1C5A2'}, 'code': '#F1C5A2'},
+	 {'color':{'background-color': '#F1B5A2'}, 'code': '#F1B5A2'}];
+	 $scope.selectedcolor = $scope.epiccolors[0];
+
+
+	$scope.toggle = function ()
+	{
+		(!$scope.addepic) ? $scope.addepic = true : $scope.addepic = false ;
+	}
+
+	$scope.togglePicker = function ()
+	{
+		(!$scope.picker) ? $scope.picker = true : $scope.picker = false ;
+	}
+
+	$scope.chooseColor = function (color)
+	{
+		$scope.selectedcolor = color;
+		$scope.togglePicker();
+	}
+
+})
+

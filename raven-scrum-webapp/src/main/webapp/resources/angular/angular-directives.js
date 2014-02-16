@@ -18,6 +18,28 @@ scdirectives.directive('ngFocused', function() {
     }
 });
 
+scdirectives.directive('ngProjectTitle', function($http, TemplateData){
+  return {
+    require : 'ngModel',
+    restrict : 'A',
+    link: function($scope, element, attrs, $ctrl)
+    {
+      element.bind('blur', function(evt)
+      {
+        $scope.$apply(function()
+        {
+          $http.post(TemplateData.sourcelink + "/rest/project/validate/title", JSON.stringify({'title' : element.val()})
+          ).success(function(data,status,headers,cfg){
+            $ctrl.$setValidity("unique", data.unique);
+          }).error(function(data,status,headers,cfg){
+            $ctrl.$setValidity("unique", data.unique);
+          })
+        })
+      })
+    }
+  }
+})
+
 scdirectives.directive('ngValidatePassword', function(){
         //TODO password strength regexp 
   return {
@@ -41,6 +63,7 @@ scdirectives.directive('ngValidatePassword', function(){
   }
 });
 
+//TODO refactor this directive logic
 scdirectives.directive('ngValidateEmail', function($http){
   return {
        require : 'ngModel',
@@ -70,6 +93,26 @@ scdirectives.directive('ngValidateEmail', function($http){
     }
   }
 });
+
+scdirectives.directive('ngSprintCreatePopup', function(TemplateData)
+{
+  return{
+    restrict: 'A',
+    transclude: false,
+    templateUrl: TemplateData.sourcelink + '/template/popup/popupCreate.ftl',
+    controller: "SprintPopupController"
+  }
+})
+
+scdirectives.directive('ngSprintClosePopup', function(TemplateData)
+{
+  return{
+    restrict: 'A',
+    transclude: false,
+    templateUrl: TemplateData.sourcelink + '/template/popup/popupFinalize.ftl',
+    controller: "SprintPopupController"
+  }
+})
 
 scdirectives.directive('ngUser', function(TemplateData)
 {
