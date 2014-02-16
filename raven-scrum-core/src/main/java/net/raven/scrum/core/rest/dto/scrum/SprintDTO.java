@@ -3,16 +3,22 @@ package net.raven.scrum.core.rest.dto.scrum;
 import java.util.Collection;
 import java.util.Date;
 
+import net.raven.scrum.core.enumeration.scrum.SprintStatus;
+
 public class SprintDTO
 {
 
 	private long id;
+
+	private long idProject;
 
 	private Date startDate;
 
 	private Date endDate;
 
 	Collection<TaskDTO> tasks;
+
+	private SprintStatus status;
 
 	public SprintDTO()
 	{
@@ -57,6 +63,26 @@ public class SprintDTO
 	public void setTasks(Collection<TaskDTO> tasks)
 	{
 		this.tasks = tasks;
+	}
+
+	public SprintStatus getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(SprintStatus status)
+	{
+		this.status = status;
+	}
+
+	public long getIdProject()
+	{
+		return idProject;
+	}
+
+	public void setIdProject(long idProject)
+	{
+		this.idProject = idProject;
 	}
 
 }
