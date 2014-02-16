@@ -1,6 +1,7 @@
 package net.raven.scrum.ui.rest.scrum;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.Response.Status;
 import net.raven.scrum.core.annotations.logger.Log;
 import net.raven.scrum.core.exception.ScrumException;
 import net.raven.scrum.core.rest.dto.scrum.ProjectDTO;
+import net.raven.scrum.core.rest.dto.scrum.SprintDTO;
 import net.raven.scrum.ui.service.scrum.ScrumService;
 
 import org.slf4j.Logger;
@@ -46,6 +48,36 @@ public class ScrumboardDataResource
 		} catch (ScrumException e)
 		{
 			log.error("Failed to get actual sprint data", e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/create")
+	public Response createNewSprint(SprintDTO sprintDTO)
+	{
+		try
+		{
+			scrumService.createNewSprint(sprintDTO);
+			return Response.status(Status.OK).entity(sprintDTO).build();
+		} catch (ScrumException e)
+		{
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/close")
+	public Response closeActiveSprint(SprintDTO sprintDTO)
+	{
+		try
+		{
+			scrumService.closeActiveSprint(sprintDTO);
+			return Response.status(Status.OK).entity(sprintDTO).build();
+		} catch (ScrumException e)
+		{
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
