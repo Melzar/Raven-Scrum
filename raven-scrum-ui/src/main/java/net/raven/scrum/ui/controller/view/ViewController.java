@@ -71,4 +71,13 @@ public class ViewController
 	{
 		return "ScrumEditAccount";
 	}
+
+	@RequestMapping("/project/backlog")
+	@PreAuthorize("isAuthenticated()")
+	public String prepareProjectBacklog(@QueryParam("project") String project,
+			Model model)
+	{
+		model.addAttribute("project", project);
+		return "ScrumProjectBacklog";
+	}
 }
