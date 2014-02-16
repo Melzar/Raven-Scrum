@@ -2,6 +2,7 @@ package net.raven.scrum.ui.service.scrum;
 
 import net.raven.scrum.core.exception.ScrumException;
 import net.raven.scrum.core.rest.dto.scrum.ProjectDTO;
+import net.raven.scrum.core.rest.dto.scrum.SprintDTO;
 import net.raven.scrum.core.rest.dto.scrum.TaskDTO;
 
 public interface ScrumService
@@ -17,6 +18,11 @@ public interface ScrumService
 			throws ScrumException;
 
 	public TaskDTO addSubtaskQuick(Long idParent, TaskDTO subtaskDTO)
+			throws ScrumException;
+
+	public SprintDTO createNewSprint(SprintDTO sprintDTO) throws ScrumException;
+
+	public SprintDTO closeActiveSprint(SprintDTO sprintDTO)
 			throws ScrumException;
 
 }

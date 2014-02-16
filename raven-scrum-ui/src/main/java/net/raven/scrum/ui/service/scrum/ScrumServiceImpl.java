@@ -3,11 +3,15 @@ package net.raven.scrum.ui.service.scrum;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
+import net.raven.scrum.core.entity.ScrumProject;
 import net.raven.scrum.core.entity.ScrumSprint;
 import net.raven.scrum.core.entity.ScrumTask;
 import net.raven.scrum.core.entity.ScrumUser;
+import net.raven.scrum.core.entity.ScrumUserProjectRole;
+import net.raven.scrum.core.enumeration.scrum.ProjectRole;
 import net.raven.scrum.core.enumeration.scrum.SprintStatus;
 import net.raven.scrum.core.enumeration.scrum.TaskState;
 import net.raven.scrum.core.exception.ScrumException;
@@ -18,6 +22,7 @@ import net.raven.scrum.core.repository.ScrumUserRepository;
 import net.raven.scrum.core.rest.dto.scrum.ProjectDTO;
 import net.raven.scrum.core.rest.dto.scrum.SprintDTO;
 import net.raven.scrum.core.rest.dto.scrum.TaskDTO;
+import net.raven.scrum.core.rest.dto.user.ScrumUserDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,37 +52,62 @@ public class ScrumServiceImpl implements ScrumService
 	{
 		ScrumSprint ss = sprintRepository.getSprintData(idProject,
 				SprintStatus.ACTIVE);
-		ProjectDTO boarddto = new ProjectDTO();
-		SprintDTO sprintdto = new SprintDTO();
-		boarddto.setIdProject(ss.getProject().getIdProject());
-		sprintdto.setId(ss.getIdSprint());
-		sprintdto.setStartDate(ss.getStartDate());
-		sprintdto.setEndDate(ss.getEndDate());
-		Collection<TaskDTO> tasks = new ArrayList<TaskDTO>();
-		for (ScrumTask task : ss.getTasks())
+		ProjectDTO projectdto = new ProjectDTO();
+		ScrumProject project = projectRepository.getProjectWithUsers(idProject);
+		if (project != null)
 		{
-			TaskDTO taskdto = new TaskDTO();
-			taskdto.setId(task.getIdTask());
-			taskdto.setIdUser(task.getAssigned().getIdUser());
-			taskdto.setTitle(task.getTitle());
-			taskdto.setDescription(task.getDescription());
-			for (ScrumTask subtask : task.getSubtasks())
+			projectdto.setTitle(project.getTitle());
+			projectdto.setDescription((project.getDescription()));
+			projectdto.setIdProject(project.getIdProject());
+			projectdto.setStatus(project.getStatus());
+			Collection<ScrumUserDTO> users = new LinkedList<>();
+			for (ScrumUserProjectRole user : project.getUserProjectRole())
 			{
-				TaskDTO subdto = new TaskDTO();
-				subdto.setId(subtask.getIdTask());
-				subdto.setIdParent(task.getIdTask());
-				subdto.setIdUser(subtask.getAssigned().getIdUser());
-				subdto.setTitle(subtask.getTitle());
-				subdto.setDescription(subtask.getDescription());
-				subdto.setState(subtask.getState());
-				subdto.setType(subtask.getType());
-				taskdto.getProgress().get(subtask.getState()).add(subdto);
+				ScrumUserDTO udto = new ScrumUserDTO();
+				udto.setId(user.getPk().getUser().getIdUser());
+				udto.setLogin(user.getPk().getUser().getLogin());
+				udto.setName(user.getPk().getUser().getName());
+				udto.setSurname(user.getPk().getUser().getSurname());
+				udto.setRole(ProjectRole.valueOf(user.getPk().getRole()
+						.getRoleName()));
+				users.add(udto);
 			}
-			tasks.add(taskdto);
+			projectdto.setProjectUsers(users);
 		}
-		sprintdto.setTasks(tasks);
-		boarddto.setSprint(sprintdto);
-		return boarddto;
+		if (ss != null)
+		{
+			SprintDTO sprintdto = new SprintDTO();
+			Collection<TaskDTO> tasks = new ArrayList<TaskDTO>();
+			projectdto.setIdProject(ss.getProject().getIdProject());
+			sprintdto.setId(ss.getIdSprint());
+			sprintdto.setStartDate(ss.getStartDate());
+			sprintdto.setEndDate(ss.getEndDate());
+			for (ScrumTask task : ss.getTasks())
+			{
+				TaskDTO taskdto = new TaskDTO();
+				taskdto.setId(task.getIdTask());
+				taskdto.setIdUser((task.getAssigned() != null) ? task
+						.getAssigned().getIdUser() : 0);
+				taskdto.setTitle(task.getTitle());
+				taskdto.setDescription(task.getDescription());
+				for (ScrumTask subtask : task.getSubtasks())
+				{
+					TaskDTO subdto = new TaskDTO();
+					subdto.setId(subtask.getIdTask());
+					subdto.setIdParent(task.getIdTask());
+					subdto.setIdUser(subtask.getAssigned().getIdUser());
+					subdto.setTitle(subtask.getTitle());
+					subdto.setDescription(subtask.getDescription());
+					subdto.setState(subtask.getState());
+					subdto.setType(subtask.getType());
+					taskdto.getProgress().get(subtask.getState()).add(subdto);
+				}
+				tasks.add(taskdto);
+			}
+			sprintdto.setTasks(tasks);
+			projectdto.setSprint(sprintdto);
+		}
+		return projectdto;
 	}
 
 	@Override
@@ -126,5 +156,42 @@ public class ScrumServiceImpl implements ScrumService
 				subtaskDTO.getTitle(), subtaskDTO.getDescription(),
 				subtaskDTO.getIdUser());
 		return subtaskDTO;
+	}
+
+	@Override
+	public SprintDTO createNewSprint(SprintDTO sprintDTO) throws ScrumException
+	{
+		ScrumSprint sprint = new ScrumSprint();
+		ScrumProject project = new ScrumProject();
+		sprint.setStartDate(sprintDTO.getStartDate());
+		sprint.setEndDate(sprintDTO.getStartDate());
+		project.setIdProject(sprintDTO.getIdProject());
+		sprint.setProject(project);
+		sprint.setStatus(SprintStatus.ACTIVE);
+		sprint = sprintRepository.save(sprint);
+		ScrumTask other = new ScrumTask();
+		other.setTitle("OTHER");
+		other.setDescription("Other tasks");
+		other.setState(TaskState.TODO);
+		Set<ScrumSprint> spr = new HashSet<ScrumSprint>();
+		spr.add(sprint);
+		other.setSprints(spr);
+		taskRepository.save(other);
+		sprintDTO.setId(sprint.getIdSprint());
+		return sprintDTO;
+	}
+
+	@Override
+	public SprintDTO closeActiveSprint(SprintDTO sprintDTO)
+			throws ScrumException
+	{
+		ScrumSprint sprint = new ScrumSprint();
+		sprint.setIdSprint(sprintDTO.getId());
+		sprint.setStartDate(sprintDTO.getStartDate());
+		sprint.setEndDate(sprintDTO.getStartDate());
+		sprint.setStatus(SprintStatus.DONE);
+		sprint = sprintRepository.save(sprint);
+		sprintDTO.setStatus(SprintStatus.DONE);
+		return sprintDTO;
 	}
 }
