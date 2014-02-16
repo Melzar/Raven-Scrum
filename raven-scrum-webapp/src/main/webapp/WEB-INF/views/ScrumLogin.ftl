@@ -4,7 +4,7 @@
 
 <script type="text/javascript">
 	
-var app = angular.module("ScrumBoardApp", ['ngAnimate', 'ui.directives', 'scDirectives', 'scControllers', 'ui.bootstrap']);
+var app = angular.module("ScrumBoardApp", ['ngAnimate', 'scDirectives', 'scControllers', 'ui.bootstrap', 'ui.keypress']);
 
 app.factory('TemplateData', function(){
 	return {sourcelink: '<@spring.url ""/>'}

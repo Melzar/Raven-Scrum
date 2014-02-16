@@ -5,7 +5,7 @@
 <body ng-app="ScrumBoardApp">
 <script type="text/javascript">
 	
-var app = angular.module("ScrumBoardApp", ["ngAnimate", "ui.directives", "scDirectives","scControllers", "ui.bootstrap"]);
+var app = angular.module("ScrumBoardApp", ["ngAnimate", "scDirectives","scControllers", "ui.bootstrap"]);
 
 app.controller("PasswordController", function($scope, $element, $http){
 		$scope.changePassword = function ()
