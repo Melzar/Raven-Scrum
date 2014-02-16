@@ -54,6 +54,8 @@ public class ProjectServiceImpl implements ProjectService
 			dto.setSurname(user.getSurname());
 			dto.setLogin(user.getLogin());
 			dto.setTag(user.getName() + user.getSurname());
+			dto.setRole(ProjectRole.valueOf(user.getUserprojectrole()
+					.iterator().next().getPk().getRole().getRoleName()));
 			dtos.add(dto);
 		}
 		return dtos;
@@ -96,22 +98,24 @@ public class ProjectServiceImpl implements ProjectService
 		project.setDescription(dto.getDescription());
 		project.setStatus(dto.getStatus());
 		project = projectRepository.save(project);
-		Set<ScrumUserProjectRole> uprl = new HashSet<>();
-		for (ScrumUserDTO u : dto.getProjectUsers())
+		if (!dto.getProjectUsers().isEmpty())
 		{
-			ScrumUserProjectRole upr = new ScrumUserProjectRole();
-			upr.getPk().setProject(project);
-			ScrumUser user = new ScrumUser();
-			user.setIdUser(u.getId());
-			ScrumRole role = (u.getRole() != null) ? roleRepository
-					.getRoleByName(ProjectRole.ADMIN.name()) : roleRepository
-					.getRoleByName(ProjectRole.DEVELOPER.name());
-			upr.getPk().setUser(user);
-			upr.getPk().setRole(role);
-			uprl.add(upr);
+			Set<ScrumUserProjectRole> uprl = new HashSet<>();
+			for (ScrumUserDTO u : dto.getProjectUsers())
+			{
+				ScrumUserProjectRole upr = new ScrumUserProjectRole();
+				upr.getPk().setProject(project);
+				ScrumUser user = new ScrumUser();
+				user.setIdUser(u.getId());
+				ScrumRole role = roleRepository.getRoleByName(u.getRole()
+						.name());
+				upr.getPk().setUser(user);
+				upr.getPk().setRole(role);
+				uprl.add(upr);
+			}
+			project.setUserProjectRole(uprl);
+			projectRepository.save(project);
 		}
-		project.setUserProjectRole(uprl);
-		projectRepository.save(project);
 		dto.setIdProject(project.getIdProject());
 		return dto;
 	}
