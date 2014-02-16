@@ -27,7 +27,7 @@ scservices.service('Select2Service', function($http, TemplateData){
 		return type.type;
 	}
 
-	this.select2usersavatar = {'multiple': true, 'width': 'copy','data': {'results': [], 'text': 'tag'},'formatResult': formatUserAvatarWithText, 'formatSelection': formatUserAvatarOnly};
+	this.select2usersavatar = {'watchModelChanges': false,'multiple': true, 'width': 'copy','data': {'results': [], 'text': 'tag'},'formatResult': formatUserAvatarWithText, 'formatSelection': formatUserAvatarOnly};
 	this.select2users = {'width': 'copy','data': {'results': [], 'text': 'tag'},'formatResult': formatUserPlain, 'formatSelection': formatUserPlain};
 	this.select2tasks = {'width' : 'copy', 'data': {'results': [], 'text': 'title'}, 'formatResult' : formatTask, 'formatSelection' : formatTask};
 	this.select2types = {'width': 'copy', 'data': {'results': [], 'text': 'tag'}, 'formatResult': formatType, 'formatSelection': formatType};
