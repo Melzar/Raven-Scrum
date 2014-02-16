@@ -4,6 +4,8 @@
 /ScrumDeleteAccount.ftl
 /ScrumEditAccount.ftl
 /ScrumLogin.ftl
-/ScrumProject.ftl
+/ScrumProjectAdd.ftl
 /ScrumProjectDashboard.ftl
+/ScrumProjectsScreen.ftl
 /ScrumRegister.ftl
+/ScrumProjectBacklog.ftl
