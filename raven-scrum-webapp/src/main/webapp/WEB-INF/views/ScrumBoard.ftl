@@ -3,7 +3,7 @@
 <body ng-app="ScrumBoardApp">
 <script type="text/javascript">
 	
-var app = angular.module("ScrumBoardApp", ["ngAnimate", "ngDragDrop", "scDirectives", "scControllers","scServices", "ui.bootstrap", "ui.select2", "ui.directives"])
+var app = angular.module("ScrumBoardApp", ["ngAnimate", "ngDragDrop", "scDirectives", "scControllers","scServices", "ui.bootstrap", "ui.select2"])
 app.factory('TemplateData', function()
 {
 	return {sourcelink: "<@spring.url ''/>", project: ${project}};
@@ -16,7 +16,7 @@ app.factory('TemplateData', function()
 				<a href="<@spring.url '/project/dashboard?project=${project}'/>">Project dashboard</a>
 			</li>
 			<li>
-				<a href="<@spring.url '/project/dashboard?backlog=${project}'/>">Project backlog</a>
+				<a href="<@spring.url '/project/backlog?project=${project}'/>">Project backlog</a>
 			</li>
 		</ul>
 	</div>
@@ -106,6 +106,25 @@ app.factory('TemplateData', function()
 						<div class="row">
 							<div class="col-md-12" ng-Scrumboard>
 								<!-- Content injected dynamically -->
+							</div>	
+						</div>
+						<div class="row" ng-if="!scrumdata.projectdata.sprint">
+							<div class="col-md-12">
+									<div class="box-small-wrapper">
+										<div class="box-small-content box-noborder-top box-notop-radius">
+											<p class="text-center no-margin">There are no active sprints for this project. <a class="btn btn-default btn-xs" ng-click="openAddSprintPopup()">Create new sprint</a></p>
+										</div>
+									</div>
+							</div>
+						</div>
+						<div class="row" ng-if="scrumdata.projectdata.sprint.tasks.length == 0">
+							<div class="col-md-12">
+									<div class="box-small-wrapper">
+										<div class="box-small-content box-noborder-top box-notop-radius">
+											<p class="text-center no-margin">This sprint has no tasks yet. Add new tasks by clicking '+' on the left panel
+											</p>
+										</div>
+									</div>
 							</div>
 						</div>
 					</div>
@@ -135,7 +154,7 @@ app.factory('TemplateData', function()
 						<div class="col-md-12">
 							<div class="row">
 								<label>Description</label>
-								<textarea readonly>{{subtaskpanel.task.description}}</textarea>
+								<textarea class="form-control" rows="3" readonly>{{subtaskpanel.task.description}}</textarea>
 							</div>
 							<div class="row">
 								<label class="padding-top">Type</label>
@@ -167,13 +186,20 @@ app.factory('TemplateData', function()
 	</div>
 </div>
 </div>
-<div class="sidebar-left transitionable" ng-controller="SidebarController" ng-class="{'left-hide': hidden}">
+
+<div ng-if="createSprint">
+	<div ng-sprint-create-popup></div>
+</div>
+<div ng-if="closeSprint">
+	<div ng-sprint-close-popup></div>
+</div>
+<div class="sidebar-left transitionable" ng-controller="SidebarController" ng-class="{'left-hide': hidden}" ng-if="scrumdata.projectdata.sprint">
 	<div class="element transitionable">
 		<a class="" ng-click="hidden = !hidden" ng-class="{'sidebar-left-show-btn' : hidden, 'sidebar-left-hide-btn': !hidden}"><i class="fa fa-angle-double-left"></i></a>
 		<ul class="list-unstyled element-list">
 			<li><a class="" tooltip-placement="right" tooltip="Add task" ng-click="addTask()"><i class="fa fa-plus"></i></a></li>
 			<li><a class="" tooltip-placement="right" tooltip="Contact scrummaster"><i class="fa fa-envelope-o"></i></a></li>
-			<li><a class="" tooltip-placement="right" tooltip="Close sprint"><i class="fa fa-times-circle-o"></i></a></li>
+			<li><a class="" tooltip-placement="right" tooltip="Close sprint" ng-click="openCloseSprintPopup()"><i class="fa fa-times-circle-o"></i></a></li>
 		</ul>
 	</div>
 </div>
