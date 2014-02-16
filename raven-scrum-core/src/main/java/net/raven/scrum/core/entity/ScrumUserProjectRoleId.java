@@ -53,4 +53,35 @@ public class ScrumUserProjectRoleId implements Serializable
 		this.role = role;
 	}
 
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		ScrumUserProjectRoleId that = (ScrumUserProjectRoleId) o;
+
+		if (project != null ? !project.equals(that.project)
+				: that.project != null)
+			return false;
+		if (user != null ? !user.equals(that.user) : that.user != null)
+			return false;
+		if (role != null ? !role.equals(that.role) : that.role != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result;
+		result = (project != null ? project.hashCode() : 0);
+		result = 31 * result + (user != null ? user.hashCode() : 0);
+		result = 31 * result + (role != null ? role.hashCode() : 0);
+		return result;
+	}
+
 }

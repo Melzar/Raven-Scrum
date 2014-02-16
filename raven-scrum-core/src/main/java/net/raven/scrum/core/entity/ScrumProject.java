@@ -34,7 +34,7 @@ public class ScrumProject
 	private Set<ScrumSprint> sprints;
 
 	// @ManyToMany(fetch = FetchType.LAZY, mappedBy = "projects")
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.project", cascade = CascadeType.ALL)
 	private Set<ScrumUserProjectRole> userprojectrole;
 
 	// private Set<ScrumUser> projectUsers;
