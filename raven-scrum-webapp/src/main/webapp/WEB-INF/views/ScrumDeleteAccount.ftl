@@ -4,7 +4,7 @@
 <#assign navlinks = [{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "fa fa-dashboard"},{"name" : "Powiadomienia", "url": "/account/notifications", "icon": "fa fa-envelope-o"},{"name" : "Statystyki konta", "url" : "/account/statistics", "icon" : "fa fa-bar-chart-o"},{"name" : "Ustawienia powiadomień", "url": "/account/norificationsettings", "icon" : "fa fa-gears"},{"name": "Edycja danych konta", "url": "/account/edit", "icon" : "fa fa-edit"},{"name": "Usunięcie konta", "url" : "/account/delete", "icon" : "fa fa-trash-o", "type" : "active"}]>
 <body  ng-app="ScrumBoardApp">
 <script type="text/javascript">
-	var app = angular.module("ScrumBoardApp", ["ui.directives","ngAnimate","scDirectives","scControllers","ui.bootstrap"])
+	var app = angular.module("ScrumBoardApp", ["ngAnimate","scDirectives","scControllers","ui.bootstrap"])
 
 	app.controller("DeleteController", function($scope, $http, $element, $animate)
 	{
