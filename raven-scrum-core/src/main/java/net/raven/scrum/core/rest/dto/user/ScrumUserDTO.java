@@ -12,7 +12,7 @@ public class ScrumUserDTO
 
 	private String login;
 
-	private ProjectRole role;
+	private ProjectRole role = ProjectRole.DEVELOPER; // Default project role
 
 	private String tag;
 

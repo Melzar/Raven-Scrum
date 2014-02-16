@@ -47,7 +47,7 @@ public class ScrumUser
 	// @JoinColumn(name = "id_user", nullable = false, updatable = false) },
 	// inverseJoinColumns = { @JoinColumn(name = "id_project", nullable = false,
 	// updatable = false) })
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.project")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user")
 	private Set<ScrumUserProjectRole> userprojectrole;
 
 	// private Set<ScrumProject> projects;
