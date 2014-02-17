@@ -391,6 +391,13 @@ sccontrollers.controller('SidebarController', function($scope, $http, $modal, Te
 
 sccontrollers.controller('EpicController', function($scope, $http, TemplateData )
 {
+
+	$scope.resetEpicData = function ()
+	{
+		$scope.selectedcolor = $scope.DEFAULTCOLOR;
+		$scope.epictext = "";	
+	}
+
 	$scope.epiccolors = [{'color':{'background-color': '#F1A2C8'}, 'code':'#F1A2C8'},
 	 {'color':{'background-color': '#E1A2F1'}, 'code': '#E1A2F1'},
 	 {'color':{'background-color': '#C2A2F1'}, 'code': '#C2A2F1'},
@@ -404,8 +411,9 @@ sccontrollers.controller('EpicController', function($scope, $http, TemplateData 
 	 {'color':{'background-color': '#F1DBA2'}, 'code': '#F1DBA2'},
 	 {'color':{'background-color': '#F1C5A2'}, 'code': '#F1C5A2'},
 	 {'color':{'background-color': '#F1B5A2'}, 'code': '#F1B5A2'}];
-	 $scope.selectedcolor = $scope.epiccolors[0];
-
+	 $scope.DEFAULTCOLOR = $scope.epiccolors[0];
+	 $scope.resetEpicData();
+	 $scope.epics = [];
 
 	$scope.toggle = function ()
 	{
@@ -421,6 +429,12 @@ sccontrollers.controller('EpicController', function($scope, $http, TemplateData 
 	{
 		$scope.selectedcolor = color;
 		$scope.togglePicker();
+	}
+
+	$scope.submitEpic = function ()
+	{
+		$scope.epics.push({'epiccolor': $scope.selectedcolor, 'epictext': $scope.epictext});
+		$scope.resetEpicData();
 	}
 
 })

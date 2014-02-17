@@ -29,17 +29,25 @@ app.factory('TemplateData', function()
 									<span class="input-group-addon color">
 										<a class="btn btn-xs color-picker" ng-style="selectedcolor.color" ng-click="togglePicker()"></a>
 									</span>
-									<input type="text" class="form-control input-sm">
+									<input type="text" class="form-control input-sm" ng-model="$parent.epictext">
 									<div class="colors-wrapper" ng-if="picker">
 										<div class="colors-container">
 											<div class="color-container inline" ng-repeat="ec in epiccolors" ng-style="ec.color" ng-click="chooseColor(ec)"></div>
 										</div>
 									</div>
 									<span class="input-group-btn">
-										<button class="btn btn-default btn-sm">Submit</button>
+										<a class="btn btn-default btn-sm" ng-click="submitEpic()">Submit</a>
 									</span>
 								</div>
 							</div>
+							<hr>
+							<div class="epic epic-content">
+								<div class="epic epic-element" ng-repeat="epic in epics">
+									<div class="color-container inline" ng-style="epic.epiccolor.color" ng-click="chooseColor()"></div>
+									<span class="epic-text">{{epic.epictext}}</span>
+									<a class="btn btn-default btn-xs"><i class="fa fa-cog"></i></a>
+								</div>
+							</div>					
 						</div>
 					</div>
 				</div>
