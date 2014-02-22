@@ -42,10 +42,29 @@ app.factory('TemplateData', function()
 							</div>
 							<hr>
 							<div class="epic epic-content">
-								<div class="epic epic-element" ng-repeat="epic in epics">
-									<div class="color-container inline" ng-style="epic.epiccolor.color" ng-click="chooseColor()"></div>
-									<span class="epic-text">{{epic.epictext}}</span>
-									<a class="btn btn-default btn-xs"><i class="fa fa-cog"></i></a>
+								<div class="epic epic-element transitionable" ng-repeat="epic in epics">
+									<div class="color-container inline" ng-style="epic.epiccolor.color" ng-click="changeEpicColor(epic)"></div>
+									{{epic.epiccolor.picker}}
+									<div class="colors-container" ng-if="epic.picker" ng-class="{'transitionable': epic.picker}">
+											<div class="color-container inline" ng-repeat="ec in epiccolors" ng-style="ec.color" ng-click="chooseEpicColor(ec, epic)"></div>
+									</div>
+									<div class="input-group" ng-if="epic.edit">
+							          <input type="text" ng-model="epic.epictext" class="form-control input-sm">
+							          <span class="input-group-btn">
+							            <a class="btn btn-default btn-sm" type="button" ng-click="saveEpicText(epic)">Save</a>
+							          </span>
+							        </div>
+									<span class="epic-text" ng-if="!epic.edit">{{epic.epictext}}</span>
+									<div class="btn-group" ng-if="!epic.edit">
+								        <a id="btnGroupVerticalDrop1" type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+								          <i class="fa fa-cog"></i>
+								          <span class="caret"></span>
+								        </a>
+								        <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop1">
+								          <li><a href="#" ng-click="editEpicText(epic)">Edit</a></li>
+								          <li><a href="#" ng-click="deleteEpic($index)">Delete</a></li>
+								        </ul>
+								    </div>
 								</div>
 							</div>					
 						</div>

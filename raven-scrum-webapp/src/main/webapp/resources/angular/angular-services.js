@@ -71,3 +71,11 @@ scservices.service('AccountService', function($http, TemplateData){
 		})
 	}
 })
+
+scservices.service('BooleanTools', function(){
+	
+	this.toggler = function(value)
+	{
+		return (!value) ? true : false;
+	}
+})

@@ -13,6 +13,22 @@
 	-o-animation-name: fadeOut !important;
 	animation-name: fadeOut !important;
 }
+
+.transitionable.ng-enter,
+.transitionable.ng-leave {
+  -webkit-transition:0.5s linear all;
+  transition:0.5s linear all;
+}
+
+.transitionable.ng-enter,
+.transitionable.ng-leave.ng-leave-active {
+  opacity:0;
+}
+.transitionable.ng-leave,
+.transitionable.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
 /** END **/
 
 a:hover
@@ -460,9 +476,41 @@ body
 	margin-top: 5px;
 }
 
-.epic-element > .btn
+.epic-element > .btn-group
 {
 	float: right;
+}
+
+.epic-element > .btn-group > .dropdown-menu
+{
+	background-color: #fff;
+}
+
+.epic-element > .btn-group > .dropdown-menu > li > a
+{
+	color: rgb(58, 57, 46);
+}
+
+.epic-element > .btn-group > .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+	color: rgb(58, 57, 46);
+}
+
+.epic-element > .btn-group > .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+background-color: #F3F2E7;
+background-image: -webkit-gradient(linear, left 0%, left 100%, from(#F3F2E7), to(#F3F2E7));
+background-image: -webkit-linear-gradient(top, #F3F2E7, 0%, #F3F2E7, 100%);
+background-image: -moz-linear-gradient(top, #F3F2E7 0%, #F3F2E7 100%);
+background-image: linear-gradient(to bottom, #F3F2E7 0%, #F3F2E7 100%);
+background-repeat: repeat-x;
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffF3F2E7', endColorstr='#ffF3F2E7', GradientType=0);
+}
+
+.epic-element > .colors-container
+{
+	left: 11%;
+	margin-top: 26;
+	width: 78%;
+	z-index: 100;
 }
 
 .epic-element > .epic-text
@@ -471,14 +519,14 @@ body
 	margin: 0 5px;
 }
 
-.epic > .btn > i
+.epic > .btn-group > .btn > i
 {
 	margin-right: 0px;
 }
 
-.epic > .btn
+.epic > .btn-group > .btn
 {
-	padding: 5px 10px;
+	padding: 3px 7px;
 }
 
 .filter-box

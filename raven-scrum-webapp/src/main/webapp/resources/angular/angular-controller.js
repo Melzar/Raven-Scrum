@@ -389,7 +389,7 @@ sccontrollers.controller('SidebarController', function($scope, $http, $modal, Te
 	}
 })
 
-sccontrollers.controller('EpicController', function($scope, $http, TemplateData )
+sccontrollers.controller('EpicController', function($scope, $http, TemplateData, BooleanTools )
 {
 
 	$scope.resetEpicData = function ()
@@ -417,12 +417,17 @@ sccontrollers.controller('EpicController', function($scope, $http, TemplateData 
 
 	$scope.toggle = function ()
 	{
-		(!$scope.addepic) ? $scope.addepic = true : $scope.addepic = false ;
+		$scope.addepic = BooleanTools.toggler($scope.addepic);
 	}
 
 	$scope.togglePicker = function ()
 	{
-		(!$scope.picker) ? $scope.picker = true : $scope.picker = false ;
+		$scope.picker = BooleanTools.toggler($scope.picker);
+	}
+
+	$scope.toggleEpicPicker = function(epic)
+	{
+		epic.picker = BooleanTools.toggler(epic.picker);
 	}
 
 	$scope.chooseColor = function (color)
@@ -431,10 +436,36 @@ sccontrollers.controller('EpicController', function($scope, $http, TemplateData 
 		$scope.togglePicker();
 	}
 
+	$scope.changeEpicColor = function (epic)
+	{
+		$scope.toggleEpicPicker(epic);
+	}
+
+	$scope.chooseEpicColor = function (color, epic)
+	{
+		epic.epiccolor = color;
+		$scope.toggleEpicPicker(epic);
+	}
+
 	$scope.submitEpic = function ()
 	{
 		$scope.epics.push({'epiccolor': $scope.selectedcolor, 'epictext': $scope.epictext});
 		$scope.resetEpicData();
+	}
+
+	$scope.editEpicText = function(epic)
+	{
+		epic.edit = BooleanTools.toggler(epic.edit);
+	}
+
+	$scope.deleteEpic = function(index)
+	{
+		$scope.epics.splice(index, 1);
+	}
+
+	$scope.saveEpicText = function(epic)
+	{
+		epic.edit = BooleanTools.toggler(epic.edit);
 	}
 
 })
