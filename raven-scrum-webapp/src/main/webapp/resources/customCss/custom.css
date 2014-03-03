@@ -14,6 +14,22 @@
 	animation-name: fadeOut !important;
 }
 
+.spin-fast
+{
+	-webkit-animation: spin 1s infinite linear !important;
+	-moz-animation: spin 1s infinite linear !important;
+	-o-animation: spin 1s infinite linear !important;
+	animation: spin 1s infinite linear !important;
+}
+
+.spin-veryfast
+{
+	-webkit-animation: spin 0.5s infinite linear !important;
+	-moz-animation: spin 0.5s infinite linear !important;
+	-o-animation: spin 0.5s infinite linear !important;
+	animation: spin 0.5s infinite linear !important;
+}
+
 .transitionable.ng-enter,
 .transitionable.ng-leave {
   -webkit-transition:0.5s linear all;
@@ -37,6 +53,10 @@ a:hover
 	cursor: pointer;
 }
 
+.affix {
+	top: 64px;
+}
+
 .alert-icon
 {
 	height: 60px;
@@ -44,6 +64,22 @@ a:hover
 	padding: 10px 10 10 0;
 	text-align: center;
 }
+
+.backlog-tasks
+{
+	margin: 2px 0px 2px 20px;
+}
+
+.backlog-subtasks
+{
+	margin: 2px 0px 0px 20px;
+}
+
+.backlog-subtask > .DONE *
+{
+	text-decoration: line-through !important;
+}
+
 
 .avatar-small
 {
@@ -63,6 +99,16 @@ body
 	-webkit-box-shadow: 1px 0px 0px 0px #fff;
 	box-shadow: 1px 0px 0px 0px #fff;
 }
+
+@-moz-document url-prefix() {
+
+	.bordered-right
+	{
+		border-right: none;
+		box-shadow: 1px 0px 0px 0px #CECAC4;
+	}
+}
+
 
 .box
 {
@@ -377,6 +423,23 @@ body
 {
 	margin: 5px 5px;
 }
+
+.container-wrapper
+{
+	border-radius: 4px;
+	-webkit-box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.15);
+	box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.15);
+}
+
+.container
+{
+	border-radius: 4px;
+	border: 1px solid #CECAC4;
+	border-bottom: 1px solid #bbb;
+	-webkit-box-shadow: inset 0px -2px 2px 0px rgba(0,0,0,0.05),inset 1px 1px 2px 0px #fff;
+	box-shadow: inset 0px -2px 2px 0px rgba(0,0,0,0.05),inset 1px 1px 2px 0px #fff;
+}
+
 
 .date-container
 {
@@ -833,6 +896,17 @@ hr
 	width: 22%;
 }
 
+.root-task
+{
+	background-color: #FCFBE3;
+	padding: 10px 10px 10px 10px;
+}
+
+.root-task > a > i
+{
+	margin-top : 3px;
+}
+
 .scrum-column > p
 {
 	margin: 0 0 0 0;
@@ -1024,11 +1098,18 @@ hr
 .subtask-description
 {
 	-webkit-line-clamp: 2;
+	height: 3em; /* exactly three lines */
+  	text-overflow: -o-ellipsis-lastline;
 }
 
 .subtask-done *
 {
 	text-decoration: line-through !important;
+}
+
+.subtask-done
+{
+	text-decoration: line-through;
 }
 
 .subtask-table
@@ -1073,6 +1154,24 @@ hr
 	display: table-cell;
 }
 
+.task-parent
+{
+	background-color: #FFFFFF;
+	padding: 5px 10px 5px 10px;
+}
+
+.task-parent > a > i
+{
+	margin-top: 4px;
+	cursor: pointer;
+}
+
+.task-child
+{
+	background-color: #FFFFFF;
+	padding: 0px 10px 2px 10px;
+}
+
 .task-header
 {
 	padding: 10px 10px 10px 10px;
@@ -1082,6 +1181,11 @@ hr
 	border-bottom: 1px solid #bbb;
 	-webkit-box-shadow: inset 0px -2px 2px 0px rgba(0,0,0,0.05),inset 1px 1px 2px 0px #fff;
 	box-shadow: inset 0px -2px 2px 0px rgba(0,0,0,0.05),inset 1px 1px 2px 0px #fff;
+}
+
+.task-header > a > i 
+{
+	margin : 3px 5px 0px 10px;
 }
 
 .task-wrapper
@@ -1096,8 +1200,13 @@ hr
 {
 	overflow: hidden;
 	display: -webkit-box;
+	display: block;
 	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-ms-text-overflow: ellipsis;
+	-moz-binding:url(ellipsis-xbl.xml#ellipsis);
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
 }
 
 .text-limit-1
