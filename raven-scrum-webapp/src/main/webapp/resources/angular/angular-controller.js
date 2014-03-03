@@ -88,6 +88,7 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 	$scope.subtaskdata = {id: '', state: ''};
 	$http.get(TemplateData.sourcelink + '/rest/scrumboard/active?project='+TemplateData.project).success(function(data,status,headers,cfg){
 		$scope.scrumdata.projectdata = data;
+		$scope.loaded = true;
 		if(data.sprint)
 		{
 			$scope.scrumtasks = data.sprint.tasks;
@@ -96,6 +97,7 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 			})
 		}	
 	}).error(function(data,status,headers,cfg){
+		$scope.loaded = true;
 		//TODO MESSAGE OF ERROR
 	})
 
@@ -467,6 +469,18 @@ sccontrollers.controller('EpicController', function($scope, $http, TemplateData,
 	{
 		epic.edit = BooleanTools.toggler(epic.edit);
 	}
+})
 
+sccontrollers.controller('BacklogTaskController', function($scope, $http, TemplateData){
+	$http.get(TemplateData.sourcelink + '/rest/backlog/data?project='+TemplateData.project).success(function(data,status,headers,cfg){
+		$scope.backlogdata = data;
+		if(data.sprintdata)
+		{
+			$scope.scrumtasks = data.sprintdata.tasks;
+			console.log($scope);
+		}	
+	}).error(function(data,status,headers,cfg){
+		//TODO MESSAGE OF ERROR
+	})
 })
 
