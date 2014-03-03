@@ -108,7 +108,16 @@ app.factory('TemplateData', function()
 								<!-- Content injected dynamically -->
 							</div>	
 						</div>
-						<div class="row" ng-if="!scrumdata.projectdata.sprint">
+						<div class="row" ng-if="!loaded">
+							<div class="col-md-12">
+									<div class="box-small-wrapper">
+										<div class="box-small-content box-noborder-top box-notop-radius">
+											<p class="text-center no-margin"><i class="fa fa-cog spin-fast fa-3x"></i></p>
+										</div>
+									</div>
+							</div>
+						</div>
+						<div class="row" ng-if="!scrumdata.projectdata.sprint && loaded">
 							<div class="col-md-12">
 									<div class="box-small-wrapper">
 										<div class="box-small-content box-noborder-top box-notop-radius">
@@ -117,7 +126,7 @@ app.factory('TemplateData', function()
 									</div>
 							</div>
 						</div>
-						<div class="row" ng-if="scrumdata.projectdata.sprint.tasks.length == 0">
+						<div class="row" ng-if="scrumdata.projectdata.sprint.tasks.length == 0 && loaded">
 							<div class="col-md-12">
 									<div class="box-small-wrapper">
 										<div class="box-small-content box-noborder-top box-notop-radius">
@@ -130,8 +139,8 @@ app.factory('TemplateData', function()
 					</div>
 				</div>
 			</div>
-			<div ng-if="rightpanel" class="table-cell-layout box-content right-panel" ng-class="{'fadeIn animated': rightpanel}">
-				<div class="box-small-wrapper fixed-layout right-panel-styles" id="affix">
+			<div ng-if="rightpanel" class="table-cell-layout box-content right-panel transitionable">
+				<div class="box-small-wrapper fixed-layout right-panel-styles" affix="75">
 				<div class="box-small-content">
 				<div class="box-small-header">
 					<button type="button" class="close pull-right" ng-click="hidePanel()">×</button>
@@ -193,7 +202,7 @@ app.factory('TemplateData', function()
 <div ng-if="closeSprint">
 	<div ng-sprint-close-popup></div>
 </div>
-<div class="sidebar-left transitionable" ng-controller="SidebarController" ng-class="{'left-hide': hidden}" ng-if="scrumdata.projectdata.sprint">
+<div class="sidebar-left transitionable" ng-controller="SidebarController" ng-class="{'left-hide': hidden}" ng-if="scrumdata.projectdata.sprint" ng-init="hidden = true">
 	<div class="element transitionable">
 		<a class="" ng-click="hidden = !hidden" ng-class="{'sidebar-left-show-btn' : hidden, 'sidebar-left-hide-btn': !hidden}"><i class="fa fa-angle-double-left"></i></a>
 		<ul class="list-unstyled element-list">
