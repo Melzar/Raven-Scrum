@@ -1,10 +1,12 @@
-	<div class="box-small-wrapper box-no-radius box-border-left-right" ng-repeat="task in scrumtasks">
+	<div class="box-small-wrapper box-no-radius box-border-left-right transitionable" ng-repeat="task in scrumtasks">
 			<div class="row loadin">
 				<div class="col-lg-12">
 					<div class="task-wrapper">
 					<div class="task-header">
-						<a class="task-title">{{task.title}}</a>
-						<small> : {{task.description}}</small>
+						<a class="task-title" ng-class="{'subtask-done': task.progress.TODO.length == 0 && task.progress.DOING.length == 0 && task.progress.UAT.length == 0 && task.progress.DONE.length > 0 }">{{task.title}}</a>
+						<small ng-class="{'subtask-done': task.progress.TODO.length == 0 && task.progress.DOING.length == 0 && task.progress.UAT.length == 0 && task.progress.DONE.length > 0 }"> : {{task.description}}</small>
+						<a class="pull-right" ng-if="!task.showChildren" ng-click="task.showChildren = !task.showChildren"><i class="fa fa-angle-double-down"></i></a>			
+						<a class="pull-right" ng-if="task.showChildren" ng-click="task.showChildren = !task.showChildren"><i class="fa fa-angle-double-up"></i></a>
 						<span class="pull-right">		
 									T: {{task.progress.TODO.length}}
 									D: {{task.progress.DOING.length}}
@@ -15,7 +17,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="subtask-table" id="{{task.id}}">
+			<div class="subtask-table" id="{{task.id}}" ng-if="task.showChildren">
 					<div class="bordered-right subtask-column column-first" data-drop="true" data-jqyoui-options="{accept:'.subtask:not([subtask={{task.id}}])'}" jqyoui-droppable="{multiple:true, onDrop: 'changestate'}" ng-model="task.progress.TODO" subtask="{{task.id}}" ng-dropped data-state="TODO">
 						<div class="subtask" ng-model="task.progress.TODO" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getsubtask'}" ng-repeat="subtask in task.progress.TODO" data-jqyoui-options="{revert: 'invalid', containment: '#'+'{{task.id}}' }" data-idsub="{{subtask.id}}"  data-drag="true" ng-init="subtask.state = 'TODO'" ng-scrum-task></div>
 					</div>
