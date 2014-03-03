@@ -19,6 +19,7 @@ import net.raven.scrum.core.repository.ScrumProjectRepository;
 import net.raven.scrum.core.repository.ScrumSprintRepository;
 import net.raven.scrum.core.repository.ScrumTaskRepository;
 import net.raven.scrum.core.repository.ScrumUserRepository;
+import net.raven.scrum.core.rest.dto.scrum.BacklogDTO;
 import net.raven.scrum.core.rest.dto.scrum.ProjectDTO;
 import net.raven.scrum.core.rest.dto.scrum.SprintDTO;
 import net.raven.scrum.core.rest.dto.scrum.TaskDTO;
@@ -90,6 +91,7 @@ public class ScrumServiceImpl implements ScrumService
 						.getAssigned().getIdUser() : 0);
 				taskdto.setTitle(task.getTitle());
 				taskdto.setDescription(task.getDescription());
+				taskdto.setShowChildren(true);
 				for (ScrumTask subtask : task.getSubtasks())
 				{
 					TaskDTO subdto = new TaskDTO();
@@ -193,5 +195,45 @@ public class ScrumServiceImpl implements ScrumService
 		sprint = sprintRepository.save(sprint);
 		sprintDTO.setStatus(SprintStatus.DONE);
 		return sprintDTO;
+	}
+
+	@Override
+	public BacklogDTO prepareBacklogData(Long idProject) throws ScrumException
+	{
+		BacklogDTO backlogdto = new BacklogDTO();
+		ScrumSprint ss = sprintRepository.getSprintData(idProject,
+				SprintStatus.ACTIVE);
+		SprintDTO sprintDTO = new SprintDTO();
+		sprintDTO.setId(ss.getIdSprint());
+		sprintDTO.setStartDate(ss.getStartDate());
+		sprintDTO.setEndDate(ss.getEndDate());
+		sprintDTO.setStatus(ss.getStatus());
+		for (ScrumTask task : ss.getTasks())
+		{
+			TaskDTO taskdto = new TaskDTO();
+			taskdto.setId(task.getIdTask());
+			taskdto.setIdUser((task.getAssigned() != null) ? task.getAssigned()
+					.getIdUser() : 0);
+			taskdto.setTitle(task.getTitle());
+			taskdto.setDescription(task.getDescription());
+			taskdto.setState(TaskState.DONE);
+			for (ScrumTask subtask : task.getSubtasks())
+			{
+				TaskDTO subdto = new TaskDTO();
+				subdto.setId(subtask.getIdTask());
+				subdto.setIdParent(task.getIdTask());
+				subdto.setIdUser(subtask.getAssigned().getIdUser());
+				subdto.setTitle(subtask.getTitle());
+				subdto.setDescription(subtask.getDescription());
+				subdto.setState(subtask.getState());
+				subdto.setType(subtask.getType());
+				if (subdto.getState() != TaskState.DONE)
+					taskdto.setState(subdto.getState());
+				taskdto.getSubtasksRaw().add(subdto);
+			}
+			sprintDTO.getTasks().add(taskdto);
+		}
+		backlogdto.setSprintdata(sprintDTO);
+		return backlogdto;
 	}
 }
