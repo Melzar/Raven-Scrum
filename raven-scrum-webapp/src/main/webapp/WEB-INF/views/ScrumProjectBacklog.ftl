@@ -71,9 +71,36 @@ app.factory('TemplateData', function()
 					</div>
 				</div>
 				<div class="col-md-6">
-						<div class="box-small-wrapper">
+						<div class="box-small-wrapper" ng-controller="BacklogTaskController">
 							<div class="box-small-content">
 								<h2>Tasks</h2>
+								<div class="backlog-sprint container-wrapper">
+										<div class="backlog-sprint container root-task" ng-init="sprint.showChildren = true">
+											SPRINT
+											<a class="pull-right" ng-if="!sprint.showChildren" ng-click="sprint.showChildren = !sprint.showChildren"><i class="fa fa-angle-double-down fa-2x"></i></a>			
+											<a class="pull-right" ng-if="sprint.showChildren" ng-click="sprint.showChildren = !sprint.showChildren"><i class="fa fa-angle-double-up fa-2x"></i></a>
+										</div>
+								</div>
+								<div class="backlog-tasks" ng-if="sprint.showChildren" ng-repeat="task in scrumtasks">
+										<div class="backlog-task container-wrapper">
+												<div class="backlog-task container task-parent">
+													<a ng-class="{'subtask-done': task.state == 'DONE'}">{{task.title}}</a>		
+													<small ng-class="{'subtask-done': task.state == 'DONE'}"> : {{task.description}}</small>	
+													<a class="pull-right" ng-if="!task.showChildren" ng-click="task.showChildren = !task.showChildren"><i class="fa fa-angle-double-down"></i></a>			
+													<a class="pull-right" ng-if="task.showChildren" ng-click="task.showChildren = !task.showChildren"><i class="fa fa-angle-double-up"></i></a>			
+												</div>
+										</div>
+										<div class="backlog-subtasks" ng-if="task.showChildren" ng-repeat="subtask in task.subtasksRaw">
+											<div ng-backlog-subtask></div>										
+										</div>
+								</div>
+								<div class="backlog-planned container-wrapper">
+									<div class="backlog-planned container root-task" ng-init="backlog.showChildren = true">
+											BACKLOG
+											<a class="pull-right" ng-if="!backlog.showChildren" ng-click="backlog.showChildren = !backlog.showChildren"><i class="fa fa-angle-double-down fa-2x"></i></a>			
+											<a class="pull-right" ng-if="backlog.showChildren" ng-click="backlog.showChildren = !backlog.showChildren"><i class="fa fa-angle-double-up fa-2x"></i></a>
+									</div>
+								</div>
 							</div>
 						</div>
 				</div>
