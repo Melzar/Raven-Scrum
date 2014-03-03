@@ -2,6 +2,8 @@ package net.raven.scrum.core.rest.dto.scrum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import net.raven.scrum.core.enumeration.scrum.TaskState;
@@ -26,6 +28,10 @@ public class TaskDTO
 
 	private Map<TaskState, ArrayList<TaskDTO>> progress;
 
+	private List<TaskDTO> subtasksRaw;
+
+	private boolean showChildren;
+
 	public TaskDTO()
 	{
 		progress = new HashMap<TaskState, ArrayList<TaskDTO>>();
@@ -33,6 +39,7 @@ public class TaskDTO
 		progress.put(TaskState.DOING, new ArrayList<TaskDTO>());
 		progress.put(TaskState.UAT, new ArrayList<TaskDTO>());
 		progress.put(TaskState.DONE, new ArrayList<TaskDTO>());
+		subtasksRaw = new LinkedList<>();
 	}
 
 	public long getId()
@@ -114,7 +121,24 @@ public class TaskDTO
 	{
 		this.progress = progress;
 	}
-	
-	
 
+	public List<TaskDTO> getSubtasksRaw()
+	{
+		return subtasksRaw;
+	}
+
+	public void setSubtasksRaw(List<TaskDTO> subtasksRaw)
+	{
+		this.subtasksRaw = subtasksRaw;
+	}
+
+	public boolean isShowChildren()
+	{
+		return showChildren;
+	}
+
+	public void setShowChildren(boolean showChildren)
+	{
+		this.showChildren = showChildren;
+	}
 }

@@ -2,6 +2,7 @@ package net.raven.scrum.core.rest.dto.scrum;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
 
 import net.raven.scrum.core.enumeration.scrum.SprintStatus;
 
@@ -22,7 +23,7 @@ public class SprintDTO
 
 	public SprintDTO()
 	{
-
+		tasks = new LinkedList<>();
 	}
 
 	public long getId()
