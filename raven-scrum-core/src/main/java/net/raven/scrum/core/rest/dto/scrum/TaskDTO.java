@@ -32,6 +32,8 @@ public class TaskDTO
 
 	private boolean showChildren;
 
+	private EpicDTO epic;
+
 	public TaskDTO()
 	{
 		progress = new HashMap<TaskState, ArrayList<TaskDTO>>();
@@ -141,4 +143,15 @@ public class TaskDTO
 	{
 		this.showChildren = showChildren;
 	}
+
+	public EpicDTO getEpic()
+	{
+		return epic;
+	}
+
+	public void setEpic(EpicDTO epic)
+	{
+		this.epic = epic;
+	}
+
 }

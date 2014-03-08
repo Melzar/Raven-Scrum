@@ -19,6 +19,8 @@ public class ProjectDTO
 
 	private Collection<ScrumUserDTO> projectUsers;
 
+	private Collection<EpicDTO> epics;
+
 	public ProjectDTO()
 	{
 
@@ -82,6 +84,16 @@ public class ProjectDTO
 	public void setStatus(ProjectStatus status)
 	{
 		this.status = status;
+	}
+
+	public Collection<EpicDTO> getEpics()
+	{
+		return epics;
+	}
+
+	public void setEpics(Collection<EpicDTO> epics)
+	{
+		this.epics = epics;
 	}
 
 }
