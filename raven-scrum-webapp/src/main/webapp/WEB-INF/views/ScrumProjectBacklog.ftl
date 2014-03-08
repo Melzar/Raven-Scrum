@@ -27,12 +27,12 @@ app.factory('TemplateData', function()
 								<a class="btn btn-default btn-xs" ng-click="toggle()" ng-if="!addepic">Add epic</a>
 								<div ng-if="addepic" class="input-group" ng-class="{'fadeIn animated': addepic}">
 									<span class="input-group-addon color">
-										<a class="btn btn-xs color-picker" ng-style="selectedcolor.color" ng-click="togglePicker()"></a>
+										<a class="btn btn-xs color-picker" ng-style="{'background-color': selectedcolor.code}" ng-click="togglePicker()"></a>
 									</span>
-									<input type="text" class="form-control input-sm" ng-model="$parent.epictext">
+									<input type="text" class="form-control input-sm" ng-model="$parent.epicName">
 									<div class="colors-wrapper" ng-if="picker">
 										<div class="colors-container">
-											<div class="color-container inline" ng-repeat="ec in epiccolors" ng-style="ec.color" ng-click="chooseColor(ec)"></div>
+											<div class="color-container inline" ng-repeat="ec in epiccolors" ng-style="{'background-color': ec.code}" ng-click="chooseColor(ec)"></div>
 										</div>
 									</div>
 									<span class="input-group-btn">
@@ -43,25 +43,24 @@ app.factory('TemplateData', function()
 							<hr>
 							<div class="epic epic-content">
 								<div class="epic epic-element transitionable" ng-repeat="epic in epics">
-									<div class="color-container inline" ng-style="epic.epiccolor.color" ng-click="changeEpicColor(epic)"></div>
-									{{epic.epiccolor.picker}}
+									<div class="color-container inline" ng-style="{'background-color': epic.color.code}" ng-click="changeEpicColor(epic)"></div>
 									<div class="colors-container" ng-if="epic.picker" ng-class="{'transitionable': epic.picker}">
-											<div class="color-container inline" ng-repeat="ec in epiccolors" ng-style="ec.color" ng-click="chooseEpicColor(ec, epic)"></div>
+											<div class="color-container inline" ng-repeat="ec in epiccolors" ng-style="{'background-color' : ec.code}" ng-click="chooseEpicColor(ec, epic)"></div>
 									</div>
 									<div class="input-group" ng-if="epic.edit">
-							          <input type="text" ng-model="epic.epictext" class="form-control input-sm">
+							          <input type="text" ng-model="epic.epicName" class="form-control input-sm">
 							          <span class="input-group-btn">
-							            <a class="btn btn-default btn-sm" type="button" ng-click="saveEpicText(epic)">Save</a>
+							            <a class="btn btn-default btn-sm" type="button" ng-click="saveEpicName(epic)">Save</a>
 							          </span>
 							        </div>
-									<span class="epic-text" ng-if="!epic.edit">{{epic.epictext}}</span>
+									<span class="epic-text" ng-if="!epic.edit">{{epic.epicName}}</span>
 									<div class="btn-group" ng-if="!epic.edit">
 								        <a id="btnGroupVerticalDrop1" type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
 								          <i class="fa fa-cog"></i>
 								          <span class="caret"></span>
 								        </a>
 								        <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop1">
-								          <li><a href="#" ng-click="editEpicText(epic)">Edit</a></li>
+								          <li><a href="#" ng-click="editEpicName(epic)">Edit</a></li>
 								          <li><a href="#" ng-click="deleteEpic($index)">Delete</a></li>
 								        </ul>
 								    </div>
