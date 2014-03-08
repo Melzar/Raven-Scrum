@@ -33,6 +33,10 @@ public class ScrumProject
 	@JoinColumn(name = "id_project")
 	private Set<ScrumSprint> sprints;
 
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_project")
+	private Set<ScrumEpic> epics;
+
 	// @ManyToMany(fetch = FetchType.LAZY, mappedBy = "projects")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.project", cascade = CascadeType.ALL)
 	private Set<ScrumUserProjectRole> userprojectrole;
@@ -107,6 +111,26 @@ public class ScrumProject
 	}
 
 	public void setUserProjectRole(Set<ScrumUserProjectRole> userprojectrole)
+	{
+		this.userprojectrole = userprojectrole;
+	}
+
+	public Set<ScrumEpic> getEpics()
+	{
+		return epics;
+	}
+
+	public void setEpics(Set<ScrumEpic> epics)
+	{
+		this.epics = epics;
+	}
+
+	public Set<ScrumUserProjectRole> getUserprojectrole()
+	{
+		return userprojectrole;
+	}
+
+	public void setUserprojectrole(Set<ScrumUserProjectRole> userprojectrole)
 	{
 		this.userprojectrole = userprojectrole;
 	}

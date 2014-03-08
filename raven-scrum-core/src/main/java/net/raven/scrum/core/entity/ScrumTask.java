@@ -40,6 +40,10 @@ public class ScrumTask
 
 	private TaskState state;
 
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "scrum_task_epic", joinColumns = { @JoinColumn(name = "id_task", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_epic", nullable = false, updatable = false) })
+	private Set<ScrumEpic> epics;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_parent", insertable = false, updatable = false)
 	private ScrumTask parent;
