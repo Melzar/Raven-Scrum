@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
+import net.raven.scrum.core.entity.ScrumColor;
+import net.raven.scrum.core.entity.ScrumEpic;
 import net.raven.scrum.core.entity.ScrumProject;
 import net.raven.scrum.core.entity.ScrumSprint;
 import net.raven.scrum.core.entity.ScrumTask;
@@ -15,11 +18,15 @@ import net.raven.scrum.core.enumeration.scrum.ProjectRole;
 import net.raven.scrum.core.enumeration.scrum.SprintStatus;
 import net.raven.scrum.core.enumeration.scrum.TaskState;
 import net.raven.scrum.core.exception.ScrumException;
+import net.raven.scrum.core.repository.ScrumColorRepository;
+import net.raven.scrum.core.repository.ScrumEpicRepository;
 import net.raven.scrum.core.repository.ScrumProjectRepository;
 import net.raven.scrum.core.repository.ScrumSprintRepository;
 import net.raven.scrum.core.repository.ScrumTaskRepository;
 import net.raven.scrum.core.repository.ScrumUserRepository;
 import net.raven.scrum.core.rest.dto.scrum.BacklogDTO;
+import net.raven.scrum.core.rest.dto.scrum.ColorDTO;
+import net.raven.scrum.core.rest.dto.scrum.EpicDTO;
 import net.raven.scrum.core.rest.dto.scrum.ProjectDTO;
 import net.raven.scrum.core.rest.dto.scrum.SprintDTO;
 import net.raven.scrum.core.rest.dto.scrum.TaskDTO;
@@ -42,6 +49,12 @@ public class ScrumServiceImpl implements ScrumService
 
 	@Autowired
 	private ScrumProjectRepository projectRepository;
+
+	@Autowired
+	private ScrumEpicRepository epicRepository;
+
+	@Autowired
+	private ScrumColorRepository colorRepository;
 
 	public ScrumServiceImpl()
 	{
@@ -236,4 +249,79 @@ public class ScrumServiceImpl implements ScrumService
 		backlogdto.setSprintdata(sprintDTO);
 		return backlogdto;
 	}
+
+	@Override
+	public Collection<EpicDTO> getProjectEpicsList(long idProject)
+			throws ScrumException
+	{
+		Collection<ScrumEpic> epicsRaw = epicRepository
+				.getProjectEpics(idProject);
+		Collection<EpicDTO> epics = new LinkedList<>();
+		for (ScrumEpic epic : epicsRaw)
+		{
+			EpicDTO dto = new EpicDTO();
+			ColorDTO cdto = new ColorDTO();
+			ScrumColor colorRaw = epic.getColor();
+			cdto.setCode(colorRaw.getCode());
+			cdto.setIdColor(colorRaw.getIdColor());
+			dto.setColor(cdto);
+			dto.setIdEpic(epic.getIdEpic());
+			dto.setEpicName(epic.getEpicName());
+			epics.add(dto);
+		}
+		return epics;
+	}
+
+	@Override
+	public EpicDTO addEpicToProject(EpicDTO epic) throws ScrumException
+	{
+		ScrumEpic ep = new ScrumEpic();
+		ScrumProject proj = projectRepository.findOne(epic.getProject()
+				.getIdProject());
+		ScrumColor color = colorRepository
+				.findOne(epic.getColor().getIdColor());
+		ep.setColor(color);
+		ep.setEpicName(epic.getEpicName());
+		ep.setProject(proj);
+		ep = epicRepository.save(ep);
+		epic.setIdEpic(ep.getIdEpic());
+		return epic;
+	}
+
+	@Override
+	public Collection<ColorDTO> getAllAvailableColors() throws ScrumException
+	{
+		List<ScrumColor> colorsRaw = colorRepository.findAll();
+		Collection<ColorDTO> colors = new LinkedList<>();
+		for (ScrumColor color : colorsRaw)
+		{
+			ColorDTO c = new ColorDTO();
+			c.setIdColor(color.getIdColor());
+			c.setCode(color.getCode());
+			colors.add(c);
+		}
+		return colors;
+	}
+
+	@Override
+	public EpicDTO updateEpicColor(EpicDTO epic) throws ScrumException
+	{
+		epicRepository.updateEpicColor(epic.getIdEpic(), epic.getColor()
+				.getIdColor());
+		return epic;
+	}
+
+	@Override
+	public EpicDTO updateEpicName(EpicDTO epic) throws ScrumException
+	{
+		epicRepository.updateEpicName(epic.getEpicName(), epic.getIdEpic());
+		return epic;
+	}
+
+	@Override
+	public void deleteEpic(long idEpic) throws ScrumException
+	{
+		epicRepository.delete(idEpic);
+	}
+
 }
