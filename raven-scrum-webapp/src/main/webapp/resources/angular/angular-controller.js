@@ -393,29 +393,44 @@ sccontrollers.controller('SidebarController', function($scope, $http, $modal, Te
 
 sccontrollers.controller('EpicController', function($scope, $http, TemplateData, BooleanTools )
 {
+	$scope.epics = [];
+	$http.get(TemplateData.sourcelink + '/rest/backlog/epic/list?project=' + TemplateData.project).success(function(data,status)
+	{
+		$scope.epics = data;
+	}).error(function(data, status)
+	{
+		//TODO error message
+	})
+
+	$http.get(TemplateData.sourcelink + '/rest/backlog/colors/list').success(function(data,status)
+	{
+		$scope.epiccolors = data;
+		$scope.DEFAULTCOLOR = $scope.epiccolors[0];
+		$scope.resetEpicData();
+	}).error(function(data, status)
+	{
+		//TODO error message
+	})
 
 	$scope.resetEpicData = function ()
 	{
 		$scope.selectedcolor = $scope.DEFAULTCOLOR;
-		$scope.epictext = "";	
+		$scope.epicName = "";	
 	}
 
-	$scope.epiccolors = [{'color':{'background-color': '#F1A2C8'}, 'code':'#F1A2C8'},
-	 {'color':{'background-color': '#E1A2F1'}, 'code': '#E1A2F1'},
-	 {'color':{'background-color': '#C2A2F1'}, 'code': '#C2A2F1'},
-	 {'color':{'background-color': '#A2AFF1'}, 'code': '#A2AFF1'},
-	 {'color':{'background-color': '#A2CEF1'}, 'code': '#A2CEF1'},
-	 {'color':{'background-color': '#A2EEF1'}, 'code': '#A2EEF1'},
-	 {'color':{'background-color': '#A2F1D1'}, 'code': '#A2F1D1'},
-	 {'color':{'background-color': '#A2F1AF'}, 'code': '#A2F1AF'},
-	 {'color':{'background-color': '#D1F1A2'}, 'code': '#D1F1A2'},
-	 {'color':{'background-color': '#F1EBA2'}, 'code': '#F1EBA2'},
-	 {'color':{'background-color': '#F1DBA2'}, 'code': '#F1DBA2'},
-	 {'color':{'background-color': '#F1C5A2'}, 'code': '#F1C5A2'},
-	 {'color':{'background-color': '#F1B5A2'}, 'code': '#F1B5A2'}];
-	 $scope.DEFAULTCOLOR = $scope.epiccolors[0];
-	 $scope.resetEpicData();
-	 $scope.epics = [];
+	// $scope.epiccolors = [{'color':{'background-color': '#F1A2C8'}, 'code':'#F1A2C8'},
+	//  {'color':{'background-color': '#E1A2F1'}, 'code': '#E1A2F1'},
+	//  {'color':{'background-color': '#C2A2F1'}, 'code': '#C2A2F1'},
+	//  {'color':{'background-color': '#A2AFF1'}, 'code': '#A2AFF1'},
+	//  {'color':{'background-color': '#A2CEF1'}, 'code': '#A2CEF1'},
+	//  {'color':{'background-color': '#A2EEF1'}, 'code': '#A2EEF1'},
+	//  {'color':{'background-color': '#A2F1D1'}, 'code': '#A2F1D1'},
+	//  {'color':{'background-color': '#A2F1AF'}, 'code': '#A2F1AF'},
+	//  {'color':{'background-color': '#D1F1A2'}, 'code': '#D1F1A2'},
+	//  {'color':{'background-color': '#F1EBA2'}, 'code': '#F1EBA2'},
+	//  {'color':{'background-color': '#F1DBA2'}, 'code': '#F1DBA2'},
+	//  {'color':{'background-color': '#F1C5A2'}, 'code': '#F1C5A2'},
+	//  {'color':{'background-color': '#F1B5A2'}, 'code': '#F1B5A2'}];
 
 	$scope.toggle = function ()
 	{
@@ -445,29 +460,53 @@ sccontrollers.controller('EpicController', function($scope, $http, TemplateData,
 
 	$scope.chooseEpicColor = function (color, epic)
 	{
-		epic.epiccolor = color;
-		$scope.toggleEpicPicker(epic);
+		epic.color = color;
+		$http.post(TemplateData.sourcelink + '/rest/backlog/epic/updateColor', epic ).success(function(data,status)
+		{		
+			$scope.toggleEpicPicker(epic);
+		}).error(function(data,status)
+		{
+			//TODO error message
+		})
 	}
 
 	$scope.submitEpic = function ()
 	{
-		$scope.epics.push({'epiccolor': $scope.selectedcolor, 'epictext': $scope.epictext});
-		$scope.resetEpicData();
+		$http.post(TemplateData.sourcelink + '/rest/backlog/epic/save', {"epicName": $scope.epicName, "color": $scope.selectedcolor, "project": {"idProject": TemplateData.project} }).success(function(data,status)
+		{
+			$scope.epics.push(data);
+			$scope.resetEpicData();
+		}).error(function(data,status)
+		{
+			//TODO error message
+		})
 	}
 
-	$scope.editEpicText = function(epic)
+	$scope.editEpicName = function(epic)
 	{
 		epic.edit = BooleanTools.toggler(epic.edit);
 	}
 
 	$scope.deleteEpic = function(index)
 	{
-		$scope.epics.splice(index, 1);
+		$http.delete(TemplateData.sourcelink + '/rest/backlog/epic/delete?epic=' + $scope.epics[index].idEpic).success(function(data,status)
+		{
+			$scope.epics.splice(index, 1);
+		}).error(function(data,status)
+		{
+			//TODO error message
+		})		
 	}
 
-	$scope.saveEpicText = function(epic)
+	$scope.saveEpicName = function(epic)
 	{
-		epic.edit = BooleanTools.toggler(epic.edit);
+		$http.post(TemplateData.sourcelink + '/rest/backlog/epic/updateName', epic).success(function(data,status)
+		{
+			epic.edit = BooleanTools.toggler(epic.edit);
+		}).error(function(data,success)
+		{
+			//TODO error message
+		})		
 	}
 })
 
