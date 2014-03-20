@@ -22,6 +22,8 @@ public interface ScrumService
 	public Collection<EpicDTO> getProjectEpicsList(long idProject)
 			throws ScrumException;
 
+	public TaskDTO editTaskDescription(TaskDTO taskDTO) throws ScrumException;
+
 	public EpicDTO updateEpicColor(EpicDTO epic) throws ScrumException;
 
 	public EpicDTO updateEpicName(EpicDTO epic) throws ScrumException;
@@ -32,10 +34,16 @@ public interface ScrumService
 
 	public TaskDTO changeTaskState(TaskDTO subtaskDTO) throws ScrumException;
 
+	public TaskDTO changeTaskType(TaskDTO subtaskDTO) throws ScrumException;
+
+	public TaskDTO changeTaskUser(TaskDTO subtaskDTO) throws ScrumException;
+
 	public TaskDTO deleteTask(TaskDTO subtaskDTO) throws ScrumException;
 
 	public TaskDTO makeSubtaskParentTask(TaskDTO subtaskDTO)
 			throws ScrumException;
+
+	public TaskDTO scopeOutTask(TaskDTO subtaskDTO) throws ScrumException;
 
 	public TaskDTO addSubtaskQuick(Long idParent, TaskDTO subtaskDTO)
 			throws ScrumException;

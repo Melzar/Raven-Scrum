@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import net.raven.scrum.core.entity.ScrumBacklog;
 import net.raven.scrum.core.entity.ScrumColor;
 import net.raven.scrum.core.entity.ScrumEpic;
 import net.raven.scrum.core.entity.ScrumProject;
@@ -18,6 +19,7 @@ import net.raven.scrum.core.enumeration.scrum.ProjectRole;
 import net.raven.scrum.core.enumeration.scrum.SprintStatus;
 import net.raven.scrum.core.enumeration.scrum.TaskState;
 import net.raven.scrum.core.exception.ScrumException;
+import net.raven.scrum.core.repository.ScrumBacklogRepository;
 import net.raven.scrum.core.repository.ScrumColorRepository;
 import net.raven.scrum.core.repository.ScrumEpicRepository;
 import net.raven.scrum.core.repository.ScrumProjectRepository;
@@ -55,6 +57,9 @@ public class ScrumServiceImpl implements ScrumService
 
 	@Autowired
 	private ScrumColorRepository colorRepository;
+
+	@Autowired
+	private ScrumBacklogRepository backlogRepository;
 
 	public ScrumServiceImpl()
 	{
@@ -105,6 +110,8 @@ public class ScrumServiceImpl implements ScrumService
 				taskdto.setTitle(task.getTitle());
 				taskdto.setDescription(task.getDescription());
 				taskdto.setShowChildren(true);
+				taskdto.setIdSprint(ss.getIdSprint());
+				taskdto.setIdProject(project.getIdProject());
 				for (ScrumTask subtask : task.getSubtasks())
 				{
 					TaskDTO subdto = new TaskDTO();
@@ -115,6 +122,8 @@ public class ScrumServiceImpl implements ScrumService
 					subdto.setDescription(subtask.getDescription());
 					subdto.setState(subtask.getState());
 					subdto.setType(subtask.getType());
+					subdto.setIdSprint(ss.getIdSprint());
+					subdto.setIdProject(project.getIdProject());
 					taskdto.getProgress().get(subtask.getState()).add(subdto);
 				}
 				tasks.add(taskdto);
@@ -145,6 +154,7 @@ public class ScrumServiceImpl implements ScrumService
 		subtaskDTO.setId(subtask.getIdTask());
 		subtaskDTO.setTitle(subtask.getTitle());
 		subtaskDTO.setState(subtask.getState());
+		subtaskDTO.setIdSprint(sprint.getIdSprint());
 		return subtaskDTO;
 	}
 
@@ -214,8 +224,10 @@ public class ScrumServiceImpl implements ScrumService
 	public BacklogDTO prepareBacklogData(Long idProject) throws ScrumException
 	{
 		BacklogDTO backlogdto = new BacklogDTO();
+		List<TaskDTO> tasklist = new LinkedList<>();
 		ScrumSprint ss = sprintRepository.getSprintData(idProject,
 				SprintStatus.ACTIVE);
+		ScrumBacklog bl = backlogRepository.getBacklogForProject(idProject);
 		SprintDTO sprintDTO = new SprintDTO();
 		sprintDTO.setId(ss.getIdSprint());
 		sprintDTO.setStartDate(ss.getStartDate());
@@ -245,6 +257,14 @@ public class ScrumServiceImpl implements ScrumService
 				taskdto.getSubtasksRaw().add(subdto);
 			}
 			sprintDTO.getTasks().add(taskdto);
+		}
+		for (ScrumTask task : bl.getTasks())
+		{
+			TaskDTO taskdto = new TaskDTO();
+			taskdto.setId(task.getIdTask());
+			taskdto.setTitle(task.getTitle());
+			taskdto.setDescription(task.getDescription());
+			backlogdto.getBacklogtasks().add(taskdto);
 		}
 		backlogdto.setSprintdata(sprintDTO);
 		return backlogdto;
@@ -324,4 +344,41 @@ public class ScrumServiceImpl implements ScrumService
 		epicRepository.delete(idEpic);
 	}
 
+	@Override
+	public TaskDTO editTaskDescription(TaskDTO taskDTO) throws ScrumException
+	{
+		taskRepository.updateTaskDescription(taskDTO.getId(),
+				taskDTO.getDescription());
+		return taskDTO;
+	}
+
+	@Override
+	public TaskDTO changeTaskType(TaskDTO subtaskDTO) throws ScrumException
+	{
+		taskRepository.updateTaskType(subtaskDTO.getType(), subtaskDTO.getId());
+		return subtaskDTO;
+	}
+
+	@Override
+	public TaskDTO changeTaskUser(TaskDTO subtaskDTO) throws ScrumException
+	{
+		taskRepository.updateTaskUser(subtaskDTO.getIdUser(),
+				subtaskDTO.getId());
+		return subtaskDTO;
+	}
+
+	@Override
+	public TaskDTO scopeOutTask(TaskDTO subtaskDTO) throws ScrumException
+	{
+		ScrumBacklog backlog = backlogRepository
+				.getBacklogForProject(subtaskDTO.getIdProject());
+		ScrumTask task = taskRepository.getTaskWithSprint(subtaskDTO.getId());
+		task.getSprints().clear();
+		taskRepository.detachSubtaskFromParent(subtaskDTO.getId());
+		backlog.getTasks().add(task);
+		task.getBacklog().add(backlog);
+		taskRepository.saveAndFlush(task);
+		subtaskDTO.getSubtasksRaw().clear();
+		return subtaskDTO;
+	}
 }
