@@ -155,6 +155,7 @@ app.factory('TemplateData', function()
 							        <a href="#" class="list-group-item" ng-click="">Move to backlog</a>
 							        <a href="#" class="list-group-item" ng-click="makeParent()">Make parent</a>
 							        <a href="#" class="list-group-item" ng-click="deleteTask()">Delete task</a>
+							        <a href="#" class="list-group-item" ng-click="scopeOut()">Scope Out</a>
 							    </div>
 							</div>
 						</div>
@@ -163,15 +164,20 @@ app.factory('TemplateData', function()
 						<div class="col-md-12">
 							<div class="row">
 								<label>Description</label>
-								<textarea class="form-control" rows="3" readonly>{{subtaskpanel.task.description}}</textarea>
+								<a ng-show="!editdescription" class="btn btn-default edit-btn btn-xs" ng-click="toggleEdit()"><i class="fa fa-edit"></i></a>
+								<a ng-show="editdescription" class="btn btn-default edit-btn btn-xs" ng-click="saveEdit()"><i class="fa fa-save"></i></a>
+								<textarea ng-show="!editdescription" ng-model="subtaskpanel.task.description" class="form-control" rows="3" readonly>{{subtaskpanel.task.description}}</textarea>
+								<textarea ng-show="editdescription" ng-model="subtaskpanel.task.description" class="form-control" rows="3">{{subtaskpanel.task.description}}</textarea>
 							</div>
 							<div class="row">
 								<label class="padding-top">Type</label>
-								<input ui-select2="select2data.select2types" ng-model="panel.select2types" data-placeholder="Pick a number" style="width: 100%">
+								<a ng-if="select2data.select2type && selectedType" class="btn btn-default edit-btn btn-xs" ng-click="changeTaskType()"><i class="fa fa-save"></i></a>						
+								<input ui-select2="select2data.select2types" ng-model="select2data.select2type" ng-change="typeChanged()" data-placeholder="Pick a number" style="width: 100%">
 							</div>
 							<div class="row">
 								<label class="padding-top">Assigned</label>
-								<input ui-select2="select2data.select2users" ng-model="panel.select2users" data-placeholder="Pick a number" style="width: 100%"> 
+								<a ng-if="select2data.select2user && selectedUser" class="btn btn-default edit-btn btn-xs" ng-click="changeTaskUser()"><i class="fa fa-save"></i></a>
+								<input ui-select2="select2data.select2users" ng-model="select2data.select2user" ng-change="userChanged()" data-placeholder="Pick a number" style="width: 100%"> 		
 							</div>
 						</div>
 					</div>
