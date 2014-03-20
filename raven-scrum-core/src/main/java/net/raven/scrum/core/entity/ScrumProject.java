@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import net.raven.scrum.core.enumeration.scrum.ProjectStatus;
@@ -40,6 +41,9 @@ public class ScrumProject
 	// @ManyToMany(fetch = FetchType.LAZY, mappedBy = "projects")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.project", cascade = CascadeType.ALL)
 	private Set<ScrumUserProjectRole> userprojectrole;
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "project", cascade = CascadeType.ALL)
+	private ScrumBacklog backlog;
 
 	// private Set<ScrumUser> projectUsers;
 
@@ -133,6 +137,16 @@ public class ScrumProject
 	public void setUserprojectrole(Set<ScrumUserProjectRole> userprojectrole)
 	{
 		this.userprojectrole = userprojectrole;
+	}
+
+	public ScrumBacklog getBacklog()
+	{
+		return backlog;
+	}
+
+	public void setBacklog(ScrumBacklog backlog)
+	{
+		this.backlog = backlog;
 	}
 
 }
