@@ -18,6 +18,10 @@ public class TaskDTO
 
 	private long idUser;
 
+	private long idSprint;
+
+	private long idProject;
+
 	private String title;
 
 	private String description;
@@ -152,6 +156,26 @@ public class TaskDTO
 	public void setEpic(EpicDTO epic)
 	{
 		this.epic = epic;
+	}
+
+	public long getIdSprint()
+	{
+		return idSprint;
+	}
+
+	public void setIdSprint(long idSprint)
+	{
+		this.idSprint = idSprint;
+	}
+
+	public long getIdProject()
+	{
+		return idProject;
+	}
+
+	public void setIdProject(long idProject)
+	{
+		this.idProject = idProject;
 	}
 
 }

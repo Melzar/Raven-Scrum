@@ -3,6 +3,7 @@ package net.raven.scrum.core.repository;
 import net.raven.scrum.core.entity.ScrumSprint;
 import net.raven.scrum.core.entity.ScrumTask;
 import net.raven.scrum.core.enumeration.scrum.TaskState;
+import net.raven.scrum.core.enumeration.scrum.TaskType;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -39,4 +40,29 @@ public interface ScrumTaskRepository extends JpaRepository<ScrumTask, Long>
 	@Query("Select distinct ss from ScrumSprint ss left join ss.tasks st left join fetch ss.project p where ss.status = 0 and st.idTask = :idTask")
 	public ScrumSprint getTaskActiveSprint(@Param("idTask") Long idTask);
 
+	@Modifying
+	@Transactional
+	@Query("update ScrumTask t set t.description = :description where t.idTask = :idTask")
+	public int updateTaskDescription(@Param("idTask") long idTask,
+			@Param("description") String description);
+
+	@Modifying
+	@Transactional
+	@Query("update ScrumTask t set t.type = :type where t.idTask = :idTask")
+	public int updateTaskType(@Param("type") TaskType type,
+			@Param("idTask") long idTask);
+
+	@Modifying
+	@Transactional
+	@Query("update ScrumTask t set t.assigned.idUser = :idUser where t.idTask = :idTask")
+	public int updateTaskUser(@Param("idUser") long idUser,
+			@Param("idTask") long idTask);
+
+	@Query("from ScrumTask t left join fetch t.sprints s left join fetch t.backlog b where t.idTask = :idTask")
+	public ScrumTask getTaskWithSprint(@Param("idTask") long idTask);
+
+	@Modifying
+	@Transactional
+	@Query("update ScrumTask t set t.parent.idTask = null, t.assigned.idUser = null, t.state = 0  where t.idTask = :idSubtask")
+	public int detachSubtaskFromParent(@Param("idSubtask") long idSubtask);
 }
