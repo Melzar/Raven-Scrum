@@ -302,6 +302,12 @@ body
 	margin-right: 5px;
 }
 
+.edit-btn > i
+{
+	font-size: 14px;
+	margin: 0px;
+}
+
 .btn-date
 {
 	background-color: #fff;
