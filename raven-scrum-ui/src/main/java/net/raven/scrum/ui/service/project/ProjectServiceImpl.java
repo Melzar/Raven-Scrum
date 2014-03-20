@@ -6,12 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.raven.scrum.core.entity.ScrumBacklog;
 import net.raven.scrum.core.entity.ScrumProject;
 import net.raven.scrum.core.entity.ScrumRole;
 import net.raven.scrum.core.entity.ScrumUser;
 import net.raven.scrum.core.entity.ScrumUserProjectRole;
 import net.raven.scrum.core.enumeration.scrum.ProjectRole;
 import net.raven.scrum.core.exception.ScrumException;
+import net.raven.scrum.core.repository.ScrumBacklogRepository;
 import net.raven.scrum.core.repository.ScrumProjectRepository;
 import net.raven.scrum.core.repository.ScrumRoleRepository;
 import net.raven.scrum.core.repository.ScrumUserRepository;
@@ -33,6 +35,9 @@ public class ProjectServiceImpl implements ProjectService
 
 	@Autowired
 	private ScrumRoleRepository roleRepository;
+
+	@Autowired
+	private ScrumBacklogRepository backlogRepository;
 
 	public ProjectServiceImpl()
 	{
@@ -98,6 +103,9 @@ public class ProjectServiceImpl implements ProjectService
 		project.setDescription(dto.getDescription());
 		project.setStatus(dto.getStatus());
 		project = projectRepository.save(project);
+		ScrumBacklog backlog = new ScrumBacklog();
+		backlog.setProject(project);
+		backlogRepository.save(backlog);
 		if (!dto.getProjectUsers().isEmpty())
 		{
 			Set<ScrumUserProjectRole> uprl = new HashSet<>();
