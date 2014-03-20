@@ -14,4 +14,8 @@ public interface ScrumSprintRepository extends JpaRepository<ScrumSprint, Long>
 	public ScrumSprint getSprintData(@Param("idProject") Long idProject,
 			@Param("status") SprintStatus status);
 
+	@Query("from ScrumSprint ss left join fetch ss.tasks t where t.idTask = :idTask and ss.idSprint = :idSprint")
+	public ScrumSprint getSprintWithGivenTask(@Param("idSprint") long idSprint,
+			@Param("idTask") long idTask);
+
 }
