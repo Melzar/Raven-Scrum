@@ -60,7 +60,7 @@ public class TaskDataResource
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/changestate")
+	@Path("/change/state")
 	public Response changeTaskState(TaskDTO dto)
 	{
 		try
@@ -70,6 +70,38 @@ public class TaskDataResource
 		} catch (ScrumException e)
 		{
 			log.error("Failed to change task state " + dto.getId(), e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/change/type")
+	public Response changeTaskType(TaskDTO dto)
+	{
+		try
+		{
+			return Response.status(Status.OK)
+					.entity(scrumService.changeTaskType(dto)).build();
+		} catch (ScrumException e)
+		{
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/change/user")
+	public Response changeTaskUser(TaskDTO dto)
+	{
+		try
+		{
+			return Response.status(Status.OK)
+					.entity(scrumService.changeTaskUser(dto)).build();
+		} catch (ScrumException e)
+		{
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
@@ -106,7 +138,22 @@ public class TaskDataResource
 			log.error("Failed to make subtask as parent task " + dto.getId(), e);
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
+	}
 
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/scopeout")
+	public Response scopeOutTask(TaskDTO dto)
+	{
+		try
+		{
+			return Response.status(Status.OK)
+					.entity(scrumService.scopeOutTask(dto)).build();
+		} catch (ScrumException e)
+		{
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 	@GET
@@ -124,5 +171,21 @@ public class TaskDataResource
 			types.add(node);
 		}
 		return Response.status(Status.OK).entity(types).build();
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/edit/description")
+	public Response editTaskDescription(TaskDTO dto)
+	{
+		try
+		{
+			return Response.status(Status.OK)
+					.entity(scrumService.editTaskDescription(dto)).build();
+		} catch (ScrumException e)
+		{
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 }
