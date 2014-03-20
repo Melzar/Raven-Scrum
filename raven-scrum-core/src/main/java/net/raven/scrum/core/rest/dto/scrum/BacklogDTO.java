@@ -1,9 +1,11 @@
 package net.raven.scrum.core.rest.dto.scrum;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class BacklogDTO
 {
+
 	private SprintDTO sprintdata;
 
 	private ProjectDTO projectdata;
@@ -14,7 +16,7 @@ public class BacklogDTO
 
 	public BacklogDTO()
 	{
-
+		backlogtasks = new LinkedList<>();
 	}
 
 	public SprintDTO getSprintdata()

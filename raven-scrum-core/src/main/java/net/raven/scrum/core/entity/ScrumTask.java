@@ -57,6 +57,10 @@ public class ScrumTask
 	@JoinTable(name = "scrum_task_in_sprint", joinColumns = { @JoinColumn(name = "id_task", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_sprint", nullable = false, updatable = false) })
 	private Set<ScrumSprint> sprints;
 
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "scrum_backlog_tasks", joinColumns = { @JoinColumn(name = "id_task", nullable = false, updatable = false, unique = true) }, inverseJoinColumns = { @JoinColumn(name = "id_backlog", nullable = false, updatable = false) })
+	private Set<ScrumBacklog> backlog;
+
 	public ScrumTask()
 	{
 
@@ -150,6 +154,26 @@ public class ScrumTask
 	public void setSprints(Set<ScrumSprint> sprints)
 	{
 		this.sprints = sprints;
+	}
+
+	public Set<ScrumEpic> getEpics()
+	{
+		return epics;
+	}
+
+	public void setEpics(Set<ScrumEpic> epics)
+	{
+		this.epics = epics;
+	}
+
+	public Set<ScrumBacklog> getBacklog()
+	{
+		return backlog;
+	}
+
+	public void setBacklog(Set<ScrumBacklog> backlog)
+	{
+		this.backlog = backlog;
 	}
 
 	@Override
