@@ -79,7 +79,7 @@ sccontrollers.controller("RegisterController", function($scope, $http, $element,
       }
   });
 
-sccontrollers.controller('ScrumBoardController', function($scope, $http, $location, TemplateData, ProjectService, Select2Service, ScrumBoardService)
+sccontrollers.controller('ScrumBoardController', function($scope, $http, $location, TemplateData, ProjectService, Select2Service, ScrumBoardService, BooleanTools)
 {
 	$scope.rightpanel = false;
 	$scope.data = TemplateData;
@@ -121,7 +121,7 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 	{
 		$scope.subtaskdata.state = evt ? evt.target.dataset.state : window.event.srcElement.dataset.state;
 			$http({
-				url: TemplateData.sourcelink + "/rest/task/changestate",
+				url: TemplateData.sourcelink + "/rest/task/change/state",
 				method: "POST",
 				data: $scope.subtaskdata,
 				headers : {'Content-Type': 'application/json'}
@@ -136,6 +136,18 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 	$scope.findAndRemove = function(sub, index, parent)
 	{
 		parent.progress[sub.state].splice(index, 1);
+	}
+
+	$scope.scopeOut = function()
+	{
+		$http.post(TemplateData.sourcelink + "/rest/task/scopeout", $scope.subtaskpanel.task).success(function(data, status)
+		{
+			$scope.subtaskpanel.parent.progress[$scope.subtaskpanel.task.state].splice($scope.subtaskpanel.index, 1);
+			$scope.rightpanel = false;
+		}).error(function(data,status)
+		{
+			//todo messagebox
+		})
 	}
 
 	$scope.makeParent = function()
@@ -175,6 +187,9 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 	{
 		$scope.rightpanel = true;
 		$scope.subtaskpanel = {'task': subtask, 'index': index, 'parent': parent};
+		$scope.selectedType = false;
+		$scope.selectedUser = false;
+		$scope.select2data.select2type = {"id": "" ,"type": subtask.type,"tag": subtask.type}
 		ProjectService.getProjectUsers(Select2Service.select2users.data);
 		ScrumBoardService.getTaskTypes(Select2Service.select2types.data);
 	}
@@ -202,6 +217,57 @@ sccontrollers.controller('ScrumBoardController', function($scope, $http, $locati
 		$scope.closeStartDate = $scope.scrumdata.projectdata.sprint.startDate;
 	}
 
+	$scope.toggleEdit = function()
+	{
+		$scope.editdescription = BooleanTools.toggler($scope.editdescription);	
+	}
+
+	$scope.saveEdit = function()
+	{
+		$http.post(TemplateData.sourcelink + '/rest/task/edit/description', {'id': $scope.subtaskpanel.task.id, 'description': $scope.subtaskpanel.task.description } ).success(function(data,status)
+		{
+			$scope.editdescription = false;
+		}).error(function(data,status)
+		{
+			//Todo error edit
+		})
+	}
+
+	$scope.changeTaskType = function()
+	{
+		
+		$http.post(TemplateData.sourcelink + '/rest/task/change/type', {'id': $scope.subtaskpanel.task.id, 'type': $scope.select2data.select2type.type}).success(function(data, status)
+		{
+			$scope.subtaskpanel.task.type = $scope.select2data.select2type.type;	
+			$scope.selectedType = false;
+		}).error(function(data,status)
+		{
+				//TODO error message
+		})
+	}
+
+	$scope.changeTaskUser = function()
+	{	
+		console.log($scope.select2data.select2user)
+		$http.post(TemplateData.sourcelink + '/rest/task/change/user', {'id': $scope.subtaskpanel.task.id, 'idUser': $scope.select2data.select2user.id}).success(function(data, status)
+		{
+			$scope.subtaskpanel.task.idUser = $scope.select2data.select2user.id
+			$scope.selectedUser = false;
+		}).error(function(data,status)
+		{
+			//TODO error message
+		})	
+	}
+
+	$scope.userChanged = function()
+	{
+		$scope.selectedUser = true;
+	}
+
+	$scope.typeChanged = function()
+	{
+		$scope.selectedType = true;
+	}
 })
 
 //TODO THIS CODE NEEDS DRYING
@@ -308,7 +374,21 @@ sccontrollers.controller('DashboardController', function($scope, $http, Template
 sccontrollers.controller('ProjectAddController', function($scope, $http, $element, TemplateData, Select2Service, AccountService){
 	$scope.select2data = Select2Service;
 	AccountService.getActiveAccounts(Select2Service.select2usersavatar.data);
-
+	$scope.$watch(function()
+		{
+			return angular.toJson($scope.select2users)
+		}, function()
+		{
+			$scope.users = [];
+			angular.forEach($scope.select2users, function(value, key)
+			{
+				if(value.id)
+				{
+					$scope.users[key] = value;	
+				}
+			})
+		}
+	)
 	$scope.createProject = function()
 	{
 		$scope.projectadd.submitted = true;
@@ -336,6 +416,7 @@ sccontrollers.controller('ProjectAddController', function($scope, $http, $elemen
 	$scope.changePrivilege = function(user)
 	{
 		(user.role == "DEVELOPER") ? user.role = "ADMIN" : user.role = "DEVELOPER";
+		console.log($scope)
 	} 
 })
 
@@ -516,6 +597,7 @@ sccontrollers.controller('BacklogTaskController', function($scope, $http, Templa
 		if(data.sprintdata)
 		{
 			$scope.scrumtasks = data.sprintdata.tasks;
+			$scope.backlogtasks = data.backlogtasks;
 			console.log($scope);
 		}	
 	}).error(function(data,status,headers,cfg){
