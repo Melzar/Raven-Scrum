@@ -117,7 +117,8 @@ public class ScrumServiceImpl implements ScrumService
 					TaskDTO subdto = new TaskDTO();
 					subdto.setId(subtask.getIdTask());
 					subdto.setIdParent(task.getIdTask());
-					subdto.setIdUser(subtask.getAssigned().getIdUser());
+					subdto.setIdUser((subtask.getAssigned() != null) ? subtask
+							.getAssigned().getIdUser() : 0);
 					subdto.setTitle(subtask.getTitle());
 					subdto.setDescription(subtask.getDescription());
 					subdto.setState(subtask.getState());
@@ -150,7 +151,7 @@ public class ScrumServiceImpl implements ScrumService
 		subtask.setSprints(scrumsprint);
 		subtask.setState(TaskState.TODO);
 		subtask = taskRepository.save(subtask);
-		taskRepository.setParentTaskForSubtask(idParent, subtask.getIdTask());
+		taskRepository.attachSubtaskToParent(idParent, subtask.getIdTask());
 		subtaskDTO.setId(subtask.getIdTask());
 		subtaskDTO.setTitle(subtask.getTitle());
 		subtaskDTO.setState(subtask.getState());
@@ -247,7 +248,8 @@ public class ScrumServiceImpl implements ScrumService
 				TaskDTO subdto = new TaskDTO();
 				subdto.setId(subtask.getIdTask());
 				subdto.setIdParent(task.getIdTask());
-				subdto.setIdUser(subtask.getAssigned().getIdUser());
+				subdto.setIdUser((subtask.getAssigned() != null) ? subtask
+						.getAssigned().getIdUser() : 0);
 				subdto.setTitle(subtask.getTitle());
 				subdto.setDescription(subtask.getDescription());
 				subdto.setState(subtask.getState());
@@ -379,6 +381,27 @@ public class ScrumServiceImpl implements ScrumService
 		task.getBacklog().add(backlog);
 		taskRepository.saveAndFlush(task);
 		subtaskDTO.getSubtasksRaw().clear();
+		return subtaskDTO;
+	}
+
+	@Override
+	public TaskDTO changeTaskParent(TaskDTO subtaskDTO) throws ScrumException
+	{
+
+		ScrumTask task = taskRepository.getTaskWithBacklog(subtaskDTO.getId());
+		if (task.getBacklog() != null)
+		{
+			task.setBacklog(null);
+			ScrumSprint sprint = taskRepository.getTaskActiveSprint(subtaskDTO
+					.getIdParent());
+			Set<ScrumSprint> sprints = new HashSet<ScrumSprint>();
+			sprints.add(sprint);
+			task.setSprints(sprints);
+		}
+		task.setState(subtaskDTO.getState());
+		taskRepository.saveAndFlush(task);
+		taskRepository.attachSubtaskToParent(subtaskDTO.getIdParent(),
+				subtaskDTO.getId());
 		return subtaskDTO;
 	}
 }

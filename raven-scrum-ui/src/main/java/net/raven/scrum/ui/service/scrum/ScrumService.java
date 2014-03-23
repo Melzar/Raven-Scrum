@@ -38,6 +38,8 @@ public interface ScrumService
 
 	public TaskDTO changeTaskUser(TaskDTO subtaskDTO) throws ScrumException;
 
+	public TaskDTO changeTaskParent(TaskDTO subtaskDTO) throws ScrumException;
+
 	public TaskDTO deleteTask(TaskDTO subtaskDTO) throws ScrumException;
 
 	public TaskDTO makeSubtaskParentTask(TaskDTO subtaskDTO)
