@@ -17,11 +17,8 @@ public interface ScrumTaskRepository extends JpaRepository<ScrumTask, Long>
 	@Query("from ScrumTask t left join fetch t.subtasks ss where t.id = :idParent")
 	public ScrumTask getTaskWithSubtasks(@Param("idParent") Long idParent);
 
-	@Modifying
-	@Transactional
-	@Query("update ScrumTask t set t.parent.idTask = :idParent where t.idTask = :idSubtask")
-	public int setParentTaskForSubtask(@Param("idParent") Long idParent,
-			@Param("idSubtask") Long idSubtask);
+	@Query("from ScrumTask t left join fetch t.backlog b where t.id = :idTask ")
+	public ScrumTask getTaskWithBacklog(@Param("idTask") long idTask);
 
 	@Modifying
 	@Transactional
@@ -60,6 +57,12 @@ public interface ScrumTaskRepository extends JpaRepository<ScrumTask, Long>
 
 	@Query("from ScrumTask t left join fetch t.sprints s left join fetch t.backlog b where t.idTask = :idTask")
 	public ScrumTask getTaskWithSprint(@Param("idTask") long idTask);
+
+	@Modifying
+	@Transactional
+	@Query("update ScrumTask t set t.parent.idTask = :idParent where t.idTask = :idSubtask")
+	public int attachSubtaskToParent(@Param("idParent") Long idParent,
+			@Param("idSubtask") Long idSubtask);
 
 	@Modifying
 	@Transactional
