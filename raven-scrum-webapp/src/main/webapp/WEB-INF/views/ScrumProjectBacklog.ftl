@@ -81,7 +81,7 @@ app.factory('TemplateData', function()
 										</div>
 								</div>
 								<div class="backlog-tasks" ng-if="sprint.showChildren" ng-repeat="task in scrumtasks">
-									<div class="backlog-task" data-drop="true" data-jqyoui-options="{accept:'.bsubtask:not([sprint=true])'}" jqyoui-droppable="{multiple:true, onDrop: ''}" ng-model="task.subtasksRaw">
+									<div class="backlog-task" data-drop="true" data-jqyoui-options="{accept:'.bsubtask:not([sprint=true])'}" data-task="{{task.id}}" jqyoui-droppable="{multiple:true, onDrop: 'addSubtask'}" ng-model="task.subtasksRaw">
 										<div class="container-wrapper">
 											<div class="backlog-task container task-parent">
 													<a ng-class="{'subtask-done': task.state == 'DONE'}">{{task.title}}</a>		
@@ -96,7 +96,7 @@ app.factory('TemplateData', function()
 									</div>
 
 								</div>
-								<div data-drop="true" data-jqyoui-options="{accept:'.bsubtask:not([sprint=false])'}" jqyoui-droppable="{multiple:true, onDrop: ''}" ng-model="backlogtasks">
+								<div data-drop="true" data-jqyoui-options="{accept:'.bsubtask:not([sprint=false])'}" jqyoui-droppable="{multiple:true, onDrop: 'addToBacklog'}" ng-model="backlogtasks">
 								<div class="backlog-planned container-wrapper">
 									<div class="backlog-planned container root-task" ng-init="backlog.showChildren = true">
 											BACKLOG
@@ -106,7 +106,7 @@ app.factory('TemplateData', function()
 								</div>
 								<div class="backlog-tasks" ng-if="backlog.showChildren">		
 									<div class="backlog-task">
-										<div class="backlog-task container task-parent bsubtask" sprint="false" ng-model="backlogtasks" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: ''}" ng-repeat="task in backlogtasks" data-jqyoui-options="{revert: 'invalid', containment: '#backlog'}" data-drag="true">
+										<div class="backlog-task container task-parent bsubtask" sprint="false" ng-model="backlogtasks" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getSubtask'}" ng-repeat="task in backlogtasks" data-jqyoui-options="{revert: 'invalid', containment: '#backlog'}" data-drag="true" data-subtask="{{task.id}}">
 												<a>{{task.title}} - {{task.id}}</a>		
 												<small> : {{task.description}}</small>
 										</div>
