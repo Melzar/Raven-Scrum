@@ -592,16 +592,47 @@ sccontrollers.controller('EpicController', function($scope, $http, TemplateData,
 })
 
 sccontrollers.controller('BacklogTaskController', function($scope, $http, TemplateData){
+	$scope.subtaskdata = {};
 	$http.get(TemplateData.sourcelink + '/rest/backlog/data?project='+TemplateData.project).success(function(data,status,headers,cfg){
 		$scope.backlogdata = data;
 		if(data.sprintdata)
 		{
 			$scope.scrumtasks = data.sprintdata.tasks;
 			$scope.backlogtasks = data.backlogtasks;
-			console.log($scope);
 		}	
 	}).error(function(data,status,headers,cfg){
 		//TODO MESSAGE OF ERROR
 	})
+
+
+	// need drying
+	$scope.getSubtask = function(evt, ui)
+	{
+		$scope.subtaskdata.id = evt ? evt.target.dataset.subtask : window.event.srcElement.dataset.subtask;
+	}
+
+	$scope.addSubtask = function(evt, ui)
+	{
+		$scope.subtaskdata.idParent = evt ? evt.target.dataset.task : window.event.srcElement.dataset.task;
+		$http.post(TemplateData.sourcelink + "/rest/task/change/parent", {'id': $scope.subtaskdata.id, 'idParent': $scope.subtaskdata.idParent ,'state': 'TODO'}).success(function(data, status)
+		{
+			//todo messagebox
+		}).error(function(data,status)
+		{
+			//todo messagebox
+		})
+	}
+
+	$scope.addToBacklog = function(evt, ui)
+	{
+		//todo move it to service to preserve drycoding
+		$http.post(TemplateData.sourcelink + "/rest/task/scopeout", {'id': $scope.subtaskdata.id, 'idProject': TemplateData.project}).success(function(data, status)
+		{
+			//todo messagebox
+		}).error(function(data,status)
+		{
+			//todo messagebox
+		})
+	}
 })
 
