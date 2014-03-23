@@ -109,6 +109,22 @@ public class TaskDataResource
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/change/parent")
+	public Response changeParent(TaskDTO dto)
+	{
+		try
+		{
+			return Response.status(Status.OK)
+					.entity(scrumService.changeTaskParent(dto)).build();
+		} catch (ScrumException ex)
+		{
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/delete")
 	public Response deleteTask(TaskDTO dto)
 	{
