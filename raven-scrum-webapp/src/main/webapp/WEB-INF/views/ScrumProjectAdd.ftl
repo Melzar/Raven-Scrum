@@ -1,6 +1,6 @@
 <#include './templates/ScrumHeader.ftl'>
 <#include './templates/components/NavigationBar.ftl'>
-<#assign navlinks = [{"name" : "Create project", "url" : "/project/add", "icon" : "fa fa-plus", "type" : "active"},{"name" : "Projects screen", "url" : "/project", "icon" : "fa fa-list-alt"}, {"name" : "Projects history", "url" : "/project/history", "icon" : "fa fa-archive"},{"name" : "Projects search", "url" : "/project/search", "icon" : "fa fa-search"}]>
+<#assign navlinks = [{"name" : "Create project", "url" : "/project/add", "icon" : "fa fa-plus", "type" : "active"},{"name" : "Projects screen", "url" : "/project", "icon" : "fa fa-list-alt"}]>
 <body ng-app="ScrumBoardApp">
 <script type="text/javascript">
 	var app = angular.module("ScrumBoardApp", ["ngAnimate", "scDirectives", "scControllers","scServices", "ui.bootstrap", "ui.select2"])
