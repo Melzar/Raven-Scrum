@@ -60,13 +60,13 @@
               <div class="form-group">
                 <div class="col-md-8 col-md-offset-2">
                 <label class="control-label" for="name">Name (Optional)</label>
-                <input type="text" id="name" class="form-control" placeholder="Name" ng-model="name">
+                <input type="text" id="name" name="name" class="form-control" placeholder="Name" ng-model="name">
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-md-8 col-md-offset-2">
                 <label class="control-label" for="surname">Surname (Optional)</label>
-                <input type="text" id="surname" class="form-control" placeholder="Surname" ng-model="surname">
+                <input type="text" id="surname" name="surname" class="form-control" placeholder="Surname" ng-model="surname">
                 </div>
               </div>
               <div class="form-group" ng-class="{'has-error': (registration.passwordrepeat.$error.equalslogin || registration.passwordrepeat.$error.notmatch || registration.passwordrepeat.$error.minlength) && !registration.passwordrepeat.$focused , 'has-success': registration.passwordrepeat.$valid && !registration.passwordrepeat.$focused}">
