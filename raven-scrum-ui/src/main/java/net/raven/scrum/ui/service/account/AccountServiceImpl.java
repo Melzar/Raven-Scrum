@@ -1,7 +1,5 @@
 package net.raven.scrum.ui.service.account;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -72,9 +70,9 @@ public class AccountServiceImpl implements AccountService
 			throws AccountException
 	{
 		ScrumUser user = scrumUserRepository.getUserByLogin(login);
-		SecureRandom random = new SecureRandom();
-		user.setPassword(passwordEncoder.encodePassword(new BigInteger(130,
-				random).toString(32), null));
+		// SecureRandom random = new SecureRandom();
+		// user.setPassword(passwordEncoder.encodePassword(new BigInteger(130,
+		// random).toString(32), null));
 		user.setShadowFlag(reason);
 		scrumUserRepository.save(user);
 		return user;
