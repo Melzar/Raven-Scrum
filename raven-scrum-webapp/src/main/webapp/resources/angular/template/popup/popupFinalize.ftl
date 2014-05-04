@@ -6,23 +6,9 @@
 					    <p>Close current sprint</p>
 					</div>
 					<div class="popup-content">
-									<div class="col-md-6">
-									 	<h4>Start date</h4>
-	   									<div class="date-container">
-	    										<div class="well well-sm" ng-model="closestartdate">
-	       											<datepicker min="minDate" show-weeks="showWeeks"></datepicker>
-	      										</div>
-	   									</div>
-									</div>
-									<div class="col-md-6">
-									 <h4>End date</h4>
-									 	<div class="date-container">
-	    										<div class="well well-sm" ng-model="closeenddate">
-	       											<datepicker min="minDate" show-weeks="showWeeks"></datepicker>
-	      										</div>
-	      										<a class="btn btn-primary btn-sm pull-right" ng-click="finalizeSprint()">Close sprint</a>
-	   								 	</div>
-									</div>
+						<p>Do you want close current sprint?</p>
+						<a class="btn btn-primary btn-sm pull-right" ng-click="finalizeSprint()">Close sprint</a>
+						<a class="btn btn-primary btn-sm pull-left" ng-click="hideSprintPopup()">Cancel</a>
 					</div>
 			</div>
 		</div>

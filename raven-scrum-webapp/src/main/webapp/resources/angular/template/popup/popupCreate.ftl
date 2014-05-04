@@ -9,7 +9,6 @@
 									<div class="col-md-6">
 									 	<h4>Start date</h4>
 	   									<div class="date-container">
-	   									{{startdate}}
 	    										<div class="well well-sm" ng-model="startdate">
 	       											<datepicker min="minDate" show-weeks="showWeeks"></datepicker>
 	      										</div>
@@ -18,7 +17,6 @@
 									<div class="col-md-6">
 									 <h4>End date</h4>
 									 	<div class="date-container">
-									 	{{enddate}}
 	    										<div class="well well-sm" ng-model="enddate">
 	       											<datepicker min="minDate" show-weeks="showWeeks"></datepicker>
 	      										</div>
