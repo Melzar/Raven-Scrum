@@ -22,7 +22,7 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
 
       // Enable watching of the options dataset if in use
       if (tElm.is('select')) {
-        repeatOption = tElm.find( 'optgroup[ng-repeat], optgroup[data-ng-repeat], option[ng-repeat], option[data-ng-repeat]');
+        repeatOption = tElm.find('option[ng-repeat], option[data-ng-repeat]');
 
         if (repeatOption.length) {
           repeatAttr = repeatOption.attr('ng-repeat') || repeatOption.attr('data-ng-repeat');
@@ -81,11 +81,9 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
         }
 
         if (controller) {
-        	
           // Watch the model for programmatic changes
-        if(opts.watchModelChanges===true)
-        {
-           scope.$watch(tAttrs.ngModel, function(current, old) {
+        if(opts.watchModelChanges){
+        	scope.$watch(tAttrs.ngModel, function(current, old) {
             if (!current) {
               return;
             }
@@ -93,8 +91,8 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
               return;
             }
             controller.$render();
-          }, true);
-        }  
+        	}, true);
+        }
           controller.$render = function () {
             if (isSelect) {
               elm.select2('val', controller.$viewValue);
@@ -204,20 +202,15 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
           elm.select2(opts);
 
           // Set initial value - I'm not sure about this but it seems to need to be there
-          elm.select2('data', controller.$modelValue);
+          elm.val(controller.$viewValue);
           // important!
           controller.$render();
 
           // Not sure if I should just check for !isSelect OR if I should check for 'tags' key
           if (!opts.initSelection && !isSelect) {
-            var isPristine = controller.$pristine;
             controller.$setViewValue(
               convertToAngularModel(elm.select2('data'))
             );
-            if (isPristine) {
-              controller.$setPristine();
-            }
-            elm.prev().toggleClass('ng-pristine', controller.$pristine);
           }
         });
       };
