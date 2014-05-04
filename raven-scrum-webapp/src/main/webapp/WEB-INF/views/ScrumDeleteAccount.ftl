@@ -1,7 +1,7 @@
 <#include "./templates/ScrumHeader.ftl">
 <#include "./templates/components/NavigationBar.ftl">
 <#assign links = [{"name": "Dashboard", "url": "/account/dashboard"},{"name": "Delete account", "url": "/account/delete" , "type": "active"}]>
-<#assign navlinks = [{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "fa fa-dashboard"},{"name" : "Powiadomienia", "url": "/account/notifications", "icon": "fa fa-envelope-o"},{"name" : "Statystyki konta", "url" : "/account/statistics", "icon" : "fa fa-bar-chart-o"},{"name" : "Ustawienia powiadomień", "url": "/account/norificationsettings", "icon" : "fa fa-gears"},{"name": "Edycja danych konta", "url": "/account/edit", "icon" : "fa fa-edit"},{"name": "Usunięcie konta", "url" : "/account/delete", "icon" : "fa fa-trash-o", "type" : "active"}]>
+<#assign navlinks = [{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "fa fa-dashboard"}, {"name": "Edit account data", "url": "/account/edit", "icon" : "fa fa-edit"},{"name": "Delete account", "url" : "/account/delete", "icon" : "fa fa-trash-o", "type" : "active"}]>
 <body  ng-app="ScrumBoardApp">
 <script type="text/javascript">
 	var app = angular.module("ScrumBoardApp", ["ngAnimate","scDirectives","scControllers","ui.bootstrap"])
@@ -23,9 +23,16 @@
 				$scope.deletemessage = {submitsuccess: false, submiterror: false, toggle: false};
 				$scope.deleteaccount.submitted = true;
 				if(!$scope.deleteaccount.$invalid)
-				{
-					$scope.deletemessage.submitsuccess = true;
-					console.log("submit todo")
+				{					
+					$http({
+            url: "<@spring.url '/account/delete' />",
+            method: "POST",
+            data: $element.serialize(),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).success(function(data,status, headers, cfg){
+						$scope.deletemessage.submitsuccess = true;
+					}).error(function(data,status,headers,cfg){
+						$scope.deletemessage.submiterror = true;
+					})
 				}
 			}
 
@@ -61,12 +68,12 @@
 								              <div class="alert-details">
 								                <h4 ng-if="deletemessage.submitsuccess">Submit successful</h4>
 								                <h4 ng-if="deletemessage.submiterror">Submit error!</h4>
-								                <p ng-if="deletemessage.submitsuccess">Your account has been successfully deleted</p>
+								                <p ng-if="deletemessage.submitsuccess">Your account has been successfully deleted. You can log out now safetly</p>
 								                <p ng-if="deletemessage.submiterror">There were internal error during form submition, check again your data or try again later</p>
 								              </div>
 								        </div>
 								        <div class="col-md-10 col-md-offset-1">
-											<blockquote class="text-center">Usunięcie konta przez użykownika prowadzi do jego zablokowania. Aby usunąć konto wraz ze wszelkimi powiązaniami należy skontaktować się z administratorem. Wpisz hasło powiązane z kontem, potwierdzenie usunięcia / zablokowania konta zostanie wysłane na email</blockquote>
+											<blockquote class="text-center">Fill data below to delete your account. After this procedure you account will not be physically deleted but blocked so you won't be able to log on this account again</blockquote>
 										</div>											
 										<div class="form-group" ng-class="{'has-success': deleteaccount.password.$valid && !deleteaccount.password.$focused , 'has-error' : deleteaccount.password.$error.badcredentials && !deleteaccount.password.$focused}">
 													<div class="col-md-4 col-md-offset-4">
@@ -94,7 +101,7 @@
 												</div>
 												<div class="form-group" ng-if="deleteaccount.$invalid && deleteaccount.submitted">
 									                <div class="col-md-offset-4 col-md-4">
-									                  <p class="text-danger">Formularz nie jest wypełniony poprawnie, sprawdz wprowadzone dane i spróbuj ponownie.</p>
+									                  <p class="text-danger">Form data is incorrect. Check your data and try again</p>
 									                </div>
             						    		</div>
 								</form>
