@@ -20,9 +20,10 @@ app.factory('TemplateData', function(){
 				<div ng-controller="MessageController">
 					<div class="alert alert-danger"  ng-class="{'animated fadeIn' : messagedata.submiterror}"  ng-if="messagedata.submiterror">
 							<button type="button" class="close" ng-click="hideMessage()">×</button>
-							<h4>Błąd logowania</h4>
-							<p ng-if="messagedata.submiterror">Nieprawidłowy login lub hasło</p>
-							<p ng-if="messagedata.shadowflag == 1">Konto nie zostało potwierdzone przez użytkownika</p>
+							<h4>Login error</h4>
+							<p ng-if="messagedata.submiterror">Incorrect login or password</p>
+							<p ng-if="messagedata.shadowflag == 1">Account is not confirmed by user</p>
+							<p ng-if="messagedata.shadowflag == 2">Account is deleted by user</p>
 					</div> 
 				</div>
 				<div class="box-small-wrapper">
@@ -45,7 +46,7 @@ app.factory('TemplateData', function(){
 						<div class="col-lg-offset-2 col-lg-8">
 							<a class="btn btn-primary pull-right" ng-click="validate()">Submit</a>
 							<a href="<@spring.url '/register'/>">Register account</a><br/>
-							<a href="#">Recover password</a>	
+							<!--<a href="#">Recover password</a> -->	
 						</div>
 					</div>
 				</form>
