@@ -1,7 +1,7 @@
 <#include "./templates/ScrumHeader.ftl" >
 <#include "./templates/components/NavigationBar.ftl">
 <#assign links = [{"name": "Dashboard", "url": "/account/dashboard"},{"name": "Edit Account Data", "url": "/account/edit" , "type": "active"}]>
-<#assign navlinks = [{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "fa fa-dashboard"},{"name" : "Powiadomienia", "url": "/account/notifications", "icon": "fa fa-envelope"},{"name" : "Statystyki konta", "url" : "/account/statistics", "icon" : "fa fa-bar-chart-o"},{"name" : "Ustawienia powiadomień", "url": "/account/norificationsettings", "icon" : "fa fa-gears"},{"name": "Edycja danych konta", "url": "/account/edit", "icon" : "fa fa-edit", "type" : "active"},{"name": "Usunięcie konta", "url" : "/account/delete", "icon" : "fa fa-trash-o"}]>
+<#assign navlinks = [{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "fa fa-dashboard"}, {"name": "Edit account data", "url": "/account/edit", "icon" : "fa fa-edit", "type" : "active"},{"name": "Delete account", "url" : "/account/delete", "icon" : "fa fa-trash-o"}]>
 <body ng-app="ScrumBoardApp">
 <script type="text/javascript">
 	
@@ -102,9 +102,9 @@ app.controller("EmailController", function($scope, $element, $http){
 												<div class="col-md-4 col-md-offset-4">
 														<label class="control-label">Password</label>
 														<input type="password" ng-model="password" id="password" name="password" class="form-control" required/>
-														<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.minlength && !editpassword.passwordrepeat.$focused">Hasło musi miec minimum 4 znaki</span>
-             											<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.equalslogin && !editpassword.passwordrepeat.$focused">Hasło nie moze być takie samo jak login</span>
-             											<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.notmatch && !editpassword.passwordrepeat.$focused">Hasła się nie zgadzają</span>
+														<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.minlength && !editpassword.passwordrepeat.$focused">The minimum lenght of password is 4</span>
+             											<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.equalslogin && !editpassword.passwordrepeat.$focused">Password cannot be the same as login</span>
+             											<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.notmatch && !editpassword.passwordrepeat.$focused">Passwords do not match</span>
              											<span class="help-block no-margin" ng-if="editpassword.passwordrepeat.$valid && !registration.passwordrepeat.$focused"> 
                     										<label class="input-lg-icon fa fa-check"></label>
                  										</span>
@@ -115,9 +115,9 @@ app.controller("EmailController", function($scope, $element, $http){
 														<label class="control-label">Password repeat</label>
 														<input type="password" ng-model="passwordrepeat" ng-validate-password='{"passwordid" : "password", "loginid" : "login"}' name="passwordrepeat" class="form-control" ng-focused required/>
 														<input type="hidden" id="login" ng-model="login" name="login" value='<@security.authentication property="name"/>'>
-														<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.minlength && !editpassword.passwordrepeat.$focused">Hasło musi miec minimum 4 znaki</span>
-             											<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.equalslogin && !editpassword.passwordrepeat.$focused">Hasło nie moze być takie samo jak login</span>
-             											<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.notmatch && !editpassword.passwordrepeat.$focused">Hasła się nie zgadzają</span>
+														<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.minlength && !editpassword.passwordrepeat.$focused">The minimum lenght of password is 4</span>
+             											<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.equalslogin && !editpassword.passwordrepeat.$focused">Password cannot be the same as login</span>
+             											<span class="help-block no-margin" ng-show="editpassword.passwordrepeat.$error.notmatch && !editpassword.passwordrepeat.$focused">Passwords do not match</span>
              											<span class="help-block no-margin" ng-if="editpassword.passwordrepeat.$valid && !registration.passwordrepeat.$focused"> 
                     										<label class="input-lg-icon fa fa-check"></label>
                  										</span>
@@ -125,13 +125,13 @@ app.controller("EmailController", function($scope, $element, $http){
 										</div>
 										<div class="form-group">
 											<div class="col-md-4 col-md-offset-4">
-												<button type="submit" class="btn btn-primary btn-sm pull-right">Zapisz</button>
-												<button class="btn btn-primary btn-sm">Anuluj</button>
+												<button type="submit" class="btn btn-primary btn-sm pull-right">Save</button>
+												<button class="btn btn-primary btn-sm">Cancel</button>
 											</div>
 										</div>
 										<div class="form-group" ng-if="editpassword.$invalid && editpassword.submitted">
 							                <div class="col-lg-offset-4 col-lg-4">
-							                  <p class="text-danger">Formularz nie jest wypełniony poprawnie, sprawdz wprowadzone dane i spróbuj ponownie.</p>
+							                  <p class="text-danger">Form data is not correct, check provided data and try again.</p>
 							                </div>
             						    </div>
         							</form>
@@ -157,15 +157,14 @@ app.controller("EmailController", function($scope, $element, $http){
 								              </div>
 								        </div>
 								        <div class="col-md-7 col-md-offset-3">
-											<blockquote>Potwierdzenie zmiany emaila zostanie wyslane na <b>stary</b> adres</blockquote>
 										</div>	
 										<div class="form-group" ng-class="{'has-error' : (editemail.emailrepeat.$error.notmatch || editemail.emailrepeat.$error.unique || editemail.emailrepeat.$error.pattern) && !editemail.emailrepeat.$focused, 'has-success' : editemail.emailrepeat.$valid && !editemail.emailrepeat.$focused}">
 												<div class="col-md-4 col-md-offset-4">
 														<label class="control-label">Email</label>
 														<input type="text" ng-model="email" id="email" name="email" class="form-control" required/>
 														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$error.notmatch && !editemail.emailrepeat.$focused">Emails do not match</span>
-														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$error.unique && !editemail.emailrepeat.$focused">Podany email jest powiązany z kontem w systemie</span>
-														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$error.pattern && !editemail.emailrepeat.$focused">Nieprawidłowy format email</span>
+														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$error.unique && !editemail.emailrepeat.$focused">Provided email is associated with another account</span>
+														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$error.pattern && !editemail.emailrepeat.$focused">Incorrect email format</span>
 														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$valid && !editemail.emailrepeat.$focused">
 															<label class="input-lg-icon fa fa-check"></label>
 														</span>
@@ -177,8 +176,8 @@ app.controller("EmailController", function($scope, $element, $http){
 														<label class="control-label">Email repeat</label>
 														<input type="text" ng-model="emailrepeat" ng-validate-email='{"emailid" : "email", "emailurl" : "<@spring.url "/rest/validate/email"/>"}' name="emailrepeat" class="form-control" ng-focused required/>
 														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$error.notmatch && !editemail.emailrepeat.$focused">Emails do not match</span>
-														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$error.unique && !editemail.emailrepeat.$focused">Podany email jest powiązany z kontem w systemie</span>
-														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$error.pattern && !editemail.emailrepeat.$focused">Nieprawidłowy format email</span>
+														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$error.unique && !editemail.emailrepeat.$focused">Provided email is associated with another account</span>
+														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$error.pattern && !editemail.emailrepeat.$focused">Incorrect email format</span>
 														<span class="help-block no-margin" ng-show="editemail.emailrepeat.$valid && !editemail.emailrepeat.$focused">
 															<label class="input-lg-icon fa fa-check"></label>
 														</span>
@@ -186,13 +185,13 @@ app.controller("EmailController", function($scope, $element, $http){
 										</div>
 										<div class="form-group">
 											<div class="col-md-4 col-md-offset-4">
-												<button class="btn btn-primary btn-sm pull-right">Zapisz</button>
-												<button class="btn btn-primary btn-sm">Anuluj</button>
+												<button class="btn btn-primary btn-sm pull-right">Save</button>
+												<button class="btn btn-primary btn-sm">Cancel</button>
 											</div>
 										</div>
 										<div class="form-group" ng-if="editemail.$invalid && editemail.submitted">
 							                <div class="col-md-offset-4 col-md-4">
-							                  <p class="text-danger">Formularz nie jest wypełniony poprawnie, sprawdz wprowadzone dane i spróbuj ponownie.</p>
+							                  <p class="text-danger">Form data is not correct, check provided data and try again.</p>
 							                </div>
               							</div>
         					</form>
