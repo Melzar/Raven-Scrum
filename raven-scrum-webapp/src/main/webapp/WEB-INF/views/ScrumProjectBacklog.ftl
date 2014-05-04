@@ -19,7 +19,7 @@ app.factory('TemplateData', function()
 		<div class="box-content-wrapper">
 			<div class="box-content">
 				<div class="row">
-				<div class="col-md-3">
+			<!--	<div class="col-md-3">
 					<div class="box-small-wrapper">
 						<div class="box-small-content" ng-controller="EpicController">
 							<h2>Epic</h2>
@@ -68,14 +68,14 @@ app.factory('TemplateData', function()
 							</div>					
 						</div>
 					</div>
-				</div>
-				<div class="col-md-6">
+				</div>-->
+				<div class="col-md-12">
 						<div id="backlog" class="box-small-wrapper" ng-controller="BacklogTaskController">
 							<div class="box-small-content">
 								<h2>Tasks</h2>
-								<div class="backlog-sprint container-wrapper">
-										<div class="backlog-sprint container root-task" ng-init="sprint.showChildren = true">
-											SPRINT
+								<div class="backlog-sprint backlog-container-wrapper">
+										<div class="backlog-sprint backlog-container root-task" ng-init="sprint.showChildren = true">
+											<span>SPRINT</span>
 											<a class="pull-right" ng-if="!sprint.showChildren" ng-click="sprint.showChildren = !sprint.showChildren"><i class="fa fa-angle-double-down fa-2x"></i></a>			
 											<a class="pull-right" ng-if="sprint.showChildren" ng-click="sprint.showChildren = !sprint.showChildren"><i class="fa fa-angle-double-up fa-2x"></i></a>
 										</div>
@@ -83,7 +83,7 @@ app.factory('TemplateData', function()
 								<div class="backlog-tasks" ng-if="sprint.showChildren" ng-repeat="task in scrumtasks">
 									<div class="backlog-task" data-drop="true" data-jqyoui-options="{accept:'.bsubtask:not([sprint=true])'}" data-task="{{task.id}}" jqyoui-droppable="{multiple:true, onDrop: 'addSubtask'}" ng-model="task.subtasksRaw">
 										<div class="container-wrapper">
-											<div class="backlog-task container task-parent">
+											<div class="backlog-task backlog-container task-parent">
 													<a ng-class="{'subtask-done': task.state == 'DONE'}">{{task.title}}</a>		
 													<small ng-class="{'subtask-done': task.state == 'DONE'}"> : {{task.description}}</small>	
 													<a class="pull-right" ng-if="!task.showChildren" ng-click="task.showChildren = !task.showChildren"><i class="fa fa-angle-double-down"></i></a>			
@@ -98,7 +98,7 @@ app.factory('TemplateData', function()
 								</div>
 								<div data-drop="true" data-jqyoui-options="{accept:'.bsubtask:not([sprint=false])'}" jqyoui-droppable="{multiple:true, onDrop: 'addToBacklog'}" ng-model="backlogtasks">
 								<div class="backlog-planned container-wrapper">
-									<div class="backlog-planned container root-task" ng-init="backlog.showChildren = true">
+									<div class="backlog-planned backlog-container root-task" ng-init="backlog.showChildren = true">
 											BACKLOG
 											<a class="pull-right" ng-if="!backlog.showChildren" ng-click="backlog.showChildren = !backlog.showChildren"><i class="fa fa-angle-double-down fa-2x"></i></a>			
 											<a class="pull-right" ng-if="backlog.showChildren" ng-click="backlog.showChildren = !backlog.showChildren"><i class="fa fa-angle-double-up fa-2x"></i></a>
@@ -106,7 +106,7 @@ app.factory('TemplateData', function()
 								</div>
 								<div class="backlog-tasks" ng-if="backlog.showChildren">		
 									<div class="backlog-task">
-										<div class="backlog-task container task-parent bsubtask" sprint="false" ng-model="backlogtasks" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getSubtask'}" ng-repeat="task in backlogtasks" data-jqyoui-options="{revert: 'invalid', containment: '#backlog'}" data-drag="true" data-subtask="{{task.id}}">
+										<div class="backlog-task backlog-container task-parent bsubtask" sprint="false" ng-model="backlogtasks" jqyoui-draggable="{index: {{$index}}, animate:false, onStop: 'getSubtask'}" ng-repeat="task in backlogtasks" data-jqyoui-options="{revert: 'invalid', containment: '#backlog'}" data-drag="true" data-subtask="{{task.id}}">
 												<a>{{task.title}} - {{task.id}}</a>		
 												<small> : {{task.description}}</small>
 										</div>
@@ -116,14 +116,14 @@ app.factory('TemplateData', function()
 							</div>
 						</div>
 				</div>
-				<div class="col-md-3">
+				<!--<div class="col-md-3">
 						<div class="box-small-wrapper">
 							<div class="box-small-content">
 								<h2>Toolbar</h2>
 							</div>
 						</div>
 				</div>
-				</div>
+				</div>-->
 			</div>
 		</div>
 	</div>
