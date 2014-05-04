@@ -54,12 +54,14 @@ public class DeleteAccount
 			{
 				accountService.blockUserAccount(su.getLogin(),
 						ShadowFlag.DELETED_BY_USER);
+				SecurityContextHolder.getContext().setAuthentication(null);
+				;
 				return Collections.singletonMap("success", true);
 			}
-			return Collections.singletonMap("success", false);
+			return Collections.singletonMap("false", false);
 		} catch (AccountException ex)
 		{
-			return Collections.singletonMap("success", false);
+			return Collections.singletonMap("false", false);
 		}
 	}
 }
