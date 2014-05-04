@@ -26,9 +26,11 @@ app.factory('TemplateData', function()
 		<div class="box-header">
 			<h1><i class="fa fa-cog"></i>Scrumboard</h1>
 		</div>
-		<div class="box-content-wrapper table-layout">
+		<div class="box-content-wrapper table-layout" style="
+    min-height: 600px;">
 			<div class="box-content table-cell-layout">
-				<div class="row">
+				
+		<!--		<div class="row">
 					<div class="col-md-12">
 						<div class="box-small-wrapper">
 							<div class="box-small-content">
@@ -43,7 +45,7 @@ app.factory('TemplateData', function()
    															<text x="18" y="64" style="font-size: 16;">DAYS LEFT</text>
    															<text x="51" y="85" style="font-size: 16;">14</text>
 														</svg> -->
-													</div>
+					<!--								</div>
 													<div class="box-small-header sprint-details-header">
 														<p>Sprint data</p>
 														<small>
@@ -80,8 +82,8 @@ app.factory('TemplateData', function()
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row loadin">
+				</div>-->
+			<!--	<div class="row loadin">
 					<div class="col-md-12">
 						<div class="widget-box">
 							<div class="alert alert-warning alert-dismissable">
@@ -90,7 +92,7 @@ app.factory('TemplateData', function()
 				             </div>
 						</div>
 					</div>
-				</div>
+				</div>-->
 				<div class="row">
 					<div class="col-md-12">
 						<div class="box-small-wrapper box-nobottom-radius">
@@ -151,8 +153,7 @@ app.factory('TemplateData', function()
 					<div class="row">
 						<div class="col-md-12">
 							<div class="row">
-								<div class="list-group">
-							        <a href="#" class="list-group-item" ng-click="">Move to backlog</a>
+								<div class="list-group">							     
 							        <a href="#" class="list-group-item" ng-click="makeParent()">Make parent</a>
 							        <a href="#" class="list-group-item" ng-click="deleteTask()">Delete task</a>
 							        <a href="#" class="list-group-item" ng-click="scopeOut()">Scope Out</a>
@@ -181,7 +182,7 @@ app.factory('TemplateData', function()
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<!--<div class="row">
 						<div class="col-md-12">
 							<div class="row">
 									<label class="padding-top">Task Comments</label>
@@ -192,7 +193,7 @@ app.factory('TemplateData', function()
 									</div>
 							</div>
 						</div>
-					</div>
+					</div>-->
 				</div>
 				</div>	
 				</div>
@@ -213,7 +214,7 @@ app.factory('TemplateData', function()
 		<a class="" ng-click="hidden = !hidden" ng-class="{'sidebar-left-show-btn' : hidden, 'sidebar-left-hide-btn': !hidden}"><i class="fa fa-angle-double-left"></i></a>
 		<ul class="list-unstyled element-list">
 			<li><a class="" tooltip-placement="right" tooltip="Add task" ng-click="addTask()"><i class="fa fa-plus"></i></a></li>
-			<li><a class="" tooltip-placement="right" tooltip="Contact scrummaster"><i class="fa fa-envelope-o"></i></a></li>
+			<!--<li><a class="" tooltip-placement="right" tooltip="Contact scrummaster"><i class="fa fa-envelope-o"></i></a></li>-->
 			<li><a class="" tooltip-placement="right" tooltip="Close sprint" ng-click="openCloseSprintPopup()"><i class="fa fa-times-circle-o"></i></a></li>
 		</ul>
 	</div>
