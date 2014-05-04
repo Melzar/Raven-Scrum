@@ -9,7 +9,6 @@ import javax.ws.rs.core.MediaType;
 
 import net.raven.scrum.core.annotations.logger.Log;
 import net.raven.scrum.core.entity.ScrumUser;
-import net.raven.scrum.core.enumeration.security.ShadowFlag;
 import net.raven.scrum.core.repository.ScrumUserRepository;
 import net.raven.scrum.ui.service.account.AccountValidationService;
 
@@ -64,7 +63,7 @@ public class RegisterAccount
 				scrumUser.setPassword(passwordEncoder.encodePassword(
 						passwordrepeat, null));
 				scrumUser.setEmail(email);
-				scrumUser.setShadowFlag(ShadowFlag.UNCONFIRMED);
+				// scrumUser.setShadowFlag(ShadowFlag.UNCONFIRMED);
 				userRepository.save(scrumUser);
 				return Collections.singletonMap("success", true);
 			}
