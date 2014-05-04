@@ -1,8 +1,1 @@
 /security.tld
-/.gitignore
-/applicationContext.xml
-/spring-jersey-servlet.xml
-/spring-persistence.xml
-/spring-security.xml
-/spring-servlet.xml
-/web.xml

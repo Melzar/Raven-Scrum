@@ -1,7 +1,0 @@
-/.gitignore
-/catalina.properties
-/context.xml
-/logging.properties
-/server.xml
-/tomcat-users.xml
-/web.xml
