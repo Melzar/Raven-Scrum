@@ -1,6 +1,6 @@
 <#include "./templates/ScrumHeader.ftl" >
 <#include "./templates/components/NavigationBar.ftl">
-<#assign navlinks = [{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "fa fa-dashboard", "type" : "active"},{"name" : "Powiadomienia", "url": "/account/notifications", "icon": "fa fa-envelope"},{"name" : "Statystyki konta", "url" : "/account/statistics", "icon" : "fa fa-bar-chart-o"},{"name" : "Ustawienia powiadomień", "url": "/account/norificationsettings", "icon" : "fa fa-gears"},{"name": "Edycja danych konta", "url": "/account/edit", "icon" : "fa fa-edit"},{"name": "Usunięcie konta", "url" : "/account/delete", "icon" : "fa fa-trash-o"}]>
+<#assign navlinks = [{"name" : "Dashboard", "url" : "/account/dashboard", "icon" : "fa fa-dashboard", "type" : "active"},{"name": "Edit account data", "url": "/account/edit", "icon" : "fa fa-edit"},{"name": "Delete account", "url" : "/account/delete", "icon" : "fa fa-trash-o"}]>
 <body ng-app="DashboardApp" ng-controller="DashboardController">
 <script>
 var app = angular.module("DashboardApp", ["ngAnimate", "ngDragDrop", "scDirectives", "scControllers", "ui.bootstrap","ui.select2"])
@@ -22,6 +22,7 @@ app.factory('TemplateData', function(){
 					<h1><i class="fa fa-dashboard"></i>Dashboard</h1>
 				</div>
 				<div class="box-content-wrapper">
+				<!--
 						<div class="box-small-wrapper pull-right">
 										<div class="box-small-content">
 											<a href="#" class="thumbnail">
@@ -29,8 +30,9 @@ app.factory('TemplateData', function(){
 											</a>
 										</div>
 						</div>
+						-->
 						<div class="row">
-								<div class="col-md-8">
+								<div class="col-md-12">
 									<div class="box-small-wrapper">
 										<div class="box-small-content">
 												<h2>My projects</h2>
