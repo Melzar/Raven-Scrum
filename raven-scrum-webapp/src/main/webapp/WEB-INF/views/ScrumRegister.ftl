@@ -41,29 +41,41 @@
         <div class="box-small-wrapper">
           <form ng-controller="RegisterController" name="registration" class="form-horizontal box-small-content" ng-submit="submit()" novalidate>
              <blockquote>
-              Wypełnij pola aby zarejestrować konto, zwróć uwagę na to, aby pola były wypełnione poprawnie
+              To register account, insert your data into inputs. Check if provided data is correct.
             </blockquote>
               <div class="form-group" ng-class="{'has-error': (registration.login.$error.unique || registration.login.$error.minlength || registration.login.$error.pattern ) && !registration.login.$focused , 'has-success': registration.login.$valid && !registration.login.$focused }">
                     <div class="col-md-8 col-md-offset-2">
                       <label class="control-label" for="login">Login</label>
                       <input type="text" name="login" id="login" class="form-control" ng-model="login" placeholder="Login" ng-pattern="/^[\w]+$/" ng-blur="validateLogin()" ng-focused required>
-                      <span class="help-block no-margin" ng-if="registration.login.$error.unique">Podany login jest zajęty</span>
-                      <span class="help-block no-margin" ng-if="registration.login.$error.minlength && !registration.login.$focused">Login musi mieć minimum 4 znaki</span>
+                      <span class="help-block no-margin" ng-if="registration.login.$error.unique">Provided login is taken</span>
+                      <span class="help-block no-margin" ng-if="registration.login.$error.minlength && !registration.login.$focused">The minimum length of login is 4 characters</span>
                       <span class="help-block no-margin" ng-if="registration.login.$error.pattern  && !registration.login.$focused">
-                        Nieprawidłowy format. Login nie może zawierać znaków specjalnych.
+                        Incorrect format. Login cannot contain special signs.
                       </span>
                       <span class="help-block no-margin" ng-if="registration.login.$valid && !registration.login.$focused"> 
                         <label class="input-lg-icon fa fa-check"></label>
                       </span>
                     </div>
               </div>
+              <div class="form-group">
+                <div class="col-md-8 col-md-offset-2">
+                <label class="control-label" for="name">Name (Optional)</label>
+                <input type="text" id="name" class="form-control" placeholder="Name" ng-model="name">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-8 col-md-offset-2">
+                <label class="control-label" for="surname">Surname (Optional)</label>
+                <input type="text" id="surname" class="form-control" placeholder="Surname" ng-model="surname">
+                </div>
+              </div>
               <div class="form-group" ng-class="{'has-error': (registration.passwordrepeat.$error.equalslogin || registration.passwordrepeat.$error.notmatch || registration.passwordrepeat.$error.minlength) && !registration.passwordrepeat.$focused , 'has-success': registration.passwordrepeat.$valid && !registration.passwordrepeat.$focused}">
                 <div class="col-md-8 col-md-offset-2">
                   <label class="control-label" for="password">Password</label>
                   <input type="password" name="password" id="password" class="form-control" placeholder="Password" ng-model="password" ng-focused required>
-                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.equalslogin && !registration.passwordrepeat.$focused">Hasło nie może być takie jak login</span>
-                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.notmatch && !registration.passwordrepeat.$focused">Hasła nie zgadzają się</span>
-                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.minlength && !registration.passwordrepeat.$focused">Hasło musi mieć min. 4 znaki
+                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.equalslogin && !registration.passwordrepeat.$focused">Password cannot be same as login</span>
+                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.notmatch && !registration.passwordrepeat.$focused">Provided passwords do not match</span>
+                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.minlength && !registration.passwordrepeat.$focused">The minimum lenght of password is 4
                   </span>
                   <span class="help-block no-margin" ng-if="registration.passwordrepeat.$valid && !registration.passwordrepeat.$focused"> 
                     <label class="input-lg-icon fa fa-check"></label>
@@ -74,9 +86,9 @@
                 <div class="col-md-8 col-md-offset-2">
                   <label class="control-label" for="passwordRepeat">Password repeat</label>
                   <input type="password"  name="passwordrepeat" id="passwordRepeat" ng-model="passwordrepeat" ng-validate-password='{"passwordid" : "password", "loginid" : "login"}' class="form-control" placeholder="Repeat password" ng-focused required>
-                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.equalslogin && !registration.passwordrepeat.$focused">Hasło nie może być takie jak login</span>
-                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.notmatch && !registration.passwordrepeat.$focused">Hasła nie zgadzają się</span>
-                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.minlength && !registration.passwordrepeat.$focused">Hasło musi mieć min. 4 znaki</span>
+                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.equalslogin && !registration.passwordrepeat.$focused">Password cannot be same as login</span>
+                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.notmatch && !registration.passwordrepeat.$focused">Provided passwords do not match</span>
+                  <span class="help-block no-margin" ng-if="registration.passwordrepeat.$error.minlength && !registration.passwordrepeat.$focused">The minimum lenght of password is 4</span>
                   <span class="help-block no-margin" ng-if="registration.passwordrepeat.$valid && !registration.passwordrepeat.$focused">
                     <label class="input-lg-icon fa fa-check"></label>
                   </span>
@@ -86,8 +98,8 @@
                 <div class="col-md-8 col-md-offset-2">
                   <label class="control-label" for="email">Email</label>
                   <input type="text" name="email" id="email" class="form-control" ng-model="email" ng-validate-email='{"emailid" : "", "emailurl" : "<@spring.url "/rest/validate/email"/>"}' placeholder="Email" ng-focused required>
-                  <span class="help-block no-margin" ng-if="registration.email.$error.pattern && !registration.email.$focused">Nieprawidłowy format email.</span>
-                  <span class="help-block no-margin" ng-if="registration.email.$error.unique && !registration.email.$focused">Podany email jest powiązany z kontem w systemie.</span>
+                  <span class="help-block no-margin" ng-if="registration.email.$error.pattern && !registration.email.$focused">Incorrect email format.</span>
+                  <span class="help-block no-margin" ng-if="registration.email.$error.unique && !registration.email.$focused">Provided email is actually associated with another account.</span>
                   <span class="help-block no-margin" ng-if="registration.email.$valid && !registration.email.$focused">
                     <label class="input-lg-icon fa fa-check"></label>
                   </span>
@@ -95,9 +107,9 @@
               </div>
               <div class="form-group" ng-class="{'has-success': checkbox, 'has-error': !checkbox && registration.checkbox.$dirty}">
                     <div class="col-md-8 col-md-offset-2">
-                        <label class="checkbox no-padding" for="checkbox">Akceptuje regulamin</label> 
+                        <label class="checkbox no-padding" for="checkbox">I accept the regulations</label> 
                         <input type="checkbox" name="checkbox" id="checkbox" ng-model="checkbox" required>
-                        <span class="help-block no-margin" ng-hide="checkbox">Akceptacja regulaminu jest obowiązkowa</span>
+                        <span class="help-block no-margin" ng-hide="checkbox">Accepting regulations is obligatory</span>
                         <span class="help-block no-margin" ng-if="checkbox"><i class="input-lg-icon fa fa-check"></i></span> 
                     </div>
               </div>
@@ -109,7 +121,7 @@
               </div>
               <div class="form-group" ng-if="registration.$invalid && registration.submitted">
                 <div class="col-md-offset-2 col-md-10">
-                  <p class="text-danger">Formularz nie jest wypełniony poprawnie, sprawdz wprowadzone dane i spróbuj ponownie.</p>
+                  <p class="text-danger">Form data is not correct, check provided data and try again.</p>
                 </div>
               </div>
            </form>
