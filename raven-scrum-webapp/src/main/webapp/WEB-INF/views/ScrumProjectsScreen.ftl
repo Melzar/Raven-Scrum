@@ -1,6 +1,6 @@
 <#include "./templates/ScrumHeader.ftl" >
 <#include "./templates/components/NavigationBar.ftl">
-<#assign navlinks = [{"name" : "Create project", "url" : "/project/add", "icon" : "fa fa-plus"},{"name" : "Projects screen", "url" : "/project", "icon" : "fa fa-list-alt", "type": "active"}, {"name" : "Projects history", "url" : "/project/history", "icon" : "fa fa-archive"},{"name" : "Projects search", "url" : "/project/search", "icon" : "fa fa-search"}]>
+<#assign navlinks = [{"name" : "Create project", "url" : "/project/add", "icon" : "fa fa-plus"},{"name" : "Projects screen", "url" : "/project", "icon" : "fa fa-list-alt", "type": "active"}]>
 <body ng-app="ScrumBoardApp">
 <script type="text/javascript">
 
@@ -25,7 +25,7 @@ app.factory('TemplateData', function(){
 				</div>
 				<div class="box-content-wrapper">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="box-small-wrapper">
 								<div class="box-small-content">
 									<h2>Recent active projects</h2>
@@ -36,13 +36,13 @@ app.factory('TemplateData', function(){
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<!--<div class="col-md-6">
 							<div class="box-small-wrapper">
 								<div class="box-small-content">
 									<h2>Recent planned projects</h2>									
 								</div>
 							</div>
-						</div>
+						</div>-->
 					</div>
 				</div>
 			</div>
