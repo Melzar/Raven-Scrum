@@ -13,17 +13,13 @@ sccontrollers.controller("AuthenticationController", function($scope, $http, $el
 			data : $element.serialize(),
 			headers : {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data,status,headers,cfg){
-			if(status == 200)
-			{
-				$element.submit();
-			}
-			if(status == 401)
-			{	
-				(!data) ? MessageData.submiterror = true : MessageData.shadowflag = data.flag;
-			}
+				$element.submit();			
 		}).error(function(data,status,headers,cfg){
 			MessageData.submiterror = true;
-			console.log($scope)
+			if(status == 401)
+			{	
+				(data) ? MessageData.shadowflag = data.flag : null;
+			}
 		})
 	}
 })
