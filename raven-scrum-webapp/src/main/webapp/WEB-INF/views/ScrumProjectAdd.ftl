@@ -77,7 +77,7 @@
 								<div class="form-group" ng-class="{'has-success': select2users.length > 0}">
 									<div class="col-md-6 col-md-offset-3">
 										<label class="control-label">Attach users to project</label>
-										<input ui-select2="select2data.select2usersavatar" ng-model="select2users" placeholder="Add users to project" style="width: 100%" ng-change="updateModel()">
+										<input ui-select2="select2data.select2usersavatar" ng-model="select2users" placeholder="Add users to project" style="width: 100%">
 										<span class="help-block no-margin" ng-if="select2users.length == 0">Optional field</span>
 										<span class="help-block no-margin" ng-if="select2users.length > 0"> 
                         						<label class="input-lg-icon fa fa-check"></label>

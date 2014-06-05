@@ -346,7 +346,7 @@ sccontrollers.controller('ModalInstanceController', function($scope, $http, $mod
 
 	$scope.save = function()
 	{
-			var postdata = {idUser: data.select2data.select2user.id, idParent: data.select2data.select2task.id, description: data.select2data.taskdescription, type: data.select2data.select2type.id};
+			var postdata = {idUser: data.select2data.select2user.id, idParent: data.select2data.select2task.id, description: data.select2data.taskdescription, type: data.select2data.select2type.id, idProject: data.select2data.select2task.idProject };
 			$http({
 				url: data.templatedata.sourcelink + "/rest/task/" + data.select2data.select2task.id + "/add",
 				method: "POST",
@@ -621,6 +621,7 @@ sccontrollers.controller('BacklogTaskController', function($scope, $http, Templa
 
 	$scope.addToBacklog = function(evt, ui)
 	{
+		console.log($scope);
 		//todo move it to service to preserve drycoding
 		$http.post(TemplateData.sourcelink + "/rest/task/scopeout", {'id': $scope.subtaskdata.id, 'idProject': TemplateData.project}).success(function(data, status)
 		{

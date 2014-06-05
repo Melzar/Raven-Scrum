@@ -12,12 +12,7 @@
 
   
 </script>
-<!-- <div class="breadcrumb-wrapper">
-  <div class="breadcrumb-container">
-     <#include "./templates/components/Breadcrumb.ftl">
-  </div>
-</div>
- -->
+
 <div class="wrapper center">
     <div class="box">
       <div class="box-header">
