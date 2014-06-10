@@ -289,6 +289,7 @@ sccontrollers.controller('SprintPopupController', function($scope, $http, $windo
 
 	$scope.createNewSprint = function ()
 	{
+		console.log($scope.startDate);
 		var dto = {'idProject': $scope.scrumdata.projectdata.idProject ,'startDate': $scope.startDate , 'endDate': $scope.endDate};
 		$http.post(TemplateData.sourcelink + '/rest/scrumboard/create', dto).success(function(data, status){
 			$scope.hideSprintPopup();
@@ -346,21 +347,28 @@ sccontrollers.controller('ModalInstanceController', function($scope, $http, $mod
 
 	$scope.save = function()
 	{
-			var postdata = {idUser: data.select2data.select2user.id, idParent: data.select2data.select2task.id, description: data.select2data.taskdescription, type: data.select2data.select2type.id, idProject: data.select2data.select2task.idProject };
-			$http({
-				url: data.templatedata.sourcelink + "/rest/task/" + data.select2data.select2task.id + "/add",
-				method: "POST",
-				data: postdata ,
-				headers : {'Content-Type': 'application/json'}
-			}).success(function(datares, status, headers, cfg){
-				data.select2data.select2task.progress.TODO.push(datares);
-				$modalInstance.close(datares);
-			}).error(function(datares, status, headers, cfg){
-				//todo messagebox
-				console.log("error")
-			})
+			if (data.select2data.select2user && data.select2data.select2task && data.select2data.select2type )
+			{
+				var postdata = {idUser: data.select2data.select2user.id, idParent: data.select2data.select2task.id, description: data.select2data.taskdescription, type: data.select2data.select2type.id, idProject: data.select2data.select2task.idProject };
+				$http({
+					url: data.templatedata.sourcelink + "/rest/task/" + data.select2data.select2task.id + "/add",
+					method: "POST",
+					data: postdata ,
+					headers : {'Content-Type': 'application/json'}
+				}).success(function(datares, status, headers, cfg){
+					data.select2data.select2task.progress.TODO.push(datares);
+					$modalInstance.close(datares);
+				}).error(function(datares, status, headers, cfg){
+					//todo messagebox
+					console.log("error")
+				})
+			}
+			else{
+		
+				$scope.failed = true;
+				console.log($scope);
+			}
 	}
-	console.log($scope)
 })
 
 sccontrollers.controller('DashboardController', function($scope, $http, TemplateData){

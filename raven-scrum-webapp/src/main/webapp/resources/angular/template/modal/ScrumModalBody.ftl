@@ -1,6 +1,9 @@
 <div class="box-small-wrapper">
 <form class="form-horizontal box-small-content">
 	<fieldset>
+	<div class="alert alert-danger" ng-if="failed">
+<p>Selecting user, task, and taks type is obligatory, check your data and try again</p>
+</div>
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="form-group">
